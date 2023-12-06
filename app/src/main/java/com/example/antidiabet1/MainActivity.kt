@@ -10,12 +10,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        addingFoodScreen()
+    }
+
+    private fun addingFoodScreen() {
         val button: Button = findViewById(R.id.food_button)
 
         button.setOnClickListener() {
-                val intent = Intent(this, FoodActivity::class.java)
-                startActivity(intent)
+            val intent = Intent(this, FoodActivity::class.java)
+            startActivity(intent)
         }
-
     }
 }
