@@ -1,10 +1,7 @@
 package com.example.antidiabet1
 
-import RecyclerItemClickListener
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
-import android.provider.CalendarContract.Colors
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Button
