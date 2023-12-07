@@ -19,6 +19,8 @@ import com.example.antidiabet1.item_classes.FoodItemAdapter
 
 
 class FoodActivity : AppCompatActivity() {
+    private var lastClickedFoodView: View ?= null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.food)
@@ -52,8 +54,9 @@ class FoodActivity : AppCompatActivity() {
 
 
         adapter.onClick = { food, view ->
-            // view.setBackgroundResource()
-            Toast.makeText(this, "Кликнута позиция ${food.name}", Toast.LENGTH_SHORT).show()
+            lastClickedFoodView?.setBackgroundResource(R.drawable.unselected_item_background)
+            view.setBackgroundResource(R.drawable.selected_item_background)
+            lastClickedFoodView = view
         }
     }
 
