@@ -2,7 +2,9 @@ package com.example.antidiabet1
 
 import RecyclerItemClickListener
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import android.provider.CalendarContract.Colors
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Button
@@ -48,28 +50,11 @@ class FoodActivity : AppCompatActivity() {
         listView.layoutManager = LinearLayoutManager(this)
         listView.adapter = adapter
 
-        // Настройка на нажатие элемента из списка
-        val context = this
-        listView.addOnItemTouchListener(
-            RecyclerItemClickListener(
-                this,
-                listView,
-                object : RecyclerItemClickListener.OnItemClickListener {
-                    override fun onItemClick(view: View?, position: Int) {
-                        Toast.makeText(context, "Кликнута позиция $position", Toast.LENGTH_SHORT).show()
-                    }
 
-                    override fun onLongItemClick(view: View?, position: Int) {
-                        // do whatever
-                    }
-                })
-        )
-
-/*
-        listView.setOnItemClickListener { adapterView, view, i, l ->
-            val text = listView.getItemAtPosition(i).toString()
-            adapter.remove(text)
-        }*/
+        adapter.onClick = { food, view ->
+            // view.setBackgroundResource()
+            Toast.makeText(this, "Кликнута позиция ${food.name}", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun setAddFoodButton(foodTextEnter: EditText, adapter: ArrayAdapter<String>) {

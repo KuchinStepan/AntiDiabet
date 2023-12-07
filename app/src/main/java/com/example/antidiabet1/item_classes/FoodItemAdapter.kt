@@ -12,6 +12,9 @@ import com.example.antidiabet1.R
 class FoodItemAdapter(var items: List<FoodItem>, var context: Context)
     : RecyclerView.Adapter<FoodItemAdapter.MyViewHolder>() {
 
+    // До конца я не понимаю как эта штука работает
+    var onClick : ((FoodItem, View) -> Unit)? = null
+
     class MyViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val name: TextView = view.findViewById(R.id.food_name)
         val detailedData: TextView = view.findViewById(R.id.food_carbons)
@@ -35,5 +38,9 @@ class FoodItemAdapter(var items: List<FoodItem>, var context: Context)
         holder.detailedData.text = detailedData
         val kiloDz = String.format("%.2f", item.calories * 4.1868)
         holder.calories.text = "${item.calories} ккал / ${kiloDz} кДж (на 100 грамм)"
+
+        holder.itemView.setOnClickListener {
+            onClick?.invoke(item, holder.itemView)
+        }
     }
 }
