@@ -6,9 +6,12 @@ import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
-import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.antidiabet1.item_classes.FoodItem
+import com.example.antidiabet1.item_classes.FoodItemAdapter
 
 class FoodActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,22 +25,32 @@ class FoodActivity : AppCompatActivity() {
     private fun setFoodSelecting() {
         val foodTextEnter: EditText = findViewById(R.id.food_enter)
 
-        val foodList: MutableList<String> = mutableListOf()
-        val adapter = ArrayAdapter(this, android.R.layout.simple_expandable_list_item_1, foodList)
+        val foodList = arrayListOf<FoodItem>()
+
+        foodList.add(FoodItem(1, "Помидор с гречкой", 10, 20, 30, 112))
+        foodList.add(FoodItem(2, "Арбуз жаренный", 69, 70, 45, 79))
+        foodList.add(FoodItem(3, "Огурец с тыквой", 54, 200, 3, 1200))
+        foodList.add(FoodItem(2, "Говно с морковкой", 228, 337, 45, 777))
+
+
+        val adapter = FoodItemAdapter(foodList, this)
 
         setFoodScrollList(adapter)
-        setAddFoodButton(foodTextEnter, adapter)
+      //  setAddFoodButton(foodTextEnter, adapter)
     }
 
-    private fun setFoodScrollList(adapter: ArrayAdapter<String>) {
-        val listView: ListView = findViewById(R.id.foodList)
+    private fun setFoodScrollList(adapter: FoodItemAdapter) {
+        val listView: RecyclerView = findViewById(R.id.foodList)
 
+        listView.layoutManager = LinearLayoutManager(this)
         listView.adapter = adapter
 
+       // listView.setOnClickListener
+/*
         listView.setOnItemClickListener { adapterView, view, i, l ->
             val text = listView.getItemAtPosition(i).toString()
             adapter.remove(text)
-        }
+        }*/
     }
 
     private fun setAddFoodButton(foodTextEnter: EditText, adapter: ArrayAdapter<String>) {

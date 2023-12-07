@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     android:background="@color/bright_green"
+    android:fitsSystemWindows="true"
     tools:context=".MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,15 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
-        <ListView
-            android:id="@+id/foodList"
-            android:layout_width="359dp"
-            android:layout_height="415dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/food_enter" />
 
         <TextView
             android:id="@+id/exit_foodList"
@@ -40,7 +30,7 @@
             android:id="@+id/food_enter"
             android:layout_width="326dp"
             android:layout_height="50dp"
-            android:layout_marginTop="92dp"
+            android:layout_marginTop="68dp"
             android:ems="10"
             android:hint="Введите название еды"
             android:inputType="text"
@@ -61,6 +51,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/foodList" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/foodList"
+            android:layout_width="351dp"
+            android:paddingHorizontal="20dp"
+            android:layout_height="430dp"
+            android:layout_marginTop="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/food_enter" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
