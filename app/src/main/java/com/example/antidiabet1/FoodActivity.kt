@@ -1,17 +1,20 @@
 package com.example.antidiabet1
 
+import RecyclerItemClickListener
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.antidiabet1.item_classes.FoodItem
 import com.example.antidiabet1.item_classes.FoodItemAdapter
+
 
 class FoodActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,7 +48,23 @@ class FoodActivity : AppCompatActivity() {
         listView.layoutManager = LinearLayoutManager(this)
         listView.adapter = adapter
 
-       // listView.setOnClickListener
+        // Настройка на нажатие элемента из списка
+        val context = this
+        listView.addOnItemTouchListener(
+            RecyclerItemClickListener(
+                this,
+                listView,
+                object : RecyclerItemClickListener.OnItemClickListener {
+                    override fun onItemClick(view: View?, position: Int) {
+                        Toast.makeText(context, "Кликнута позиция $position", Toast.LENGTH_SHORT).show()
+                    }
+
+                    override fun onLongItemClick(view: View?, position: Int) {
+                        // do whatever
+                    }
+                })
+        )
+
 /*
         listView.setOnItemClickListener { adapterView, view, i, l ->
             val text = listView.getItemAtPosition(i).toString()

@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.antidiabet1.R
 
+
 class FoodItemAdapter(var items: List<FoodItem>, var context: Context)
     : RecyclerView.Adapter<FoodItemAdapter.MyViewHolder>() {
 
