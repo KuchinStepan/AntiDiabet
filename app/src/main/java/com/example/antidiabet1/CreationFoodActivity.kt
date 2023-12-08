@@ -1,5 +1,6 @@
 package com.example.antidiabet1
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
@@ -14,12 +15,21 @@ class CreationFoodActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_creation_food)
 
-        val foodNameEnter = setSearchLine()
+        val foodNameEnter = setNameEnterLine()
 
         setBackToMenu()
         setCreateButton(foodNameEnter)
+        setAddIngredientButton()
     }
 
+    private fun setAddIngredientButton() {
+        val addButton: Button = findViewById(R.id.add_ingredient_button_from_creation)
+
+        addButton.setOnClickListener() {
+            val intent = Intent(this, AddIngridientActivity::class.java)
+            startActivity(intent)
+        }
+    }
 
     private fun setCreateButton(foodNameEnter: EditText) {
         val createButton: Button = findViewById(R.id.create_food_button)
@@ -34,7 +44,7 @@ class CreationFoodActivity : AppCompatActivity() {
         }
     }
 
-    private fun setSearchLine(): EditText {
+    private fun setNameEnterLine(): EditText {
         val foodNameEnter: EditText = findViewById(R.id.food_enter)
 
 

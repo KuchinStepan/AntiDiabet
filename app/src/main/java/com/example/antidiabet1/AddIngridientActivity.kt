@@ -6,11 +6,9 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,15 +17,14 @@ import com.example.antidiabet1.item_classes.FoodItem
 import com.example.antidiabet1.item_classes.FoodItemAdapter
 
 
-class SelectionFoodActivity : AppCompatActivity() {
+class AddIngridientActivity : AppCompatActivity() {
     private var lastClickedFoodView: View ?= null
-    private var lastClckedFoodItem: FoodItem ?= null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_select_food)
+        setContentView(R.layout.activity_add_ingridient)
 
-        setBackToMenu()
+        setBack()
         setFoodSelecting()
     }
 
@@ -59,18 +56,17 @@ class SelectionFoodActivity : AppCompatActivity() {
 
         setFoodScrollList(adapter)
         setSelectFoodButton()
-        setAddFoodButton()
     }
 
     private fun setSearchLine(): EditText {
-        val foodNameEnter: EditText = findViewById(R.id.food_enter)
+        val foodNameEnter: EditText = findViewById(R.id.ingridient_enter)
 
 
         foodNameEnter.setOnFocusChangeListener() { view, b ->
             foodNameEnter.isCursorVisible = b
         }
 
-        val constraintLayout: ConstraintLayout = findViewById(R.id.constraintLayout)
+        val constraintLayout: ConstraintLayout = findViewById(R.id.ingridient_constraintLayout)
         constraintLayout.setOnClickListener {
             val inputMethodManager =
                 getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
@@ -83,7 +79,7 @@ class SelectionFoodActivity : AppCompatActivity() {
     }
 
     private fun setFoodScrollList(adapter: FoodItemAdapter) {
-        val listView: RecyclerView = findViewById(R.id.foodList)
+        val listView: RecyclerView = findViewById(R.id.ingridientList)
 
         listView.layoutManager = LinearLayoutManager(this)
         listView.adapter = adapter
@@ -93,12 +89,15 @@ class SelectionFoodActivity : AppCompatActivity() {
             lastClickedFoodView?.setBackgroundResource(R.drawable.unselected_item_background)
             view.setBackgroundResource(R.drawable.selected_item_background)
             lastClickedFoodView = view
-            lastClckedFoodItem = food
         }
     }
 
-    private fun setAddFoodButton() {
-        val addFoodButton: Button = findViewById(R.id.add_food_button)
+    private fun setAddIngredientButton() {
+
+    }
+
+    private fun setSelectFoodButton() {
+        val addFoodButton: Button = findViewById(R.id.select_ingridient_button)
 
         addFoodButton.setOnClickListener() {
             val intent = Intent(this, CreationFoodActivity::class.java)
@@ -106,26 +105,11 @@ class SelectionFoodActivity : AppCompatActivity() {
         }
     }
 
-    private fun setSelectFoodButton() {
-        val addFoodButton: Button = findViewById(R.id.select_food_button)
-
-        addFoodButton.setOnClickListener() {
-            if (lastClckedFoodItem != null) {
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
-            }
-            else {
-                Toast.makeText(this, "Выберете еду", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-    private fun setBackToMenu() {
-        val exitButton: TextView = findViewById(R.id.exit_foodList)
+    private fun setBack() {
+        val exitButton: TextView = findViewById(R.id.exit_ingridientList)
 
         exitButton.setOnClickListener() {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            super.onBackPressed()
         }
     }
 }

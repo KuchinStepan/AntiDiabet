@@ -6,16 +6,16 @@
     android:layout_height="match_parent"
     android:background="@color/bright_green"
     android:fitsSystemWindows="true"
-    tools:context=".CreationFoodActivity">
+    tools:context=".AddIngridientActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
+        android:id="@+id/ingridient_constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
 
         <TextView
-            android:id="@+id/exit_foodList"
+            android:id="@+id/exit_ingridientList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="28dp"
@@ -27,50 +27,43 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/food_enter"
+            android:id="@+id/ingridient_enter"
             android:layout_width="326dp"
             android:layout_height="50dp"
             android:layout_marginTop="68dp"
+            android:drawableStart="@drawable/baseline_search_24"
+            android:ems="10"
             android:hint="Введите название еды"
             android:inputType="text"
-
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-
-            android:backgroundTint="@android:color/transparent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.494"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/add_ingredient_button_from_creation"
-            android:layout_width="300dp"
-            android:layout_height="62dp"
-            android:layout_marginBottom="8dp"
-            android:backgroundTint="@color/white"
-            android:fontFamily="@font/inter_bold"
-            android:text="Добавить ингридиент"
-            android:textColor="@color/green"
-            android:textSize="22sp"
-            app:layout_constraintBottom_toTopOf="@+id/create_food_button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.494"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <Button
-            android:id="@+id/create_food_button"
-            android:layout_width="300dp"
-            android:layout_height="62dp"
-            android:layout_marginBottom="40dp"
+            android:id="@+id/select_ingridient_button"
+            android:layout_width="230dp"
+            android:layout_height="60dp"
+            android:layout_marginBottom="36dp"
             android:backgroundTint="@color/green"
             android:fontFamily="@font/inter_bold"
-            android:text="Создать"
+            android:text="Выбрать"
             android:textSize="23sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.494"
+            app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/ingridientList"
+            android:layout_width="354dp"
+            android:layout_height="480dp"
+            android:layout_marginTop="10dp"
+            android:paddingHorizontal="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.491"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ingridient_enter" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
