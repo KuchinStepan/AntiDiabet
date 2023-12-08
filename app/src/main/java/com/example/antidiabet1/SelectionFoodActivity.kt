@@ -2,12 +2,15 @@ package com.example.antidiabet1
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -30,15 +33,28 @@ class SelectionFoodActivity : AppCompatActivity() {
     private fun setFoodSelecting() {
         val foodTextEnter = setSearchLine()
 
-        val foodList = arrayListOf<FoodItem>()
+        val foodList =  arrayListOf<FoodItem>()
 
-        foodList.add(FoodItem(1, "Помидор с гречкой", 10, 20, 30, 112))
-        foodList.add(FoodItem(2, "Арбуз жаренный", 69, 70, 45, 79))
-        foodList.add(FoodItem(3, "Огурец с тыквой", 54, 200, 3, 1200))
-        foodList.add(FoodItem(4, "Говно с морковкой", 228, 337, 45, 777))
+        foodList.add(FoodItem("Помидор с гречкой", 10, 20, 30, 112))
+        foodList.add(FoodItem("Арбуз жаренный", 69, 70, 45, 79))
+        foodList.add(FoodItem("Огурец с тыквой", 54, 200, 3, 1200))
+        foodList.add(FoodItem("Курица с пюрешкой", 17, 94, 3, 345))
+        foodList.add(FoodItem("Камень граненый", 17, 94, 3, 345))
+        // foodList.add(FoodItem(4, "Говно с морковкой", 228, 337, 45, 777))
 
+        var showingList = foodList.toList()
+        val adapter = FoodItemAdapter(showingList, this)
 
-        val adapter = FoodItemAdapter(foodList, this)
+        // Обновление по поиску
+        foodTextEnter.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) { }
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                val text = foodTextEnter.text.toString()
+                showingList = foodList.filter { foodItem ->  text.lowercase() in foodItem.name.lowercase() }
+                adapter.changeList(showingList)
+            }
+        })
 
         setFoodScrollList(adapter)
         setAddFoodButton()

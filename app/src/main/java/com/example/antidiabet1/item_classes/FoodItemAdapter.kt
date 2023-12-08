@@ -21,6 +21,11 @@ class FoodItemAdapter(var items: List<FoodItem>, var context: Context)
         val calories: TextView = view.findViewById(R.id.food_calories)
     }
 
+    public fun changeList(newList: List<FoodItem>) {
+        items = newList
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.food_item_for_list, parent, false)
         return MyViewHolder(view)
