@@ -48,7 +48,7 @@ class SelectionFoodActivity : AppCompatActivity() {
         }
         val foodList = IngredientsSaver.IngredientsArray ?: arrayListOf<FoodItem>()
         var showingList = foodList.toList()
-        val adapter = showingList.let { FoodItemAdapter(it, this) }
+        val adapter = FoodItemAdapter(showingList, this)
 
         // Обновление по поиску
         foodTextEnter.addTextChangedListener(object : TextWatcher {

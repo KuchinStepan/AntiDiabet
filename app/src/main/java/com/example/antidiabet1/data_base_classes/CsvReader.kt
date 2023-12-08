@@ -4,14 +4,12 @@ import android.content.Context
 import com.example.antidiabet1.R
 import com.example.antidiabet1.item_classes.FoodItem
 import org.apache.commons.csv.CSVFormat
-import java.io.File
 
-class CsvReader(val context: Context) {
+class CsvReader(context: Context) {
 
     init {
         val temp = context.resources.openRawResource(R.raw.food).bufferedReader()
         val res = arrayListOf<FoodItem>()
-        val file = File("storage/emulated/0/food.csv")
         val lines = CSVFormat.DEFAULT.parse(temp)
         var notHeaderFlag = false
         for(record in lines)
