@@ -48,7 +48,9 @@ class AddIngridientActivity : AppCompatActivity() {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 val text = foodTextEnter.text.toString()
-                showingList = foodList.filter { foodItem ->  text.lowercase() in foodItem.name.lowercase() }
+                showingList = foodList
+                    .filter { foodItem ->  text.lowercase() in foodItem.name.lowercase() }
+                    .sortedBy { foodItem -> foodItem.name.length }
                 adapter.changeList(showingList)
             }
         })
