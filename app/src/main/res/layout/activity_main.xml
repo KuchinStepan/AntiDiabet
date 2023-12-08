@@ -13,19 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/food_button"
-            android:layout_width="245dp"
-            android:layout_height="69dp"
-            android:layout_marginBottom="108dp"
-            android:fontFamily="@font/inter_bold"
-            android:backgroundTint="@color/green"
-            android:text="Прием пищи"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="358dp"
@@ -36,5 +23,34 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/food_high" />
+
+        <Button
+            android:id="@+id/food_button"
+            android:layout_width="245dp"
+            android:layout_height="69dp"
+            android:layout_marginBottom="138dp"
+            android:backgroundTint="@color/green"
+            android:fontFamily="@font/inter_bold"
+            android:text="Прием пищи"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+        <Button
+            android:id="@+id/history_button"
+            android:layout_width="295dp"
+            android:layout_height="69dp"
+            android:layout_marginBottom="58dp"
+            android:fontFamily="@font/inter_bold"
+            android:text="дневник"
+            android:textSize="20sp"
+            style="@style/AppTheme.RoundedCornerMaterialButton"
+            android:backgroundTint="@color/green"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

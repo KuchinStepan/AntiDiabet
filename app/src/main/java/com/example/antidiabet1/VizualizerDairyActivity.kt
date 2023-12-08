@@ -18,14 +18,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.antidiabet1.item_classes.FoodItem
 import com.example.antidiabet1.item_classes.FoodItemAdapter
 
+import java.text.SimpleDateFormat
+import java.util.Date
 
-class SelectionFoodActivity : AppCompatActivity() {
+
+class VizualizerDairyActivity : AppCompatActivity() {
     private var lastClickedFoodView: View ?= null
     private var lastClckedFoodItem: FoodItem ?= null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_select_food)
+        setContentView(R.layout.activity_vizyalize_dairy)
 
         setBackToMenu()
         setFoodSelecting()
@@ -41,7 +44,7 @@ class SelectionFoodActivity : AppCompatActivity() {
         foodList.add(FoodItem("Огурец с тыквой", 54, 200, 3, 1200))
         foodList.add(FoodItem("Курица с пюрешкой", 17, 94, 3, 345))
         foodList.add(FoodItem("Камень граненый", 17, 94, 3, 345))
-        // foodList.add(FoodItem(4, "Говно с морковкой", 228, 337, 45, 777))
+        foodList.add(FoodItem(getStrTime(), 228, 337, 45, 777))
 
         var showingList = foodList.toList()
         val adapter = FoodItemAdapter(showingList, this)
@@ -61,7 +64,6 @@ class SelectionFoodActivity : AppCompatActivity() {
         setSelectFoodButton()
         setAddFoodButton()
     }
-
     private fun setSearchLine(): EditText {
         val foodNameEnter: EditText = findViewById(R.id.food_enter)
 
@@ -81,7 +83,6 @@ class SelectionFoodActivity : AppCompatActivity() {
 
         return foodNameEnter
     }
-
     private fun setFoodScrollList(adapter: FoodItemAdapter) {
         val listView: RecyclerView = findViewById(R.id.foodList)
 
@@ -122,10 +123,19 @@ class SelectionFoodActivity : AppCompatActivity() {
 
     private fun setBackToMenu() {
         val exitButton: TextView = findViewById(R.id.exit_foodList)
+        //exitButton.text = getStrTime();
 
         exitButton.setOnClickListener() {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    private fun getStrTime(): String {
+        val sdf = SimpleDateFormat("dd/MM/yyyy hh:mm:ss")
+
+        val currentDate = sdf.format(Date())
+        //System.out.println(" C DATE is  "+currentDate)
+        return currentDate
     }
 }

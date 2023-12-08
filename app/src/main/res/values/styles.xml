@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme.RoundedCornerMaterialButton" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:background">@drawable/rounded_shape</item>
+    </style>
+
+    <style name="AppTheme.LeftDick" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:background"> @drawable/left_border_rounded_shape</item>
+    </style>
+
+    <style name="AppTheme.RightDick" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:background"> @drawable/right_border_rounded_shape</item>
+    </style>
+</resources>
