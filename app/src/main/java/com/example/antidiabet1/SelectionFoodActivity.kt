@@ -6,15 +6,15 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.antidiabet1.data_base_classes.CsvReader
+import com.example.antidiabet1.data_base_classes.IngredientsSaver
 import com.example.antidiabet1.item_classes.FoodItem
 import com.example.antidiabet1.item_classes.FoodItemAdapter
 
@@ -33,16 +33,21 @@ class SelectionFoodActivity : AppCompatActivity() {
 
     private fun setFoodSelecting() {
         val foodTextEnter = setSearchLine()
-
+        /*
         val foodList =  arrayListOf<FoodItem>()
 
-        foodList.add(FoodItem("Помидор с гречкой", 10, 20, 30, 112))
-        foodList.add(FoodItem("Арбуз жаренный", 69, 70, 45, 79))
-        foodList.add(FoodItem("Огурец с тыквой", 54, 200, 3, 1200))
-        foodList.add(FoodItem("Курица с пюрешкой", 17, 94, 3, 345))
-        foodList.add(FoodItem("Камень граненый", 17, 94, 3, 345))
+        foodList.add(FoodItem("Помидор с гречкой", 10.0, 20.0, 30.0, 112.0))
+        foodList.add(FoodItem("Арбуз жаренный", 69.0, 70.0, 45.0, 79.0))
+        foodList.add(FoodItem("Огурец с тыквой", 54.0, 200.0, 3.0, 1200.0))
+        foodList.add(FoodItem("Курица с пюрешкой", 17.0, 94.0, 3.0, 345.0))
+        foodList.add(FoodItem("Камень граненый", 17.0, 94.0, 3.0, 345.0))
         // foodList.add(FoodItem(4, "Говно с морковкой", 228, 337, 45, 777))
-
+        */
+        if (IngredientsSaver.IngredientsArray == null)
+        {
+            CsvReader(this)
+        }
+        val foodList = IngredientsSaver.IngredientsArray ?: arrayListOf<FoodItem>()
         var showingList = foodList.toList()
         val adapter = FoodItemAdapter(showingList, this)
 
