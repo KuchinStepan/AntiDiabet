@@ -34,7 +34,7 @@ class SelectionFoodActivity : AppCompatActivity() {
 
     private fun setFoodSelecting() {
         val foodTextEnter = setSearchLine()
-        /*
+
         val foodList =  arrayListOf<FoodItem>()
 
         foodList.add(FoodItem("Помидор с гречкой", 10.0, 20.0, 30.0, 112.0))
@@ -43,12 +43,7 @@ class SelectionFoodActivity : AppCompatActivity() {
         foodList.add(FoodItem("Курица с пюрешкой", 17.0, 94.0, 3.0, 345.0))
         foodList.add(FoodItem("Камень граненый", 17.0, 94.0, 3.0, 345.0))
         // foodList.add(FoodItem(4, "Говно с морковкой", 228, 337, 45, 777))
-        */
-        if (IngredientsSaver.IngredientsArray == null)
-        {
-            CsvReader(this)
-        }
-        val foodList = IngredientsSaver.IngredientsArray ?: arrayListOf<FoodItem>()
+
         var showingList = foodList.toList()
         val adapter = FoodItemAdapter(showingList, this)
 
