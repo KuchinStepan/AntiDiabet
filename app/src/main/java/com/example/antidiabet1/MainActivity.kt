@@ -13,11 +13,13 @@ class MainActivity : AppCompatActivity() {
         addingFoodScreen()
     }
 
+    override fun onBackPressed() {  }
+
     private fun addingFoodScreen() {
         val button: Button = findViewById(R.id.food_button)
 
         button.setOnClickListener() {
-            val intent = Intent(this, FoodActivity::class.java)
+            val intent = Intent(this, SelectionFoodActivity::class.java)
             startActivity(intent)
         }
     }

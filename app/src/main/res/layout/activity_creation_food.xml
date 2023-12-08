@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/bright_green"
     android:fitsSystemWindows="true"
-    tools:context=".MainActivity">
+    tools:context=".CreationFoodActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="28dp"
-            android:text="Назад в меню"
+            android:text="Назад"
             android:textSize="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.88"
@@ -31,36 +31,47 @@
             android:layout_width="326dp"
             android:layout_height="50dp"
             android:layout_marginTop="68dp"
-            android:ems="10"
             android:hint="Введите название еды"
             android:inputType="text"
+
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+
+            android:backgroundTint="@android:color/transparent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.494"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/add_food_button"
-            android:layout_width="211dp"
-            android:layout_height="66dp"
-            android:layout_marginTop="24dp"
+            android:id="@+id/select_food_button"
+            android:layout_width="300dp"
+            android:layout_height="62dp"
+            android:layout_marginBottom="8dp"
+            android:backgroundTint="@color/white"
+            android:fontFamily="@font/inter_bold"
+            android:text="Добавить ингридиент"
+            android:textColor="@color/green"
+            android:textSize="22sp"
+            app:layout_constraintBottom_toTopOf="@+id/create_food_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.494"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/create_food_button"
+            android:layout_width="300dp"
+            android:layout_height="62dp"
+            android:layout_marginBottom="40dp"
             android:backgroundTint="@color/green"
             android:fontFamily="@font/inter_bold"
-            android:text="Добавить"
-            android:textSize="25sp"
+            android:text="Создать"
+            android:textSize="23sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/foodList" />
+            app:layout_constraintHorizontal_bias="0.494"
+            app:layout_constraintStart_toStartOf="parent" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/foodList"
-            android:layout_width="351dp"
-            android:paddingHorizontal="20dp"
-            android:layout_height="430dp"
-            android:layout_marginTop="15dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/food_enter" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
