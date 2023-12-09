@@ -21,6 +21,12 @@ class DHistDatabaseHelper(val context: Context, val factory: SQLiteDatabase.Curs
         onCreate(db)
     }
 
+    fun getAllDishes(): String {
+        val db=this.readableDatabase
+        val result = db.rawQuery("SELECT * FROM dishhistory", null)
+        return result.toString()
+    }
+
     fun addDish(dish: FoodItem){
         val values = ContentValues()
         values.put("name", dish.name)
@@ -30,7 +36,6 @@ class DHistDatabaseHelper(val context: Context, val factory: SQLiteDatabase.Curs
         db.insert("dishs", null, values)
         db.close()
     }
-
 
     private fun getStrTime(): String {
         val sdf = SimpleDateFormat("dd:MM:yyyy hh:mm:ss")
