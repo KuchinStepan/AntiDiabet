@@ -11,7 +11,7 @@ import java.util.Date
 import kotlin.math.max
 
 class DishDatabaseHelper(val context: Context, val factory: SQLiteDatabase.CursorFactory?):
-    SQLiteOpenHelper(context, "dishs", factory, 1) {
+    SQLiteOpenHelper(context, "dishs", factory, 2) {
     companion object {
         var static_dick = ArrayList<DishItem>()
         var static_id = -1;

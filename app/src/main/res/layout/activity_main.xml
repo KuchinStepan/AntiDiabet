@@ -30,7 +30,7 @@
             android:layout_height="69dp"
             android:layout_marginBottom="138dp"
             android:backgroundTint="@color/green"
-            android:fontFamily="@font/inter_bold"
+            android:fontFamily="@font/roboto"
             android:text="Прием пищи"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -41,17 +41,17 @@
         <Button
             android:id="@+id/history_button"
             style="@style/AppTheme.LeftDickGreen"
-            android:layout_width="150dp"
+            android:layout_width="160dp"
             android:layout_height="69dp"
             android:layout_marginLeft="10dp"
             android:layout_marginBottom="56dp"
             android:backgroundTint="@color/green"
             android:fontFamily="@font/inter_bold"
             android:text="дневник"
-            android:textSize="20sp"
+            android:textSize="17sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.065"
+            app:layout_constraintHorizontal_bias="0.035"
             app:layout_constraintStart_toStartOf="parent" />
 
 
@@ -66,10 +66,10 @@
             android:backgroundTint="@color/green"
             android:fontFamily="@font/inter_bold"
             android:text="статистика"
-            android:textSize="20sp"
+            android:textSize="17sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.855"
+            app:layout_constraintHorizontal_bias="0.9"
             app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
