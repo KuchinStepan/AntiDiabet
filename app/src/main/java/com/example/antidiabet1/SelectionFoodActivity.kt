@@ -31,36 +31,29 @@ class SelectionFoodActivity : AppCompatActivity() {
         setFoodSelecting()
     }
 
-    private fun setFoodSelecting() {
-        val foodTextEnter = setSearchLine()
-        val db=DishDatabaseHelper(this, null)
-        /*val foodList =  arrayListOf<FoodItem>()
-
+    private fun setDefaultDishes() : ArrayList<FoodItem> {
+        val foodList = ArrayList<FoodItem>()
         foodList.add(FoodItem("Помидор с гречкой", 10.0, 20.0, 30.0, 112.0))
         foodList.add(FoodItem("Арбуз жаренный", 69.0, 70.0, 45.0, 79.0))
         foodList.add(FoodItem("Огурец с тыквой", 54.0, 200.0, 3.0, 1200.0))
         foodList.add(FoodItem("Курица с пюрешкой", 17.0, 94.0, 3.0, 345.0))
         foodList.add(FoodItem("Камень граненый", 17.0, 94.0, 3.0, 345.0))
         // foodList.add(FoodItem(4, "Говно с морковкой", 228, 337, 45, 777))
+        //var showingList = foodList.toList()
 
+        return foodList
+    }
 
-        for (food in foodList){
-            db.addFood(food)
-        }
-        //var showingList = foodList.toList()*/
+    private fun setFoodSelecting() {
+        val foodTextEnter = setSearchLine()
+        val db=DishDatabaseHelper(this, null)
+        //var showingList = foodList.toList()
         var foodList = db.getAllFoods()
         if (foodList.size == 0){
-            foodList.add(FoodItem("Помидор с гречкой", 10.0, 20.0, 30.0, 112.0))
-            foodList.add(FoodItem("Арбуз жаренный", 69.0, 70.0, 45.0, 79.0))
-            foodList.add(FoodItem("Огурец с тыквой", 54.0, 200.0, 3.0, 1200.0))
-            foodList.add(FoodItem("Курица с пюрешкой", 17.0, 94.0, 3.0, 345.0))
-            foodList.add(FoodItem("Камень граненый", 17.0, 94.0, 3.0, 345.0))
-            // foodList.add(FoodItem(4, "Говно с морковкой", 228, 337, 45, 777))
-
+            foodList = setDefaultDishes()
             for (food in foodList){
                 db.addFood(food)
             }
-            //var showingList = foodList.toList()
         }
         var showingList = db.getAllFoods().toList()
 
