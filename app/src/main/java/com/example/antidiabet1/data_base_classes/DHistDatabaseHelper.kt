@@ -4,14 +4,17 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import androidx.core.database.getStringOrNull
 import com.example.antidiabet1.item_classes.FoodItem
 import java.text.SimpleDateFormat
 import java.util.Date
 
 class DHistDatabaseHelper(val context: Context, val factory: SQLiteDatabase.CursorFactory?):
-    SQLiteOpenHelper(context, "dishhistory", factory, 1) {
+    SQLiteOpenHelper(context, "dishhistory", factory, 2) {
+    public val table_name = "dishhistory"
+
     override fun onCreate(db: SQLiteDatabase?) {
-        val query = "CREATE TABLE dishhistory (id INT PRIMARY KEY, name STRING NOT NULL, dishLink INT, " +
+        val query = "CREATE TABLE dishhistory (id INTEGER PRIMARY KEY autoincrement, name TEXT NOT NULL, dishLink INT, " +
                 "datetime TEXT)"
         db!!.execSQL(query)
     }
@@ -21,19 +24,32 @@ class DHistDatabaseHelper(val context: Context, val factory: SQLiteDatabase.Curs
         onCreate(db)
     }
 
-    fun getAllDishes(): String {
+    fun getAllDishes(): ArrayList<ArrayList<String>> {
         val db=this.readableDatabase
-        val result = db.rawQuery("SELECT * FROM dishhistory", null)
-        return result.toString()
+        val cursor = db.rawQuery("SELECT * FROM dishhistory", null)
+        val result = ArrayList<ArrayList<String>>()
+        if (cursor!!.moveToFirst()) {
+            while (cursor.isAfterLast == false) {
+                val row = ArrayList<String>()
+                row.add(cursor.getString(0))
+                row.add(cursor.getString(1))
+                row.add(cursor.getString(2))
+                row.add(cursor.getString(3))
+                result.add(row)
+                //cursor.getColumnIndex("name")
+                cursor.moveToNext()
+            }
+        }
+        return result
     }
 
-    fun addDish(dish: FoodItem){
+    fun addDish(dish: FoodItem, foodId: Int){
         val values = ContentValues()
         values.put("name", dish.name)
-        values.put("dishlink", 1)
+        values.put("dishLink", foodId)
         values.put("datetime", getStrTime())
         val db = this.writableDatabase
-        db.insert("dishs", null, values)
+        db.insert("dishhistory", null, values)
         db.close()
     }
 

@@ -40,22 +40,20 @@ class VizualizerDairyActivity : AppCompatActivity() {
         val foodList =  arrayListOf<FoodItem>()
         val db = DHistDatabaseHelper(this, null)
 
-        db.getAllDishes()
-        foodList.add(FoodItem(db.getAllDishes() , 10.0, 20.0, 30.0, 112.0))
-
-
         foodList.add(FoodItem("Помидор с гречкой", 10.0, 20.0, 30.0, 112.0))
         foodList.add(FoodItem("Арбуз жаренный", 69.0, 70.0, 45.0, 79.0))
         foodList.add(FoodItem("Огурец с тыквой", 54.0, 200.0, 3.0, 1200.0))
         foodList.add(FoodItem("Курица с пюрешкой", 17.0, 94.0, 3.0, 345.0))
         foodList.add(FoodItem("Камень граненый", 17.0, 94.0, 3.0, 345.0))
         foodList.add(FoodItem(getStrTime(), 228.0, 337.0, 45.0, 777.0))
-        for (food in foodList){
-            db.addDish(food)
-        }
-        db.getAllDishes()
-        foodList.add(FoodItem(db.getAllDishes() , 10.0, 20.0, 30.0, 112.0))
+        //for (food in foodList){
+        //    db.addDish(food, foodList.indexOf(food))
+        //}
+        foodList.add(FoodItem(db.getAllDishes().toString() , 10.0, 20.0, 30.0, 112.0))
 
+        for (food in db.getAllDishes()){
+            foodList.add(FoodItem(food.toString(),228.0, 337.0, 45.0, 777.0))
+        }
         var showingList = foodList.toList()
         val adapter = FoodItemAdapter(showingList, this)
 
