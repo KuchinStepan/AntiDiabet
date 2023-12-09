@@ -44,6 +44,8 @@ class FoodItemAdapter(var items: List<FoodItem>, var context: Context)
         val kiloDz = String.format("%.2f", item.calories * 4.1868)
         holder.calories.text = "${item.calories} ккал / ${kiloDz} кДж (на 100 грамм)"
 
+        holder.itemView.setBackgroundResource(R.drawable.unselected_item_background)
+
         holder.itemView.setOnClickListener {
             onClick?.invoke(item, holder.itemView)
         }
