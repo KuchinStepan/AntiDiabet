@@ -14,19 +14,19 @@ class DHistDatabaseHelper(val context: Context, val factory: SQLiteDatabase.Curs
     public val table_name = "dishhistory"
 
     override fun onCreate(db: SQLiteDatabase?) {
-        val query = "CREATE TABLE dishhistory (id INTEGER PRIMARY KEY autoincrement, name TEXT NOT NULL, dishLink INT, " +
+        val query = "CREATE TABLE $table_name (id INTEGER PRIMARY KEY autoincrement, name TEXT NOT NULL, dishLink INT, " +
                 "datetime TEXT)"
         db!!.execSQL(query)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-        db!!.execSQL("DROP TABLE dishhistory")
+        db!!.execSQL("DROP TABLE $table_name")
         onCreate(db)
     }
 
     fun getAllDishes(): ArrayList<ArrayList<String>> {
         val db=this.readableDatabase
-        val cursor = db.rawQuery("SELECT * FROM dishhistory", null)
+        val cursor = db.rawQuery("SELECT * FROM $table_name", null)
         val result = ArrayList<ArrayList<String>>()
         if (cursor!!.moveToFirst()) {
             while (cursor.isAfterLast == false) {
@@ -49,7 +49,7 @@ class DHistDatabaseHelper(val context: Context, val factory: SQLiteDatabase.Curs
         values.put("dishLink", foodId)
         values.put("datetime", getStrTime())
         val db = this.writableDatabase
-        db.insert("dishhistory", null, values)
+        db.insert(table_name, null, values)
         db.close()
     }
 

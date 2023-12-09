@@ -9,6 +9,8 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.example.antidiabet1.data_base_classes.DishDatabaseHelper
+import com.example.antidiabet1.item_classes.DishItem
 
 class CreationFoodActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,7 +40,12 @@ class CreationFoodActivity : AppCompatActivity() {
             if (foodNameEnter.text.toString() == "")
                 Toast.makeText(this, "Введите свое название еды", Toast.LENGTH_SHORT).show()
             else {
-                // Дописать создание еды
+                val db = DishDatabaseHelper(this, null)
+                val dish = DishItem(db.get_free_id(), foodNameEnter.text.toString(),
+                    0.0,0.0,0.0, 0.0, 0.0,
+                    " ", " ")
+
+                db.addDish(dish)
 
             }
         }

@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.antidiabet1.data_base_classes.DishDatabaseHelper
 import com.example.antidiabet1.item_classes.FoodItem
 import com.example.antidiabet1.item_classes.FoodItemAdapter
 
@@ -32,8 +33,8 @@ class SelectionFoodActivity : AppCompatActivity() {
 
     private fun setFoodSelecting() {
         val foodTextEnter = setSearchLine()
-
-        val foodList =  arrayListOf<FoodItem>()
+        val db=DishDatabaseHelper(this, null)
+        /*val foodList =  arrayListOf<FoodItem>()
 
         foodList.add(FoodItem("Помидор с гречкой", 10.0, 20.0, 30.0, 112.0))
         foodList.add(FoodItem("Арбуз жаренный", 69.0, 70.0, 45.0, 79.0))
@@ -42,7 +43,13 @@ class SelectionFoodActivity : AppCompatActivity() {
         foodList.add(FoodItem("Камень граненый", 17.0, 94.0, 3.0, 345.0))
         // foodList.add(FoodItem(4, "Говно с морковкой", 228, 337, 45, 777))
 
-        var showingList = foodList.toList()
+
+        for (food in foodList){
+            db.addFood(food)
+        }
+        //var showingList = foodList.toList()*/
+        val foodList = db.getAllFoods()
+        var showingList = db.getAllFoods().toList()
         val adapter = FoodItemAdapter(showingList, this)
 
         // Обновление по поиску
