@@ -6,11 +6,18 @@ import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.antidiabet1.data_base_classes.DishDatabaseHelper
 import com.example.antidiabet1.item_classes.DishItem
+import com.example.antidiabet1.item_classes.FoodItem
+import com.example.antidiabet1.item_classes.FoodItemAdapter
+
+var Ingredients = ArrayList<FoodItem>()
 
 class CreationFoodActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,10 +25,10 @@ class CreationFoodActivity : AppCompatActivity() {
         setContentView(R.layout.activity_creation_food)
 
         val foodNameEnter = setNameEnterLine()
-
         setBackToMenu()
         setCreateButton(foodNameEnter)
         setAddIngredientButton()
+        setIngredientsScrollList()
     }
 
     private fun setAddIngredientButton() {
@@ -82,5 +89,12 @@ class CreationFoodActivity : AppCompatActivity() {
             val intent = Intent(this, SelectionFoodActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    private fun setIngredientsScrollList()
+    {
+        val listView: RecyclerView = findViewById(R.id.InredientList)
+        listView.layoutManager = LinearLayoutManager(this)
+        listView.adapter = FoodItemAdapter(Ingredients, this)
     }
 }

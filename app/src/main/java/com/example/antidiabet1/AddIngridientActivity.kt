@@ -21,6 +21,7 @@ import com.example.antidiabet1.item_classes.FoodItemAdapter
 
 class AddIngridientActivity : AppCompatActivity() {
     private var lastClickedFoodView: View ?= null
+    private var lastClickedFoodItem: FoodItem ?= null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,6 +91,7 @@ class AddIngridientActivity : AppCompatActivity() {
             lastClickedFoodView?.setBackgroundResource(R.drawable.unselected_item_background)
             view.setBackgroundResource(R.drawable.selected_item_background)
             lastClickedFoodView = view
+            lastClickedFoodItem = food
         }
     }
 
@@ -102,6 +104,7 @@ class AddIngridientActivity : AppCompatActivity() {
 
         addFoodButton.setOnClickListener() {
             val intent = Intent(this, CreationFoodActivity::class.java)
+            lastClickedFoodItem?.let { it1 -> Ingredients.add(it1) }
             startActivity(intent)
         }
     }
