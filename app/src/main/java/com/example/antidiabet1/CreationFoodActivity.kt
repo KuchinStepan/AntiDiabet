@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
-import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -95,6 +94,12 @@ class CreationFoodActivity : AppCompatActivity() {
     {
         val listView: RecyclerView = findViewById(R.id.InredientList)
         listView.layoutManager = LinearLayoutManager(this)
-        listView.adapter = FoodItemAdapter(Ingredients, this)
+        val adapter = FoodItemAdapter(Ingredients, this)
+        listView.adapter = adapter
+
+        adapter.onLongClick = { food, view ->
+            Ingredients.remove(food)
+            adapter.changeList(Ingredients)
+        }
     }
 }

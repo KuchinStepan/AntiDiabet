@@ -12,8 +12,8 @@ import com.example.antidiabet1.R
 class FoodItemAdapter(var items: List<FoodItem>, var context: Context)
     : RecyclerView.Adapter<FoodItemAdapter.MyViewHolder>() {
 
-    // До конца я не понимаю как эта штука работает
     var onClick : ((FoodItem, View) -> Unit)? = null
+    var onLongClick: ((FoodItem, View) -> Unit)? = null
 
     class MyViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val name: TextView = view.findViewById(R.id.food_name)
@@ -48,6 +48,11 @@ class FoodItemAdapter(var items: List<FoodItem>, var context: Context)
 
         holder.itemView.setOnClickListener {
             onClick?.invoke(item, holder.itemView)
+        }
+
+        holder.itemView.setOnLongClickListener {
+            onLongClick?.invoke(item, holder.itemView)
+            true
         }
     }
 }
