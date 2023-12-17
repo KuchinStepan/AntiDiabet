@@ -47,6 +47,9 @@ class CreationFoodActivity : AppCompatActivity() {
 
                 db.addDish(dish)
 
+                val intent = Intent(this, SelectionFoodActivity::class.java)
+                startActivity(intent)
+
             }
         }
     }
@@ -76,7 +79,8 @@ class CreationFoodActivity : AppCompatActivity() {
         val exitButton: TextView = findViewById(R.id.exit_foodList)
 
         exitButton.setOnClickListener() {
-            super.onBackPressed()
+            val intent = Intent(this, SelectionFoodActivity::class.java)
+            startActivity(intent)
         }
     }
 }

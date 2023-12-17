@@ -13,19 +13,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         addingFoodScreen()
-        addingDairyScreen()
     }
 
     override fun onBackPressed() {  }
 
-    private fun addingDairyScreen() {
-        val button: Button = findViewById(R.id.history_button)
-
-        button.setOnClickListener() {
-            val intent = Intent(this, VizualizerDairyActivity::class.java)
-            startActivity(intent)
-        }
-    }
 
     private fun addingFoodScreen() {
         val button: Button = findViewById(R.id.food_button)
