@@ -104,7 +104,8 @@ class AddIngridientActivity : AppCompatActivity() {
 
         addFoodButton.setOnClickListener() {
             val intent = Intent(this, CreationFoodActivity::class.java)
-            lastClickedFoodItem?.let { it1 -> Ingredients.add(it1) }
+            if(lastClickedFoodItem != null && !Ingredients.contains(lastClickedFoodItem))
+                Ingredients.add(lastClickedFoodItem!!)
             startActivity(intent)
         }
     }
