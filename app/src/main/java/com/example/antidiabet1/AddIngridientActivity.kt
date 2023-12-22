@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.antidiabet1.data_base_classes.CsvReader
 import com.example.antidiabet1.data_base_classes.IngredientsSaver
+import com.example.antidiabet1.item_classes.ChosenIngredient
 import com.example.antidiabet1.item_classes.Ingredient
 import com.example.antidiabet1.item_classes.FoodItemAdapter
 
@@ -104,8 +105,12 @@ class AddIngridientActivity : AppCompatActivity() {
 
         addFoodButton.setOnClickListener() {
             val intent = Intent(this, CreationFoodActivity::class.java)
-            if(lastClickedIngredient != null && !Ingredients.contains(lastClickedIngredient))
-                Ingredients.add(lastClickedIngredient!!)
+            // && !Ingredients.contains(lastClickedIngredient) убрано из за несоответствия
+            if(lastClickedIngredient != null )
+            {
+                val chIngredient = ChosenIngredient(lastClickedIngredient!!, 200.0)
+                Ingredients.add(chIngredient)
+            }
             startActivity(intent)
         }
     }

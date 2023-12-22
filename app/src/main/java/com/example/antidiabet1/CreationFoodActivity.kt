@@ -1,26 +1,23 @@
 package com.example.antidiabet1
 
-import android.annotation.SuppressLint
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.antidiabet1.data_base_classes.DishDatabaseHelper
-import com.example.antidiabet1.item_classes.DishItem
-import com.example.antidiabet1.item_classes.Ingredient
-import com.example.antidiabet1.item_classes.FoodItemAdapter
-import java.text.SimpleDateFormat
-import java.util.Calendar
+import com.example.antidiabet1.item_classes.ChosenIngredient
+import com.example.antidiabet1.item_classes.ChosenIngredientAdapter
+import com.example.antidiabet1.item_classes.newDishItem
 import kotlin.math.roundToInt
 
-var Ingredients = ArrayList<Ingredient>()
+var Ingredients = ArrayList<ChosenIngredient>()
 private var dishName = ""
 class CreationFoodActivity : AppCompatActivity() {
 
@@ -100,7 +97,7 @@ class CreationFoodActivity : AppCompatActivity() {
     {
         val listView: RecyclerView = findViewById(R.id.InredientList)
         listView.layoutManager = LinearLayoutManager(this)
-        val adapter = FoodItemAdapter(Ingredients, this)
+        val adapter = ChosenIngredientAdapter(Ingredients, this)
         listView.adapter = adapter
 
         adapter.onLongClick = { food, view ->
@@ -110,8 +107,7 @@ class CreationFoodActivity : AppCompatActivity() {
     }
 }
 
-@SuppressLint("SimpleDateFormat")
-private fun CreateDishFromIngredients(id:Int, name: String, ings : ArrayList<Ingredient>): DishItem {
+private fun CreateDishFromIngredients(id:Int, name: String, ings : ArrayList<ChosenIngredient>): newDishItem {
     var totalCarbons = 0.0
     var totalProteins = 0.0
     var totalFats = 0.0
@@ -119,20 +115,16 @@ private fun CreateDishFromIngredients(id:Int, name: String, ings : ArrayList<Ing
     val ingsNames = ArrayList<String>()
     for(ing in ings)
     {
-        totalCarbons += ing.carbons
-        totalProteins += ing.proteins
-        totalFats += ing.fats
-        totalCalories += ing.calories
-        ingsNames.add(ing.name)
+        totalCarbons += ing.ingredient.carbons
+        totalProteins += ing.ingredient.proteins
+        totalFats += ing.ingredient.fats
+        totalCalories += ing.ingredient.calories
+        ingsNames.add(ing.ingredient.name)
     }
     totalCarbons = (totalCarbons * 100).roundToInt() / 100.0
     totalProteins = (totalProteins * 100).roundToInt() / 100.0
     totalFats = (totalFats * 100).roundToInt() / 100.0
     totalCalories = (totalCalories * 100).roundToInt() / 100.0
-    val time = Calendar.getInstance().time
-    val formatter = SimpleDateFormat("yyyy-MM-dd")
-    val current = formatter.format(time)
-    return DishItem(id, name, totalCarbons,
-        totalProteins, totalFats, totalCalories, 0.0,
-        ingsNames.joinToString(", "), current)
+
+    return newDishItem(id, name, totalCarbons, totalProteins, totalFats, totalCalories, ings)
 }
