@@ -14,13 +14,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.antidiabet1.data_base_classes.DishDatabaseHelper
 import com.example.antidiabet1.item_classes.DishItem
-import com.example.antidiabet1.item_classes.FoodItem
+import com.example.antidiabet1.item_classes.Ingredient
 import com.example.antidiabet1.item_classes.FoodItemAdapter
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import kotlin.math.roundToInt
 
-var Ingredients = ArrayList<FoodItem>()
+var Ingredients = ArrayList<Ingredient>()
 private var dishName = ""
 class CreationFoodActivity : AppCompatActivity() {
 
@@ -111,7 +111,7 @@ class CreationFoodActivity : AppCompatActivity() {
 }
 
 @SuppressLint("SimpleDateFormat")
-private fun CreateDishFromIngredients(id:Int, name: String, ings : ArrayList<FoodItem>): DishItem {
+private fun CreateDishFromIngredients(id:Int, name: String, ings : ArrayList<Ingredient>): DishItem {
     var totalCarbons = 0.0
     var totalProteins = 0.0
     var totalFats = 0.0

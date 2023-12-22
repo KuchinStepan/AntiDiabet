@@ -15,13 +15,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.antidiabet1.data_base_classes.CsvReader
 import com.example.antidiabet1.data_base_classes.IngredientsSaver
-import com.example.antidiabet1.item_classes.FoodItem
+import com.example.antidiabet1.item_classes.Ingredient
 import com.example.antidiabet1.item_classes.FoodItemAdapter
 
 
 class AddIngridientActivity : AppCompatActivity() {
     private var lastClickedFoodView: View ?= null
-    private var lastClickedFoodItem: FoodItem ?= null
+    private var lastClickedIngredient: Ingredient ?= null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +38,7 @@ class AddIngridientActivity : AppCompatActivity() {
         {
             CsvReader(this)
         }
-        val foodList = IngredientsSaver.IngredientsArray ?: arrayListOf<FoodItem>()
+        val foodList = IngredientsSaver.IngredientsArray ?: arrayListOf<Ingredient>()
 
         var showingList = foodList.toList()
         val adapter = FoodItemAdapter(showingList, this)
@@ -91,7 +91,7 @@ class AddIngridientActivity : AppCompatActivity() {
             lastClickedFoodView?.setBackgroundResource(R.drawable.unselected_item_background)
             view.setBackgroundResource(R.drawable.selected_item_background)
             lastClickedFoodView = view
-            lastClickedFoodItem = food
+            lastClickedIngredient = food
         }
     }
 
@@ -104,8 +104,8 @@ class AddIngridientActivity : AppCompatActivity() {
 
         addFoodButton.setOnClickListener() {
             val intent = Intent(this, CreationFoodActivity::class.java)
-            if(lastClickedFoodItem != null && !Ingredients.contains(lastClickedFoodItem))
-                Ingredients.add(lastClickedFoodItem!!)
+            if(lastClickedIngredient != null && !Ingredients.contains(lastClickedIngredient))
+                Ingredients.add(lastClickedIngredient!!)
             startActivity(intent)
         }
     }

@@ -5,7 +5,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import com.example.antidiabet1.item_classes.DishItem
-import com.example.antidiabet1.item_classes.FoodItem
+import com.example.antidiabet1.item_classes.Ingredient
 import java.text.SimpleDateFormat
 import java.util.Date
 import kotlin.math.max
@@ -35,7 +35,7 @@ class DishDatabaseHelper(val context: Context, val factory: SQLiteDatabase.Curso
         onCreate(db)
     }
 
-    fun addFood(food: FoodItem){
+    fun addFood(food: Ingredient){
         val values = ContentValues()
         values.put("name", food.name)
         values.put("fats", food.fats)
@@ -94,9 +94,9 @@ class DishDatabaseHelper(val context: Context, val factory: SQLiteDatabase.Curso
         return dishList
     }
 
-    fun getAllFoods():ArrayList<FoodItem>{
+    fun getAllFoods():ArrayList<Ingredient>{
         val dishs=getAllDishes()
-        val foods=ArrayList<FoodItem>()
+        val foods=ArrayList<Ingredient>()
         for (dish in dishs){
             foods.add(dish.TranslateToFood())
         }

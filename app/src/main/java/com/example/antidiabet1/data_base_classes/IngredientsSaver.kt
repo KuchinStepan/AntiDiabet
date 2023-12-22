@@ -1,10 +1,10 @@
 package com.example.antidiabet1.data_base_classes
 
 
-import com.example.antidiabet1.item_classes.FoodItem
+import com.example.antidiabet1.item_classes.Ingredient
 
 
 
 object IngredientsSaver {
-    var IngredientsArray: ArrayList<FoodItem>? = null
+    var IngredientsArray: ArrayList<Ingredient>? = null
 }

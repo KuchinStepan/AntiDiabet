@@ -4,8 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import androidx.core.database.getStringOrNull
-import com.example.antidiabet1.item_classes.FoodItem
+import com.example.antidiabet1.item_classes.Ingredient
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -43,7 +42,7 @@ class DHistDatabaseHelper(val context: Context, val factory: SQLiteDatabase.Curs
         return result
     }
 
-    fun addDish(dish: FoodItem, foodId: Int){
+    fun addDish(dish: Ingredient, foodId: Int){
         val values = ContentValues()
         values.put("name", dish.name)
         values.put("dishLink", foodId)

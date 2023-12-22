@@ -11,8 +11,8 @@ class DishItem(
     val ingridients: String,
     val pub_time: String
 ) {
-    public fun TranslateToFood(): FoodItem{
-        return FoodItem(name, carbons, proteins, fats, calories)
+    public fun TranslateToFood(): Ingredient{
+        return Ingredient(name, carbons, proteins, fats, calories)
     }
 
 }
