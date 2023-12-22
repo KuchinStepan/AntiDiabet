@@ -7,12 +7,5 @@ class DishItem(
     val proteins: Double,
     val fats: Double,
     val calories: Double,
-    val weight: Double,
-    val ingridients: String,
-    val pub_time: String
-) {
-    public fun TranslateToFood(): FoodItem{
-        return FoodItem(name, carbons, proteins, fats, calories)
-    }
-
-}
+    val ingredients: ArrayList<ChosenIngredient>
+) {}

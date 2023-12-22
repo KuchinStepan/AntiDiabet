@@ -8,12 +8,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.antidiabet1.R
 
+class DishAdapter(var items: List<DishItem>, var context: Context)
+    : RecyclerView.Adapter<DishAdapter.MyViewHolder>() {
 
-class FoodItemAdapter(var items: List<Ingredient>, var context: Context)
-    : RecyclerView.Adapter<FoodItemAdapter.MyViewHolder>() {
-
-    var onClick : ((Ingredient, View) -> Unit)? = null
-    var onLongClick: ((Ingredient, View) -> Unit)? = null
+    var onClick : ((DishItem, View) -> Unit)? = null
+    var onLongClick: ((DishItem, View) -> Unit)? = null
 
     class MyViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val name: TextView = view.findViewById(R.id.food_name)
@@ -21,7 +20,7 @@ class FoodItemAdapter(var items: List<Ingredient>, var context: Context)
         val calories: TextView = view.findViewById(R.id.food_calories)
     }
 
-    public fun changeList(newList: List<Ingredient>) {
+    public fun changeList(newList: List<DishItem>) {
         items = newList
         notifyDataSetChanged()
     }
@@ -39,10 +38,13 @@ class FoodItemAdapter(var items: List<Ingredient>, var context: Context)
         val item = items[position]
 
         holder.name.text = item.name
-        val detailedData = "Углеводы ${item.carbons}г / белки ${item.proteins}г / жиры ${item.fats}г"
+        val detailedData = "Углеводы ${item.carbons}г " +
+                "/ белки ${item.proteins}г " +
+                "/ жиры ${item.fats}г"
         holder.detailedData.text = detailedData
-        val kiloDz = String.format("%.2f", item.calories * 4.1868)
-        holder.calories.text = "${item.calories} ккал / ${kiloDz} кДж (на 100 грамм)"
+        val calories = item.calories
+        val kiloDz = String.format("%.2f", calories * 4.1868)
+        holder.calories.text = "${calories} ккал / ${kiloDz}"
 
         holder.itemView.setBackgroundResource(R.drawable.unselected_item_background)
 

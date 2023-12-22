@@ -15,13 +15,13 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.antidiabet1.data_base_classes.DishDatabaseHelper
-import com.example.antidiabet1.item_classes.FoodItem
-import com.example.antidiabet1.item_classes.FoodItemAdapter
+import com.example.antidiabet1.item_classes.DishAdapter
+import com.example.antidiabet1.item_classes.DishItem
 
 
 class SelectionFoodActivity : AppCompatActivity() {
     private var lastClickedFoodView: View ?= null
-    private var lastClckedFoodItem: FoodItem ?= null
+    private var lastClckedDish: DishItem ?= null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,33 +31,15 @@ class SelectionFoodActivity : AppCompatActivity() {
         setFoodSelecting()
     }
 
-    private fun setDefaultDishes() : ArrayList<FoodItem> {
-        val foodList = ArrayList<FoodItem>()
-        foodList.add(FoodItem("Помидор с гречкой", 10.0, 20.0, 30.0, 112.0))
-        foodList.add(FoodItem("Арбуз жаренный", 69.0, 70.0, 45.0, 79.0))
-        foodList.add(FoodItem("Огурец с тыквой", 54.0, 200.0, 3.0, 1200.0))
-        foodList.add(FoodItem("Курица с пюрешкой", 17.0, 94.0, 3.0, 345.0))
-        foodList.add(FoodItem("Камень граненый", 17.0, 94.0, 3.0, 345.0))
-        // foodList.add(FoodItem(4, "Говно с морковкой", 228, 337, 45, 777))
-        //var showingList = foodList.toList()
-
-        return foodList
-    }
-
     private fun setFoodSelecting() {
         val foodTextEnter = setSearchLine()
-        val db=DishDatabaseHelper(this, null)
-        //var showingList = foodList.toList()
-        var foodList = db.getAllFoods()
-        if (foodList.size == 0){
-            foodList = setDefaultDishes()
-            for (food in foodList){
-                db.addFood(food)
-            }
-        }
-        var showingList = db.getAllFoods().toList()
 
-        val adapter = FoodItemAdapter(showingList, this)
+        val db=DishDatabaseHelper(this, null)
+
+        val foodList = db.getAllDishes()
+        var showingList = foodList.toList()
+
+        val adapter = DishAdapter(showingList, this)
 
         // Обновление по поиску
         foodTextEnter.addTextChangedListener(object : TextWatcher {
@@ -95,7 +77,7 @@ class SelectionFoodActivity : AppCompatActivity() {
         return foodNameEnter
     }
 
-    private fun setFoodScrollList(adapter: FoodItemAdapter) {
+    private fun setFoodScrollList(adapter: DishAdapter) {
         val listView: RecyclerView = findViewById(R.id.foodList)
 
         listView.layoutManager = LinearLayoutManager(this)
@@ -106,7 +88,7 @@ class SelectionFoodActivity : AppCompatActivity() {
             lastClickedFoodView?.setBackgroundResource(R.drawable.unselected_item_background)
             view.setBackgroundResource(R.drawable.selected_item_background)
             lastClickedFoodView = view
-            lastClckedFoodItem = food
+            lastClckedDish = food
         }
     }
 
@@ -123,7 +105,7 @@ class SelectionFoodActivity : AppCompatActivity() {
         val addFoodButton: Button = findViewById(R.id.select_food_button)
 
         addFoodButton.setOnClickListener() {
-            if (lastClckedFoodItem != null) {
+            if (lastClckedDish != null) {
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
             }

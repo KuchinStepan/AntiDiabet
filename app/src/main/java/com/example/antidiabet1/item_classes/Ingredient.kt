@@ -1,6 +1,6 @@
 package com.example.antidiabet1.item_classes
 
-class FoodItem(
+class Ingredient(
     val name: String,
     val carbons: Double,
     val proteins: Double,

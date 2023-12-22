@@ -8,26 +8,26 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.antidiabet1.R
 
+class ChosenIngredientAdapter(var items: List<ChosenIngredient>, var context: Context)
+    : RecyclerView.Adapter<ChosenIngredientAdapter.MyViewHolder>() {
 
-class FoodItemAdapter(var items: List<Ingredient>, var context: Context)
-    : RecyclerView.Adapter<FoodItemAdapter.MyViewHolder>() {
-
-    var onClick : ((Ingredient, View) -> Unit)? = null
-    var onLongClick: ((Ingredient, View) -> Unit)? = null
+    var onClick : ((ChosenIngredient, View) -> Unit)? = null
+    var onLongClick: ((ChosenIngredient, View) -> Unit)? = null
 
     class MyViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val name: TextView = view.findViewById(R.id.food_name)
         val detailedData: TextView = view.findViewById(R.id.food_carbons)
         val calories: TextView = view.findViewById(R.id.food_calories)
+        val weight: TextView = view.findViewById(R.id.food_weight)
     }
 
-    public fun changeList(newList: List<Ingredient>) {
+    public fun changeList(newList: List<ChosenIngredient>) {
         items = newList
         notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.food_item_for_list, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.chosen_ingredient_item, parent, false)
         return MyViewHolder(view)
     }
 
@@ -38,11 +38,17 @@ class FoodItemAdapter(var items: List<Ingredient>, var context: Context)
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val item = items[position]
 
-        holder.name.text = item.name
-        val detailedData = "Углеводы ${item.carbons}г / белки ${item.proteins}г / жиры ${item.fats}г"
+        val ingredient = item.ingredient
+        holder.name.text = ingredient.name
+        val detailedData = "Углеводы ${ingredient.carbons * item.grams / 100}г " +
+                "/ белки ${ingredient.proteins * item.grams / 100}г " +
+                "/ жиры ${ingredient.fats * item.grams / 100}г"
         holder.detailedData.text = detailedData
-        val kiloDz = String.format("%.2f", item.calories * 4.1868)
-        holder.calories.text = "${item.calories} ккал / ${kiloDz} кДж (на 100 грамм)"
+        val calories = ingredient.calories * item.grams / 100
+        val kiloDz = String.format("%.2f", calories * 4.1868)
+        holder.calories.text = "${calories} ккал / ${kiloDz}"
+
+        holder.weight.text = "${item.grams} г"
 
         holder.itemView.setBackgroundResource(R.drawable.unselected_item_background)
 
