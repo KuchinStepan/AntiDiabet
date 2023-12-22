@@ -18,6 +18,7 @@ class ChosenIngredientAdapter(var items: List<ChosenIngredient>, var context: Co
         val name: TextView = view.findViewById(R.id.food_name)
         val detailedData: TextView = view.findViewById(R.id.food_carbons)
         val calories: TextView = view.findViewById(R.id.food_calories)
+        val weight: TextView = view.findViewById(R.id.food_weight)
     }
 
     public fun changeList(newList: List<ChosenIngredient>) {
@@ -26,7 +27,7 @@ class ChosenIngredientAdapter(var items: List<ChosenIngredient>, var context: Co
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.food_item_for_list, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.chosen_ingredient_item, parent, false)
         return MyViewHolder(view)
     }
 
@@ -46,6 +47,8 @@ class ChosenIngredientAdapter(var items: List<ChosenIngredient>, var context: Co
         val calories = ingredient.calories * item.grams / 100
         val kiloDz = String.format("%.2f", calories * 4.1868)
         holder.calories.text = "${calories} ккал / ${kiloDz}"
+
+        holder.weight.text = "${item.grams} г"
 
         holder.itemView.setBackgroundResource(R.drawable.unselected_item_background)
 

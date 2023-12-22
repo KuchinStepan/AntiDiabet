@@ -8,11 +8,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.antidiabet1.R
 
-class DishAdapter(var items: List<newDishItem>, var context: Context)
+class DishAdapter(var items: List<DishItem>, var context: Context)
     : RecyclerView.Adapter<DishAdapter.MyViewHolder>() {
 
-    var onClick : ((newDishItem, View) -> Unit)? = null
-    var onLongClick: ((newDishItem, View) -> Unit)? = null
+    var onClick : ((DishItem, View) -> Unit)? = null
+    var onLongClick: ((DishItem, View) -> Unit)? = null
 
     class MyViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val name: TextView = view.findViewById(R.id.food_name)
@@ -20,7 +20,7 @@ class DishAdapter(var items: List<newDishItem>, var context: Context)
         val calories: TextView = view.findViewById(R.id.food_calories)
     }
 
-    public fun changeList(newList: List<newDishItem>) {
+    public fun changeList(newList: List<DishItem>) {
         items = newList
         notifyDataSetChanged()
     }

@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.antidiabet1.data_base_classes.DishDatabaseHelper
 import com.example.antidiabet1.item_classes.ChosenIngredient
 import com.example.antidiabet1.item_classes.ChosenIngredientAdapter
-import com.example.antidiabet1.item_classes.newDishItem
+import com.example.antidiabet1.item_classes.DishItem
 import kotlin.math.roundToInt
 
 var Ingredients = ArrayList<ChosenIngredient>()
@@ -107,7 +107,7 @@ class CreationFoodActivity : AppCompatActivity() {
     }
 }
 
-private fun CreateDishFromIngredients(id:Int, name: String, ings : ArrayList<ChosenIngredient>): newDishItem {
+private fun CreateDishFromIngredients(id:Int, name: String, ings : ArrayList<ChosenIngredient>): DishItem {
     var totalCarbons = 0.0
     var totalProteins = 0.0
     var totalFats = 0.0
@@ -126,5 +126,5 @@ private fun CreateDishFromIngredients(id:Int, name: String, ings : ArrayList<Cho
     totalFats = (totalFats * 100).roundToInt() / 100.0
     totalCalories = (totalCalories * 100).roundToInt() / 100.0
 
-    return newDishItem(id, name, totalCarbons, totalProteins, totalFats, totalCalories, ings)
+    return DishItem(id, name, totalCarbons, totalProteins, totalFats, totalCalories, ings)
 }

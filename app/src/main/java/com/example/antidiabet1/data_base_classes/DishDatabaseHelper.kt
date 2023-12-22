@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
 import com.example.antidiabet1.item_classes.ChosenIngredient
 import com.example.antidiabet1.item_classes.Ingredient
-import com.example.antidiabet1.item_classes.newDishItem
+import com.example.antidiabet1.item_classes.DishItem
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlin.math.max
@@ -16,7 +16,7 @@ import kotlin.math.max
 class DishDatabaseHelper(val context: Context, val factory: SQLiteDatabase.CursorFactory?):
     SQLiteOpenHelper(context, "dishs", factory, 6) {
     companion object {
-        var static_dick = ArrayList<newDishItem>()
+        var static_dick = ArrayList<DishItem>()
         var static_id = -1;
         // в этом говне нет статических полей, поэтому
         // я буду писать как хочу, и пусть с матом и в стиле пиоона,
@@ -38,7 +38,7 @@ class DishDatabaseHelper(val context: Context, val factory: SQLiteDatabase.Curso
         onCreate(db)
     }
 
-    fun addDish(dish: newDishItem): Int{
+    fun addDish(dish: DishItem): Int{
         val values = ContentValues()
         values.put("name", dish.name)
         values.put("fats", dish.fats)
@@ -58,10 +58,10 @@ class DishDatabaseHelper(val context: Context, val factory: SQLiteDatabase.Curso
         return static_id
     }
 
-    private fun _getAllDishes(): ArrayList<newDishItem> {
+    private fun _getAllDishes(): ArrayList<DishItem> {
         val db=this.readableDatabase
         val cursor = db.rawQuery("SELECT * FROM dishs", null)
-        val dishList = ArrayList<newDishItem>()
+        val dishList = ArrayList<DishItem>()
 
         val gson = Gson()
         if (cursor!!.moveToFirst()) {
@@ -82,7 +82,7 @@ class DishDatabaseHelper(val context: Context, val factory: SQLiteDatabase.Curso
 
                 val type = object : TypeToken<ArrayList<ChosenIngredient>>() {}.type
                 var ingredients = gson.fromJson<ArrayList<ChosenIngredient>>(str_ingridients, type)
-                dishList.add(newDishItem(id, name, carbons, proteins, fats, calories, ingredients))
+                dishList.add(DishItem(id, name, carbons, proteins, fats, calories, ingredients))
                 //cursor.getColumnIndex("name")
                 cursor.moveToNext()
             }
@@ -91,22 +91,22 @@ class DishDatabaseHelper(val context: Context, val factory: SQLiteDatabase.Curso
         return dishList
     }
 
-    private fun setDefaultDishes() : ArrayList<newDishItem> {
-        val foodList = ArrayList<newDishItem>()
+    private fun setDefaultDishes() : ArrayList<DishItem> {
+        val foodList = ArrayList<DishItem>()
         val ingrs = ArrayList<ChosenIngredient>()
         val ingr = Ingredient("Pen", 1.1, 2.3, 4.5, 6.7)
         ingrs.add(ChosenIngredient(ingr, 1000.0))
 
-        foodList.add(newDishItem(1, "Помидор с гречкой", 10.0, 20.0, 30.0, 112.0, ingrs))
-        foodList.add(newDishItem(2, "Арбуз жаренный", 69.0, 70.0, 45.0, 79.0, ingrs))
-        foodList.add(newDishItem(3, "Огурец с тыквой", 54.0, 200.0, 3.0, 1200.0, ingrs))
-        foodList.add(newDishItem(4, "Курица с пюрешкой", 17.0, 94.0, 3.0, 345.0, ingrs))
-        foodList.add(newDishItem(5, "Камень граненый", 17.0, 94.0, 3.0, 345.0, ingrs))
+        foodList.add(DishItem(1, "Помидор с гречкой", 10.0, 20.0, 30.0, 112.0, ingrs))
+        foodList.add(DishItem(2, "Арбуз жаренный", 69.0, 70.0, 45.0, 79.0, ingrs))
+        foodList.add(DishItem(3, "Огурец с тыквой", 54.0, 200.0, 3.0, 1200.0, ingrs))
+        foodList.add(DishItem(4, "Курица с пюрешкой", 17.0, 94.0, 3.0, 345.0, ingrs))
+        foodList.add(DishItem(5, "Камень граненый", 17.0, 94.0, 3.0, 345.0, ingrs))
 
         return foodList
     }
 
-    fun getAllDishes():ArrayList<newDishItem>{
+    fun getAllDishes():ArrayList<DishItem>{
         var dishes = _getAllDishes()
 
         if (dishes.size == 0){

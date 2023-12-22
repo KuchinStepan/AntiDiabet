@@ -16,12 +16,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.antidiabet1.data_base_classes.DishDatabaseHelper
 import com.example.antidiabet1.item_classes.DishAdapter
-import com.example.antidiabet1.item_classes.newDishItem
+import com.example.antidiabet1.item_classes.DishItem
 
 
 class SelectionFoodActivity : AppCompatActivity() {
     private var lastClickedFoodView: View ?= null
-    private var lastClckedDish: newDishItem ?= null
+    private var lastClckedDish: DishItem ?= null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
