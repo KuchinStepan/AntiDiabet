@@ -1,11 +1,32 @@
 package com.example.antidiabet1
+package com.anychart.sample.charts;
 
+import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.anychart.AnyChart;
+import com.anychart.AnyChartView;
+import com.anychart.chart.common.dataentry.DataEntry;
+import com.anychart.chart.common.dataentry.ValueDataEntry;
+import com.anychart.charts.Cartesian;
+import com.anychart.core.cartesian.series.Line;
+import com.anychart.data.Mapping;
+import com.anychart.data.Set;
+import com.anychart.enums.Anchor;
+import com.anychart.enums.MarkerType;
+import com.anychart.enums.TooltipPositionMode;
+import com.anychart.graphics.vector.Stroke;
+
+import java.util.ArrayList;
+import java.util.List;
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.DashPathEffect
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.CalendarView
 import android.widget.EditText
@@ -16,13 +37,18 @@ import com.example.antidiabet1.data_base_classes.Event
 import com.example.antidiabet1.data_base_classes.EventHistoryDatabaseHelper
 import com.example.antidiabet1.data_base_classes.EventType
 import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.formatter.IAxisValueFormatter
 import com.github.mikephil.charting.highlight.Highlight
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import java.util.Date
 
 
-class MainActivity : AppCompatActivity(), OnChartValueSelectedListener {
+class MainActivity : AppCompatActivity() {
     lateinit var chart: LineChart
     lateinit var chosedDate : Date
 
@@ -33,7 +59,6 @@ class MainActivity : AppCompatActivity(), OnChartValueSelectedListener {
         chart = findViewById(R.id.chart1)
         chart.setBackgroundColor(Color.WHITE)
         chart.description.isEnabled = false
-        chart.setOnChartValueSelectedListener(this)
         chart.setDrawGridBackground(false)
         chart.isDragEnabled = true
         chart.setScaleEnabled(true)
@@ -84,89 +109,91 @@ class MainActivity : AppCompatActivity(), OnChartValueSelectedListener {
 //        legend.form = Legend.LegendForm.LINE
 */
 
+        UpdateChart()
         setEventButton()
         setHistoryButton()
-
     }
 
-    override fun onBackPressed() {}
+
+    private fun UpdateChart(){
+        val values = ArrayList<Entry>()
+        val dbHelper = EventHistoryDatabaseHelper(this, null)
+        val events = dbHelper.getEventsByLastThreeDays()
+
+        var lastSugar = 10.0
+        for (event in events){
+            val dateValue = event.date
+            if (event.type == EventType.SugarMeasure)
+                lastSugar = event.sugar
+            val entry = Entry(dateValue.time.toFloat(), lastSugar.toFloat())
+            values.add(entry)
+        }
+
+        val lineDataSet = LineDataSet(values, "Уровень глюкозы в крови")
+
+        val lineDataSets = ArrayList<ILineDataSet>()
+        lineDataSets.add(lineDataSet)
+
+        val lineData = LineData(lineDataSets)
+
+        chart.data = lineData
+
+        chart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
+            override fun onValueSelected(entry: Entry, highlight: Highlight) {
+            }
+
+            override fun onNothingSelected() {
+            }
+        })
+
+        chart.data.notifyDataChanged();
+        chart.notifyDataSetChanged();
+        chart.invalidate();
+    }
+
+    private fun setData(count: Int, range: Float) {
+        val values = ArrayList<Entry>()
+
+        for (i in 0 until count) {
+
+            val value = (Math.random() * range).toFloat() - 30
+            values.add(Entry(i.toFloat(), value/*, resources.getDrawable(R.drawable.star)*/))
+        }
+
+        val set1: LineDataSet
+
+        if (chart.data != null && chart.data.dataSetCount > 0) {
+            set1 = chart.data.getDataSetByIndex(0) as LineDataSet
+            set1.values = values
+            set1.notifyDataSetChanged()
+            chart.data.notifyDataChanged()
+            chart.notifyDataSetChanged()
+        } else {
+            set1 = LineDataSet(values, "DataSet 1")
 
 
-//    private fun setData(count: Int, range: Float) {
-//        val values = ArrayList<Entry>()
-//
-//        for (i in 0 until count) {
-//
-//            val value = (Math.random() * range).toFloat() - 30
-//            values.add(Entry(i.toFloat(), value/*, resources.getDrawable(R.drawable.star)*/))
-//        }
-//
-//        val set1: LineDataSet
-//
-//        if (chart.data != null && chart.data.dataSetCount > 0) {
-//            set1 = chart.data.getDataSetByIndex(0) as LineDataSet
-//            set1.values = values
-//            set1.notifyDataSetChanged()
-//            chart.data.notifyDataChanged()
-//            chart.notifyDataSetChanged()
-//        } else {
-//            // create a dataset and give it a type
-//            set1 = LineDataSet(values, "DataSet 1")
-//
-//            set1.setDrawIcons(false)
-//
-//            // draw dashed line
-////            set1.enableDashedLine(10f, 5f, 0f)
-//
-//            // black lines and points
-//            set1.color = Color.BLACK
-//            set1.setCircleColor(Color.BLACK)
-//
-//            // line thickness and point size
-//            set1.lineWidth = 1f
-//            set1.circleRadius = 3f
-//
-//            // draw points as solid circles
-//            set1.setDrawCircleHole(false)
-//
-//            // customize legend entry
-//            set1.formLineWidth = 1f
-//            set1.formLineDashEffect = DashPathEffect(floatArrayOf(10f, 5f), 0f)
-//            set1.formSize = 15f
-//
-//            // text size of values
-//            set1.valueTextSize = 9f
-//
-//            // draw selection line as dashed
-////            set1.enableDashedHighlightLine(10f, 5f, 0f)
-//
-//            // set the filled area
-//            set1.setDrawFilled(true)
-//            set1.fillFormatter =
-//                IFillFormatter { dataSet, dataProvider -> chart.axisLeft.axisMinimum }
-//
-//            // set color of filled area
-//            /*if (Utils.getSDKInt() >= 18) {
-//                // drawables only supported on api level 18 and above
-//                val drawable = ContextCompat.getDrawable(this, R.drawable.fade_red)
-//                set1.fillDrawable = drawable
-//            } else {
-//                set1.fillColor = Color.BLACK
-//            }*/
-//
-//            val dataSets = ArrayList<ILineDataSet>()
-//            dataSets.add(set1) // add the data sets
-//
-//            // create a data object with the data sets
-//            val data = LineData(dataSets)
-//
-//            // set data
-//            chart.data = data
-//        }
-//    }
+            set1.color = Color.BLACK
+            set1.setCircleColor(Color.BLACK)
 
-    private fun generateFakeHistory() {
+            set1.lineWidth = 1f
+            set1.circleRadius = 3f
 
+            // draw points as solid circles
+            set1.setDrawCircleHole(false)
+
+            set1.formLineWidth = 1f
+            set1.formLineDashEffect = DashPathEffect(floatArrayOf(10f, 5f), 0f)
+            set1.formSize = 15f
+
+            set1.valueTextSize = 9f
+
+            val dataSets = ArrayList<ILineDataSet>()
+            dataSets.add(set1)
+
+            val data = LineData(dataSets)
+
+            chart.data = data
+        }
     }
 
     private fun setEventButton() {
@@ -253,7 +280,9 @@ class MainActivity : AppCompatActivity(), OnChartValueSelectedListener {
                 val event = Event(Date(), EventType.InsulinInjection, null, grams, 0.0)
                 db.addEvent(event)
 
+                UpdateChart()
                 dialog.cancel()
+                UpdateChart()
             }
             else {
                 Toast.makeText(context, "Введите количество ЕД", Toast.LENGTH_SHORT).show()
@@ -280,7 +309,9 @@ class MainActivity : AppCompatActivity(), OnChartValueSelectedListener {
                 val event = Event(Date(), EventType.SugarMeasure, null, 0.0, grams)
                 db.addEvent(event)
 
+                UpdateChart()
                 dialog.cancel()
+                UpdateChart()
             }
             else {
                 Toast.makeText(context, "Введите количество ммоль/л", Toast.LENGTH_SHORT).show()
@@ -288,27 +319,5 @@ class MainActivity : AppCompatActivity(), OnChartValueSelectedListener {
         }
 
         dialog.show()
-    }
-
-    override fun onValueSelected(e: Entry?, h: Highlight?) {
-//        val dbHelper = EventHistoryDatabaseHelper(this, null)
-//        val events = dbHelper.getAllEvents()
-//        Log.d("--> MEOW", events.size.toString())
-//        for (i in 0 until events.size) {
-//            val event = events[i]
-//            Log.d("--> MEOW", event.date.toString())
-//            Log.d("--> MEOW", event.dishItem.toString())
-//        }
-    }
-
-    override fun onNothingSelected() {
-//            val dbHelper = EventHistoryDatabaseHelper(this, null)
-//            val events = dbHelper.getAllEvents()
-//            Log.d("--> MEOW", events.size.toString())
-//            for (i in 0 until events.size) {
-//                val event = events[i]
-//                Log.d("--> MEOW", event.date.toString())
-//                Log.d("--> MEOW", event.dishItem.toString())
-//            }
     }
 }

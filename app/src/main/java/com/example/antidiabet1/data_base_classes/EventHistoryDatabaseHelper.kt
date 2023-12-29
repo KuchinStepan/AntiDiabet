@@ -8,11 +8,12 @@ import android.util.Log
 import com.example.antidiabet1.item_classes.DishItem
 import com.google.gson.Gson
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
 import kotlin.math.max
 //цоашцоащшуазозцащоцщуазщцшоуащцушоацщшоащшыыдвлфываолдфжыоалдфлыалфывджлаофыдважофдываолдфо
 class EventHistoryDatabaseHelper(val context: Context, val factory: SQLiteDatabase.CursorFactory?):
-    SQLiteOpenHelper(context, "eventhistory", factory, 5) {
+    SQLiteOpenHelper(context, "eventhistory", factory, 8) {
     public val table_name = "eventhistory"
     companion object {
         var static_dick = ArrayList<Event>()
@@ -81,4 +82,38 @@ class EventHistoryDatabaseHelper(val context: Context, val factory: SQLiteDataba
         return currentDate
     }
 
+    fun isMoreThanNDaysPassed(date: Date, n: Int): Boolean {
+        val calendar = Calendar.getInstance()
+        calendar.time = date
+        calendar.add(Calendar.DAY_OF_YEAR, n) // Adds 3 days to the original date
+
+        val currentDate = Calendar.getInstance()
+
+        return currentDate.after(calendar)
+    }
+
+
+    fun getEventsByLastThreeDays(): ArrayList<Event> {
+        val db=this.readableDatabase
+        val cursor = db.rawQuery("SELECT * FROM $table_name", null)
+        val events = ArrayList<Event>()
+        val gson = Gson()
+        if (cursor!!.moveToFirst()) {
+            while (!cursor.isAfterLast) {
+                val id = cursor.getInt(0)
+                static_id = max(static_id, id)
+                val date = Date(cursor.getString(1))
+                if (isMoreThanNDaysPassed(date, 3))
+                    break
+                val eventType = EventType.valueOf(cursor.getString(2))
+                val dishItem = gson.fromJson(cursor.getString(3), DishItem::class.java)
+                val insulin = cursor.getDouble(4)
+                val sugar = cursor.getDouble(5)
+                events.add(Event(date, eventType, dishItem, insulin, sugar))
+                cursor.moveToNext()
+            }
+        }
+        static_dick = events
+        return events
+    }
 }
