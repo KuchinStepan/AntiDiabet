@@ -40,9 +40,9 @@ class ChosenIngredientAdapter(var items: List<ChosenIngredient>, var context: Co
 
         val ingredient = item.ingredient
         holder.name.text = ingredient.name
-        val detailedData = "Углеводы ${ingredient.carbons * item.grams / 100}г " +
-                "/ белки ${ingredient.proteins * item.grams / 100}г " +
-                "/ жиры ${ingredient.fats * item.grams / 100}г"
+        val detailedData = "Углеводы ${String.format("%.2f", ingredient.carbons * item.grams / 100)}г " +
+                "/ белки ${String.format("%.2f", ingredient.proteins * item.grams / 100)}г " +
+                "/ жиры ${String.format("%.2f", ingredient.fats * item.grams / 100)}г"
         holder.detailedData.text = detailedData
         val calories = ingredient.calories * item.grams / 100
         val kiloDz = String.format("%.2f", calories * 4.1868)

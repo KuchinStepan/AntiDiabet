@@ -89,6 +89,7 @@ class SelectionFoodActivity : AppCompatActivity() {
             view.setBackgroundResource(R.drawable.selected_item_background)
             lastClickedFoodView = view
             lastClckedDish = food
+            adapter.lastClickedName = food.name
         }
     }
 
