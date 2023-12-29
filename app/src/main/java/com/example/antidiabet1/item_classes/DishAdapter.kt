@@ -13,6 +13,7 @@ class DishAdapter(var items: List<DishItem>, var context: Context)
 
     var onClick : ((DishItem, View) -> Unit)? = null
     var onLongClick: ((DishItem, View) -> Unit)? = null
+    var lastClickedName: String ?= null
 
     class MyViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val name: TextView = view.findViewById(R.id.food_name)
@@ -46,7 +47,12 @@ class DishAdapter(var items: List<DishItem>, var context: Context)
         val kiloDz = String.format("%.2f", calories * 4.1868)
         holder.calories.text = "${calories} ккал / ${kiloDz} кДж"
 
-        holder.itemView.setBackgroundResource(R.drawable.unselected_item_background)
+        if (lastClickedName != null && lastClickedName == item.name) {
+            holder.itemView.setBackgroundResource(R.drawable.selected_item_background)
+        }
+        else {
+            holder.itemView.setBackgroundResource(R.drawable.unselected_item_background)
+        }
 
         holder.itemView.setOnClickListener {
             onClick?.invoke(item, holder.itemView)
