@@ -126,5 +126,7 @@ private fun CreateDishFromIngredients(id:Int, name: String, ings : ArrayList<Cho
     totalFats = (totalFats * 100).roundToInt() / 100.0
     totalCalories = (totalCalories * 100).roundToInt() / 100.0
 
-    return DishItem(id, name, totalCarbons, totalProteins, totalFats, totalCalories, ings)
+    val rightName = "${name[0].uppercase()}${name.substring(1, name.length)}"
+
+    return DishItem(id, rightName, totalCarbons, totalProteins, totalFats, totalCalories, ings)
 }
