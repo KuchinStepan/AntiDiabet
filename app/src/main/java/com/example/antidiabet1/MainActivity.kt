@@ -24,6 +24,7 @@ import java.util.Date
 
 class MainActivity : AppCompatActivity(), OnChartValueSelectedListener {
     lateinit var chart: LineChart
+    lateinit var chosedDate : Date
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -197,6 +198,7 @@ class MainActivity : AppCompatActivity(), OnChartValueSelectedListener {
         }
         val calendarView: CalendarView = dialog.findViewById(R.id.calendarView)
         calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
+            chosedDate = Date(year,month,dayOfMonth)
             textView.text = "$dayOfMonth.${month + 1}.$year"
         }
 
