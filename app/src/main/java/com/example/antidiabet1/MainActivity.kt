@@ -7,7 +7,9 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.widget.Button
+import android.widget.CalendarView
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.antidiabet1.data_base_classes.Event
@@ -82,6 +84,8 @@ class MainActivity : AppCompatActivity(), OnChartValueSelectedListener {
 */
 
         setEventButton()
+        setHistoryButton()
+
     }
 
     override fun onBackPressed() {}
@@ -170,6 +174,34 @@ class MainActivity : AppCompatActivity(), OnChartValueSelectedListener {
         button.setOnClickListener() {
             showEventChoiceDialog(this)
         }
+    }
+
+    private fun setHistoryButton() {
+        val button: Button = findViewById(R.id.history_button)
+
+        button.setOnClickListener() {
+            showCalendarDialog(this)
+        }
+    }
+
+    private fun showCalendarDialog(context: Context) {
+        val dialog = Dialog(context)
+        dialog.setContentView(R.layout.dialog_calendar_choice)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setCancelable(true)
+        val textView: TextView = dialog.findViewById(R.id.textView3)
+        val dateSelectButton: Button = dialog.findViewById(R.id.selectDate)
+        dateSelectButton.setOnClickListener() {
+            val intent = Intent(context, DateHistoryActivity::class.java)
+            startActivity(intent)
+        }
+        val calendarView: CalendarView = dialog.findViewById(R.id.calendarView)
+        calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
+            textView.text = "$dayOfMonth.${month + 1}.$year"
+        }
+
+
+        dialog.show()
     }
 
     private fun showEventChoiceDialog(context: Context) {

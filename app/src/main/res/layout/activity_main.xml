@@ -37,18 +37,32 @@
             app:srcCompat="@drawable/food_high" />
 
         <Button
+            android:id="@+id/history_button"
+            android:layout_width="0dp"
+            android:layout_height="69dp"
+            android:layout_marginBottom="44dp"
+            android:backgroundTint="@color/green"
+            android:fontFamily="@font/roboto"
+            android:text="история"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintWidth_percent="0.8" />
+
+        <Button
             android:id="@+id/event_button"
             android:layout_width="0dp"
             android:layout_height="69dp"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="144dp"
             android:backgroundTint="@color/green"
             android:fontFamily="@font/roboto"
             android:text="Добавить событие"
-            android:textStyle="bold"
             android:textSize="20sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.493"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintWidth_percent="0.8" />
 

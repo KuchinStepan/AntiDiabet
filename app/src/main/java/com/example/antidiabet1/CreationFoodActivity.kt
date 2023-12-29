@@ -93,7 +93,7 @@ class CreationFoodActivity : AppCompatActivity() {
 
 
     private fun setBackToMenu() {
-        val exitButton: TextView = findViewById(R.id.exit_foodList)
+        val exitButton: TextView = findViewById(R.id.exit_dateHistory)
 
         exitButton.setOnClickListener() {
             val intent = Intent(this, SelectionFoodActivity::class.java)
