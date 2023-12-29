@@ -22,21 +22,21 @@ class MainActivity : AppCompatActivity(), OnChartValueSelectedListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-//
-//        chart = findViewById(R.id.chart1)
-//        chart.setBackgroundColor(Color.WHITE)
-////        chart.description.isEnabled = false
-////        chart.setOnChartValueSelectedListener(this)
-////        chart.setDrawGridBackground(fa    lse)
-////        chart.isDragEnabled = true
-////        chart.setScaleEnabled(true)
-////        chart.setPinchZoom(true)
-//
-//        val xAxis = chart.xAxis
+
+        chart = findViewById(R.id.chart1)
+        chart.setBackgroundColor(Color.WHITE)
+        chart.description.isEnabled = false
+        chart.setOnChartValueSelectedListener(this)
+        chart.setDrawGridBackground(false)
+        chart.isDragEnabled = true
+        chart.setScaleEnabled(true)
+        chart.setPinchZoom(true)
+
+        val xAxis = chart.xAxis
 //        xAxis.enableGridDashedLine(10f,10f,0f)
-//
-//        val yAxis = chart.axisLeft
-//        chart.axisRight.isEnabled = false
+
+        val yAxis = chart.axisLeft
+        chart.axisRight.isEnabled = false
 //        yAxis.enableGridDashedLine(10f, 10f, 0f)
 //        yAxis.setAxisMaximum(200f)
 //        yAxis.setAxisMinimum(-50f)
@@ -70,7 +70,7 @@ class MainActivity : AppCompatActivity(), OnChartValueSelectedListener {
 //        yAxis.addLimitLine(ll1)
 //        yAxis.addLimitLine(ll2)
 //
-//        setData(45, 180f)
+        setData(45, 180f)
 //
 //        chart.animateX(1500)
 //        val legend = chart.legend
@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity(), OnChartValueSelectedListener {
         addingFoodScreen()
     }
 
-    override fun onBackPressed() {  }
+    override fun onBackPressed() {}
 
     private fun setData(count: Int, range: Float) {
 
@@ -107,7 +107,7 @@ class MainActivity : AppCompatActivity(), OnChartValueSelectedListener {
             set1.setDrawIcons(false)
 
             // draw dashed line
-            set1.enableDashedLine(10f, 5f, 0f)
+//            set1.enableDashedLine(10f, 5f, 0f)
 
             // black lines and points
             set1.color = Color.BLACK
@@ -129,11 +129,12 @@ class MainActivity : AppCompatActivity(), OnChartValueSelectedListener {
             set1.valueTextSize = 9f
 
             // draw selection line as dashed
-            set1.enableDashedHighlightLine(10f, 5f, 0f)
+//            set1.enableDashedHighlightLine(10f, 5f, 0f)
 
             // set the filled area
             set1.setDrawFilled(true)
-            set1.fillFormatter = IFillFormatter { dataSet, dataProvider -> chart.axisLeft.axisMinimum }
+            set1.fillFormatter =
+                IFillFormatter { dataSet, dataProvider -> chart.axisLeft.axisMinimum }
 
             // set color of filled area
             /*if (Utils.getSDKInt() >= 18) {
@@ -155,6 +156,10 @@ class MainActivity : AppCompatActivity(), OnChartValueSelectedListener {
         }
     }
 
+    private fun generateFakeHistory() {
+
+    }
+
     private fun addingFoodScreen() {
         val button: Button = findViewById(R.id.food_button)
 
@@ -165,10 +170,10 @@ class MainActivity : AppCompatActivity(), OnChartValueSelectedListener {
     }
 
     override fun onValueSelected(e: Entry?, h: Highlight?) {
-        TODO("Not yet implemented")
+//        TODO("Not yet implemented")
     }
 
     override fun onNothingSelected() {
-        TODO("Not yet implemented")
+//        TODO("Not yet implemented")
     }
 }
