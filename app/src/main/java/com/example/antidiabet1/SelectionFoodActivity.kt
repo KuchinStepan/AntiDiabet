@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
@@ -15,8 +16,12 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.antidiabet1.data_base_classes.DishDatabaseHelper
+import com.example.antidiabet1.data_base_classes.Event
+import com.example.antidiabet1.data_base_classes.EventHistoryDatabaseHelper
+import com.example.antidiabet1.data_base_classes.EventType
 import com.example.antidiabet1.item_classes.DishAdapter
 import com.example.antidiabet1.item_classes.DishItem
+import java.util.Date
 
 
 class SelectionFoodActivity : AppCompatActivity() {
@@ -103,10 +108,20 @@ class SelectionFoodActivity : AppCompatActivity() {
 
     private fun setSelectFoodButton() {
         val addFoodButton: Button = findViewById(R.id.select_food_button)
+        val dbHelper = EventHistoryDatabaseHelper(this, null)
 
         addFoodButton.setOnClickListener() {
             if (lastClckedDish != null) {
                 val intent = Intent(this, MainActivity::class.java)
+                dbHelper.addEvent(Event(Date(), EventType.Eating, lastClckedDish!!,
+                    0.0, 0.0))
+                val events = dbHelper.getAllEvents()
+                Log.d("--> MEOW", events.size.toString())
+                for (i in 0 until events.size) {
+                    val event = events[i]
+                    Log.d("--> MEOW", event.date.toString())
+                    Log.d("--> MEOW", event.dishItem.toString())
+                }
                 startActivity(intent)
             }
             else {

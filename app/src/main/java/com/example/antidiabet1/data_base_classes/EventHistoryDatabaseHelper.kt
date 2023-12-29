@@ -6,15 +6,13 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
 import com.example.antidiabet1.item_classes.DishItem
-import com.example.antidiabet1.item_classes.HistoryDishItem
-import com.example.antidiabet1.item_classes.Ingredient
 import com.google.gson.Gson
 import java.text.SimpleDateFormat
 import java.util.Date
 import kotlin.math.max
-
+//цоашцоащшуазозцащоцщуазщцшоуащцушоацщшоащшыыдвлфываолдфжыоалдфлыалфывджлаофыдважофдываолдфо
 class EventHistoryDatabaseHelper(val context: Context, val factory: SQLiteDatabase.CursorFactory?):
-    SQLiteOpenHelper(context, "eventhistory", factory, 2) {
+    SQLiteOpenHelper(context, "eventhistory", factory, 5) {
     public val table_name = "eventhistory"
     companion object {
         var static_dick = ArrayList<Event>()
@@ -28,7 +26,7 @@ class EventHistoryDatabaseHelper(val context: Context, val factory: SQLiteDataba
 
     override fun onCreate(db: SQLiteDatabase?) {
         val query = "CREATE TABLE $table_name (id INTEGER PRIMARY KEY autoincrement, date TEXT NOT NULL, eventType INT, " +
-                "historyDishItem TEXT, insulin DOUBLE, sugar DOUBLE)"
+                "dishItem TEXT, insulin DOUBLE, sugar DOUBLE)"
         db!!.execSQL(query)
     }
 
@@ -48,10 +46,10 @@ class EventHistoryDatabaseHelper(val context: Context, val factory: SQLiteDataba
                 static_id = max(static_id, id)
                 val date = Date(cursor.getString(1))
                 val eventType = EventType.valueOf(cursor.getString(2))
-                val historyDishItem = gson.fromJson<HistoryDishItem>(cursor.getString(3), HistoryDishItem::class.java)
+                val dishItem = gson.fromJson(cursor.getString(3), DishItem::class.java)
                 val insulin = cursor.getDouble(4)
                 val sugar = cursor.getDouble(5)
-                events.add(Event(date, eventType, historyDishItem, insulin, sugar))
+                events.add(Event(date, eventType, dishItem, insulin, sugar))
                 //cursor.getColumnIndex("name")
                 cursor.moveToNext()
             }
@@ -62,12 +60,12 @@ class EventHistoryDatabaseHelper(val context: Context, val factory: SQLiteDataba
 
     fun addEvent(event: Event): Int {
         val values = ContentValues()
-        values.put("date", getStrTime(event.date))
+        values.put("date", event.date.toString())
         values.put("eventType", event.type.toString())
         val gson = Gson()
-        val strHistoryDishItem = gson.toJson(event.historyDishItem)
-        Log.d("--> json", strHistoryDishItem)
-        values.put("event", strHistoryDishItem)
+        val strDishItem = gson.toJson(event.dishItem)
+        Log.d("--> json", strDishItem)
+        values.put("dishItem", strDishItem)
         values.put("insulin", event.insulin)
         values.put("sugar", event.sugar)
         val db = this.writableDatabase
