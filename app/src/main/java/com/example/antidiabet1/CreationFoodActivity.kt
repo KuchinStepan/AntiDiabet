@@ -88,7 +88,7 @@ class CreationFoodActivity : AppCompatActivity() {
 
         exitButton.setOnClickListener() {
             val intent = Intent(this, SelectionFoodActivity::class.java)
-
+            Ingredients.clear()
             startActivity(intent)
         }
     }

@@ -1,6 +1,9 @@
 package com.example.antidiabet1
 
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -9,6 +12,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,13 +20,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.antidiabet1.data_base_classes.CsvReader
 import com.example.antidiabet1.data_base_classes.IngredientsSaver
 import com.example.antidiabet1.item_classes.ChosenIngredient
-import com.example.antidiabet1.item_classes.Ingredient
 import com.example.antidiabet1.item_classes.FoodItemAdapter
+import com.example.antidiabet1.item_classes.Ingredient
 
 
 class AddIngridientActivity : AppCompatActivity() {
     private var lastClickedFoodView: View ?= null
     private var lastClickedIngredient: Ingredient ?= null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,8 +62,8 @@ class AddIngridientActivity : AppCompatActivity() {
             }
         })
 
-        setFoodScrollList(adapter)
-        setSelectFoodButton()
+        setIngredientScrollList(adapter)
+        setSelectIngredientButton()
     }
 
     private fun setSearchLine(): EditText {
@@ -81,7 +86,7 @@ class AddIngridientActivity : AppCompatActivity() {
         return foodNameEnter
     }
 
-    private fun setFoodScrollList(adapter: FoodItemAdapter) {
+    private fun setIngredientScrollList(adapter: FoodItemAdapter) {
         val listView: RecyclerView = findViewById(R.id.ingridientList)
 
         listView.layoutManager = LinearLayoutManager(this)
@@ -96,23 +101,43 @@ class AddIngridientActivity : AppCompatActivity() {
         }
     }
 
-    private fun setAddIngredientButton() {
 
+    private fun setSelectIngredientButton() {
+        val addFoodButton: Button = findViewById(R.id.select_ingredient_button)
+
+        val dialog = Dialog(this)
+        addFoodButton.setOnClickListener() {
+            // && !Ingredients.contains(lastClickedIngredient) убрано из за несоответствия
+            if(lastClickedIngredient != null ) {
+                showCustomDialog(dialog)
+            }
+        }
     }
 
-    private fun setSelectFoodButton() {
-        val addFoodButton: Button = findViewById(R.id.select_ingridient_button)
+    private fun showCustomDialog(dialog: Dialog) {
+        dialog.setContentView(R.layout.dialog_gramm_select)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setCancelable(true)
 
-        addFoodButton.setOnClickListener() {
+        val ok_button: Button = dialog.findViewById(R.id.ok_button)
+        val gramm_enter_text: EditText = dialog.findViewById(R.id.gramm_enter)
+
+        ok_button.setOnClickListener() {
             val intent = Intent(this, CreationFoodActivity::class.java)
-            // && !Ingredients.contains(lastClickedIngredient) убрано из за несоответствия
-            if(lastClickedIngredient != null )
-            {
-                val chIngredient = ChosenIngredient(lastClickedIngredient!!, 200.0)
+
+            val text = gramm_enter_text.text.toString()
+            if (text != "") {
+                val grams = text.toDouble()
+                val chIngredient = ChosenIngredient(lastClickedIngredient!!, grams)
                 Ingredients.add(chIngredient)
+                startActivity(intent)
             }
-            startActivity(intent)
+            else {
+                Toast.makeText(this, "Введите вес", Toast.LENGTH_SHORT).show()
+            }
         }
+
+        dialog.show()
     }
 
     private fun setBack() {

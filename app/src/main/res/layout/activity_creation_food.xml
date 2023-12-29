@@ -48,39 +48,39 @@
             android:id="@+id/add_ingredient_button_from_creation"
             android:layout_width="300dp"
             android:layout_height="62dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginTop="7dp"
             android:backgroundTint="@color/white"
             android:fontFamily="@font/inter_bold"
             android:text="Добавить ингридиент"
             android:textColor="@color/green"
             android:textSize="22sp"
-            app:layout_constraintBottom_toTopOf="@+id/create_food_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.494"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/InredientList" />
 
         <Button
             android:id="@+id/create_food_button"
             android:layout_width="300dp"
             android:layout_height="62dp"
-            android:layout_marginBottom="40dp"
+            android:layout_marginTop="2dp"
             android:backgroundTint="@color/green"
             android:fontFamily="@font/inter_bold"
             android:text="Создать"
             android:textSize="23sp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.494"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/add_ingredient_button_from_creation" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/InredientList"
             android:layout_width="351dp"
             android:layout_height="0dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            app:layout_constraintBottom_toTopOf="@+id/add_ingredient_button_from_creation"
+            android:paddingHorizontal="15dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.61"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/food_enter" />
 

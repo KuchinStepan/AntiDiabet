@@ -44,7 +44,7 @@ class DishAdapter(var items: List<DishItem>, var context: Context)
         holder.detailedData.text = detailedData
         val calories = item.calories
         val kiloDz = String.format("%.2f", calories * 4.1868)
-        holder.calories.text = "${calories} ккал / ${kiloDz}"
+        holder.calories.text = "${calories} ккал / ${kiloDz} кДж"
 
         holder.itemView.setBackgroundResource(R.drawable.unselected_item_background)
 
