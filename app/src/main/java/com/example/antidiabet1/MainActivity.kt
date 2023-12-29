@@ -1,21 +1,23 @@
 package com.example.antidiabet1
 
+import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.graphics.DashPathEffect
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
 import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import com.example.antidiabet1.data_base_classes.Event
 import com.example.antidiabet1.data_base_classes.EventHistoryDatabaseHelper
+import com.example.antidiabet1.data_base_classes.EventType
 import com.github.mikephil.charting.charts.LineChart
-import com.github.mikephil.charting.components.Legend
-import com.github.mikephil.charting.components.LimitLine
-import com.github.mikephil.charting.data.*
-import com.github.mikephil.charting.formatter.IFillFormatter
+import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.highlight.Highlight
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
+import java.util.Date
 
 
 class MainActivity : AppCompatActivity(), OnChartValueSelectedListener {
@@ -34,55 +36,56 @@ class MainActivity : AppCompatActivity(), OnChartValueSelectedListener {
         chart.setScaleEnabled(true)
         chart.setPinchZoom(true)
 
-//        val xAxis = chart.xAxis
-////        xAxis.enableGridDashedLine(10f,10f,0f)
+        /*val xAxis = chart.xAxis
+//        xAxis.enableGridDashedLine(10f,10f,0f)
+
+        val yAxis = chart.axisLeft
+        chart.axisRight.isEnabled = false
+//        yAxis.enableGridDashedLine(10f, 10f, 0f)
+//        yAxis.setAxisMaximum(200f)
+//        yAxis.setAxisMinimum(-50f)
 //
-//        val yAxis = chart.axisLeft
-//        chart.axisRight.isEnabled = false
-////        yAxis.enableGridDashedLine(10f, 10f, 0f)
-////        yAxis.setAxisMaximum(200f)
-////        yAxis.setAxisMinimum(-50f)
-////
-////        val llXAxis = LimitLine(9f, "Index 10")
-////        llXAxis.lineWidth = 4f
-////        llXAxis.enableDashedLine(10f, 10f, 0f)
-////        llXAxis.labelPosition = LimitLine.LimitLabelPosition.RIGHT_BOTTOM
-////        llXAxis.textSize = 10f
-////        //llXAxis.typeface = tfRegular
-////
-////        val ll1 = LimitLine(150f, "Upper Limit")
-////        ll1.lineWidth = 4f
-////        ll1.enableDashedLine(10f, 10f, 0f)
-////        ll1.labelPosition = LimitLine.LimitLabelPosition.RIGHT_TOP
-////        ll1.textSize = 10f
-////        //ll1.typeface = tfRegular
-////
-////        val ll2 = LimitLine(-30f, "Lower Limit")
-////        ll2.lineWidth = 4f
-////        ll2.enableDashedLine(10f, 10f, 0f)
-////        ll2.labelPosition = LimitLine.LimitLabelPosition.RIGHT_BOTTOM
-////        ll2.textSize = 10f
-////        //ll2.typeface = tfRegular
-////
-////        // draw limit lines behind data instead of on top
-////        yAxis.setDrawLimitLinesBehindData(true)
-////        xAxis.setDrawLimitLinesBehindData(true)
-////
-////        // add limit lines
-////        yAxis.addLimitLine(ll1)
-////        yAxis.addLimitLine(ll2)
-////
-//        setData(45, 180f)
-////
-////        chart.animateX(1500)
-////        val legend = chart.legend
-////        legend.form = Legend.LegendForm.LINE
+//        val llXAxis = LimitLine(9f, "Index 10")
+//        llXAxis.lineWidth = 4f
+//        llXAxis.enableDashedLine(10f, 10f, 0f)
+//        llXAxis.labelPosition = LimitLine.LimitLabelPosition.RIGHT_BOTTOM
+//        llXAxis.textSize = 10f
+//        //llXAxis.typeface = tfRegular
+//
+//        val ll1 = LimitLine(150f, "Upper Limit")
+//        ll1.lineWidth = 4f
+//        ll1.enableDashedLine(10f, 10f, 0f)
+//        ll1.labelPosition = LimitLine.LimitLabelPosition.RIGHT_TOP
+//        ll1.textSize = 10f
+//        //ll1.typeface = tfRegular
+//
+//        val ll2 = LimitLine(-30f, "Lower Limit")
+//        ll2.lineWidth = 4f
+//        ll2.enableDashedLine(10f, 10f, 0f)
+//        ll2.labelPosition = LimitLine.LimitLabelPosition.RIGHT_BOTTOM
+//        ll2.textSize = 10f
+//        //ll2.typeface = tfRegular
+//
+//        // draw limit lines behind data instead of on top
+//        yAxis.setDrawLimitLinesBehindData(true)
+//        xAxis.setDrawLimitLinesBehindData(true)
+//
+//        // add limit lines
+//        yAxis.addLimitLine(ll1)
+//        yAxis.addLimitLine(ll2)
+//
+        setData(45, 180f)
+//
+//        chart.animateX(1500)
+//        val legend = chart.legend
+//        legend.form = Legend.LegendForm.LINE
+*/
 
-
-        addingFoodScreen()
+        setEventButton()
     }
 
     override fun onBackPressed() {}
+
 
 //    private fun setData(count: Int, range: Float) {
 //        val values = ArrayList<Entry>()
@@ -161,13 +164,96 @@ class MainActivity : AppCompatActivity(), OnChartValueSelectedListener {
 
     }
 
-    private fun addingFoodScreen() {
-        val button: Button = findViewById(R.id.food_button)
+    private fun setEventButton() {
+        val button: Button = findViewById(R.id.event_button)
 
         button.setOnClickListener() {
-            val intent = Intent(this, SelectionFoodActivity::class.java)
+            showEventChoiceDialog(this)
+        }
+    }
+
+    private fun showEventChoiceDialog(context: Context) {
+        val dialog = Dialog(context)
+        dialog.setContentView(R.layout.dialog_event_choice)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setCancelable(true)
+
+        val foodBtt: Button = dialog.findViewById(R.id.get_food)
+
+        foodBtt.setOnClickListener() {
+            val intent = Intent(context, SelectionFoodActivity::class.java)
             startActivity(intent)
         }
+
+        val db = EventHistoryDatabaseHelper(context, null)
+
+        val insulinBtt: Button = dialog.findViewById(R.id.get_insulin)
+        insulinBtt.setOnClickListener() {
+            dialog.cancel()
+            setInsulinFun(context, db)
+        }
+
+        val sugarBtt: Button = dialog.findViewById(R.id.measure_sugar)
+        sugarBtt.setOnClickListener() {
+            dialog.cancel()
+            setSugarFun(context, db)
+        }
+        
+        dialog.show()
+    }
+
+    private fun setInsulinFun(context: Context, db: EventHistoryDatabaseHelper) {
+        val dialog = Dialog(context)
+        dialog.setContentView(R.layout.dialog_choice_insulin)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setCancelable(true)
+
+        val ok_button: Button = dialog.findViewById(R.id.ok_button)
+        val gramm_enter_text: EditText = dialog.findViewById(R.id.gramm_enter)
+
+        ok_button.setOnClickListener() {
+            val text = gramm_enter_text.text.toString()
+            if (text != "") {
+                val grams = text.toDouble()
+
+                val event = Event(Date(), EventType.InsulinInjection, null, grams, 0.0)
+                db.addEvent(event)
+
+                dialog.cancel()
+            }
+            else {
+                Toast.makeText(context, "Введите количество ЕД", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        dialog.show()
+    }
+
+    private fun setSugarFun(context: Context, db: EventHistoryDatabaseHelper) {
+        val dialog = Dialog(context)
+        dialog.setContentView(R.layout.dialog_choice_sugar)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setCancelable(true)
+
+        val ok_button: Button = dialog.findViewById(R.id.ok_button)
+        val gramm_enter_text: EditText = dialog.findViewById(R.id.gramm_enter)
+
+        ok_button.setOnClickListener() {
+            val text = gramm_enter_text.text.toString()
+            if (text != "") {
+                val grams = text.toDouble()
+
+                val event = Event(Date(), EventType.SugarMeasure, null, 0.0, grams)
+                db.addEvent(event)
+
+                dialog.cancel()
+            }
+            else {
+                Toast.makeText(context, "Введите количество ммоль/л", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        dialog.show()
     }
 
     override fun onValueSelected(e: Entry?, h: Highlight?) {
