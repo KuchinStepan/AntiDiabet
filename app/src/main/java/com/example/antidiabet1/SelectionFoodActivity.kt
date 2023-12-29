@@ -1,6 +1,9 @@
 package com.example.antidiabet1
 
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -15,6 +18,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.antidiabet1.data_base_classes.DishDatabaseHelper
+import com.example.antidiabet1.item_classes.ChosenIngredientAdapter
 import com.example.antidiabet1.item_classes.DishAdapter
 import com.example.antidiabet1.item_classes.DishItem
 
@@ -91,7 +95,34 @@ class SelectionFoodActivity : AppCompatActivity() {
             lastClckedDish = food
             adapter.lastClickedName = food.name
         }
+
+        val dialog = Dialog(this)
+        adapter.onLongClick = { dish, view ->
+            showCustomDialog(dialog, dish)
+        }
     }
+
+    private fun showCustomDialog(dialog: Dialog, dish: DishItem) {
+        dialog.setContentView(R.layout.dialog_food_ingredients)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setCancelable(true)
+
+        val view: RecyclerView = dialog.findViewById(R.id.ingredients)
+
+        view.layoutManager = LinearLayoutManager(this)
+        view.adapter = ChosenIngredientAdapter(dish.ingredients, this)
+
+        val name: TextView = dialog.findViewById(R.id.name)
+        name.text = dish.name
+
+        val btt: TextView = dialog.findViewById(R.id.exit_foodList)
+        btt.setOnClickListener() {
+            dialog.cancel()
+        }
+
+        dialog.show()
+    }
+
 
     private fun setAddFoodButton() {
         val addFoodButton: Button = findViewById(R.id.add_food_button)
