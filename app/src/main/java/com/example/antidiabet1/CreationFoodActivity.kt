@@ -21,6 +21,8 @@ var Ingredients = ArrayList<ChosenIngredient>()
 private var dishName = ""
 class CreationFoodActivity : AppCompatActivity() {
 
+    var toast: Toast ?= null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_creation_food)
@@ -30,6 +32,8 @@ class CreationFoodActivity : AppCompatActivity() {
         setCreateButton(foodNameEnter)
         setAddIngredientButton(foodNameEnter)
         setIngredientsScrollList()
+
+        toast = Toast.makeText(this, "", Toast.LENGTH_SHORT)
     }
 
     private fun setAddIngredientButton(foodNameEnter: EditText) {
@@ -46,10 +50,15 @@ class CreationFoodActivity : AppCompatActivity() {
         val createButton: Button = findViewById(R.id.create_food_button)
 
         createButton.setOnClickListener() {
-            if(dishName == "")
-                dishName = foodNameEnter.text.toString()
-            if (dishName == "")
-                Toast.makeText(this, "Введите свое название еды", Toast.LENGTH_SHORT).show()
+            dishName = foodNameEnter.text.toString()
+            if (dishName == ""){
+                toast?.setText("Введите свое название еды")
+                toast?.show()
+            }
+            else if (Ingredients.count() == 0){
+                toast?.setText("Добавьте ингридиенты")
+                toast?.show()
+            }
             else {
                 val db = DishDatabaseHelper(this, null)
                 val dish = CreateDishFromIngredients(db.get_free_id(), dishName, Ingredients)

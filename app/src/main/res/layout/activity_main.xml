@@ -38,16 +38,17 @@
 
         <Button
             android:id="@+id/food_button"
-            android:layout_width="244dp"
-            android:layout_height="77dp"
-            android:layout_marginBottom="16dp"
+            android:layout_width="0dp"
+            android:layout_height="69dp"
+            android:layout_marginBottom="30dp"
             android:backgroundTint="@color/green"
             android:fontFamily="@font/roboto"
             android:text="Добавить событие"
+            android:textStyle="bold"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.443"
+            app:layout_constraintHorizontal_bias="0.493"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintWidth_percent="0.8" />
 
