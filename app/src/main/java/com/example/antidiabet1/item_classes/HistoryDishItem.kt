@@ -1,8 +1,7 @@
 package com.example.antidiabet1.item_classes
 
-class historyDishItem(
+class HistoryDishItem(
     val dishItem: DishItem,
-    val pub_time: String,
     val grams: Double
 )
 {}
