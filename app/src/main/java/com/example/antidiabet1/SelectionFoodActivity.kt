@@ -1,6 +1,7 @@
 package com.example.antidiabet1
 
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -19,10 +20,10 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.antidiabet1.data_base_classes.DishDatabaseHelper
-import com.example.antidiabet1.item_classes.ChosenIngredientAdapter
 import com.example.antidiabet1.data_base_classes.Event
 import com.example.antidiabet1.data_base_classes.EventHistoryDatabaseHelper
 import com.example.antidiabet1.data_base_classes.EventType
+import com.example.antidiabet1.item_classes.ChosenIngredientAdapter
 import com.example.antidiabet1.item_classes.DishAdapter
 import com.example.antidiabet1.item_classes.DishItem
 import java.util.Date
@@ -140,27 +141,59 @@ class SelectionFoodActivity : AppCompatActivity() {
 
     private fun setSelectFoodButton() {
         val addFoodButton: Button = findViewById(R.id.select_food_button)
-        val dbHelper = EventHistoryDatabaseHelper(this, null)
 
         addFoodButton.setOnClickListener() {
             if (lastClckedDish != null) {
-                val intent = Intent(this, MainActivity::class.java)
-                dbHelper.addEvent(Event(Date(), EventType.Eating, lastClckedDish!!,
-                    0.0, 0.0))
-                val events = dbHelper.getAllEvents()
-                Log.d("--> MEOW", events.size.toString())
-                for (i in 0 until events.size) {
-                    val event = events[i]
-                    Log.d("--> MEOW", event.date.toString())
-                    Log.d("--> MEOW", event.dishItem.toString())
-                }
-                startActivity(intent)
+                val dialog = Dialog(this)
+                showGramDialog(this, dialog)
             }
             else {
                 Toast.makeText(this, "Выберите еду", Toast.LENGTH_SHORT).show()
             }
         }
     }
+
+    private fun _createEventNoteFun(context: Context, dish: DishItem, ) {
+        val dbHelper = EventHistoryDatabaseHelper(context, null)
+        dbHelper.addEvent(Event(Date(), EventType.Eating, dish,
+            0.0, 0.0))
+        val events = dbHelper.getAllEvents()
+        Log.d("--> MEOW", events.size.toString())
+        for (i in 0 until events.size) {
+            val event = events[i]
+            Log.d("--> MEOW", event.date.toString())
+            Log.d("--> MEOW", event.dishItem.toString())
+        }
+
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun showGramDialog(context: Context, dialog: Dialog) {
+        dialog.setContentView(R.layout.dialog_gramm_select)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setCancelable(true)
+
+        val ok_button: Button = dialog.findViewById(R.id.ok_button)
+        val gramm_enter_text: EditText = dialog.findViewById(R.id.gramm_enter)
+
+        ok_button.setOnClickListener() {
+            val text = gramm_enter_text.text.toString()
+            if (text != "") {
+                val grams = text.toDouble()
+
+                val dish = lastClckedDish!!.changeWeight(grams)
+
+                _createEventNoteFun(context, dish)
+            }
+            else {
+                Toast.makeText(this, "Введите вес", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        dialog.show()
+    }
+
 
     private fun setBackToMenu() {
         val exitButton: TextView = findViewById(R.id.exit_dateHistory)

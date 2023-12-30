@@ -45,10 +45,12 @@ class ChosenIngredientAdapter(var items: List<ChosenIngredient>, var context: Co
                 "/ жиры ${String.format("%.2f", ingredient.fats * item.grams / 100)}г"
         holder.detailedData.text = detailedData
         val calories = ingredient.calories * item.grams / 100
-        val kiloDz = String.format("%.2f", calories * 4.1868)
-        holder.calories.text = "${calories} ккал / ${kiloDz}"
+        val strKal = String.format("%.2f",calories)
+            val kiloDz = String.format("%.2f", calories * 4.1868)
+        holder.calories.text = "${strKal} ккал / ${kiloDz}"
 
-        holder.weight.text = "${item.grams} г"
+        val g = String.format("%.2f", item.grams)
+            holder.weight.text = "${g} г"
 
         holder.itemView.setBackgroundResource(R.drawable.unselected_item_background)
 
