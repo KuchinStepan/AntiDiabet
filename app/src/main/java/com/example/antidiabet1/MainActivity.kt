@@ -119,6 +119,8 @@ class MainActivity : AppCompatActivity() {
         val calendarView: CalendarView = dialog.findViewById(R.id.calendarView)
         calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
             chosedDate = Date(year, month, dayOfMonth)
+            chosenDate = Date(year, month, dayOfMonth)
+            
         }
 
         dialog.show()
