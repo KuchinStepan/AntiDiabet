@@ -30,11 +30,11 @@
         android:id="@+id/selectDate"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:text="именно эту"
-        android:backgroundTint="@color/green"
-        android:textColor="@color/white"
-        android:textStyle="bold"
         android:layout_marginBottom="80dp"
-        android:textSize="20dp" />
+        android:backgroundTint="@color/green"
+        android:text="Выбрать"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        android:textStyle="bold" />
 
 </LinearLayout>

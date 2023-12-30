@@ -51,7 +51,7 @@
             android:layout_marginTop="7dp"
             android:backgroundTint="@color/white"
             android:fontFamily="@font/inter_bold"
-            android:text="Добавить ингридиент"
+            android:text="Добавить ингредиент"
             android:textColor="@color/green"
             android:textSize="22sp"
             app:layout_constraintEnd_toEndOf="parent"

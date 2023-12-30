@@ -15,8 +15,8 @@ class ChosenIngredientAdapter(var items: List<ChosenIngredient>, var context: Co
     var onLongClick: ((ChosenIngredient, View) -> Unit)? = null
 
     class MyViewHolder(view: View): RecyclerView.ViewHolder(view) {
-        val name: TextView = view.findViewById(R.id.food_name)
-        val detailedData: TextView = view.findViewById(R.id.food_carbons)
+        val name: TextView = view.findViewById(R.id.event_name)
+        val detailedData: TextView = view.findViewById(R.id.date)
         val calories: TextView = view.findViewById(R.id.food_calories)
         val weight: TextView = view.findViewById(R.id.food_weight)
     }

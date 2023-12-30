@@ -25,8 +25,8 @@
         <!--            app:srcCompat="@drawable/food_high" />-->
 
 
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/chart1"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/events_list"
             android:layout_width="340dp"
             android:layout_height="444dp"
             android:layout_marginTop="36dp"
@@ -36,14 +36,15 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/food_high" />
 
+
         <Button
             android:id="@+id/history_button"
             android:layout_width="0dp"
             android:layout_height="69dp"
-            android:layout_marginBottom="44dp"
+            android:layout_marginBottom="32dp"
             android:backgroundTint="@color/green"
             android:fontFamily="@font/roboto"
-            android:text="история"
+            android:text="История 📆"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -55,10 +56,10 @@
             android:id="@+id/event_button"
             android:layout_width="0dp"
             android:layout_height="69dp"
-            android:layout_marginBottom="144dp"
+            android:layout_marginBottom="108dp"
             android:backgroundTint="@color/green"
             android:fontFamily="@font/roboto"
-            android:text="Добавить событие"
+            android:text="Добавить событие ✏️"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
