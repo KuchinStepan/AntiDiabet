@@ -1,21 +1,4 @@
 package com.example.antidiabet1
-package com.anychart.sample.charts;
-
-import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.anychart.AnyChart;
-import com.anychart.AnyChartView;
-import com.anychart.chart.common.dataentry.DataEntry;
-import com.anychart.chart.common.dataentry.ValueDataEntry;
-import com.anychart.charts.Cartesian;
-import com.anychart.core.cartesian.series.Line;
-import com.anychart.data.Mapping;
-import com.anychart.data.Set;
-import com.anychart.enums.Anchor;
-import com.anychart.enums.MarkerType;
-import com.anychart.enums.TooltipPositionMode;
-import com.anychart.graphics.vector.Stroke;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -108,12 +91,20 @@ class MainActivity : AppCompatActivity() {
 //        val legend = chart.legend
 //        legend.form = Legend.LegendForm.LINE
 */
-
         UpdateChart()
         setEventButton()
         setHistoryButton()
     }
 
+    override fun onRestart() {
+        super.onRestart()
+        UpdateChart()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        UpdateChart()
+    }
 
     private fun UpdateChart(){
         val values = ArrayList<Entry>()
@@ -148,7 +139,7 @@ class MainActivity : AppCompatActivity() {
 
         chart.data.notifyDataChanged();
         chart.notifyDataSetChanged();
-        chart.invalidate();
+//        chart.invalidate();
     }
 
     private fun setData(count: Int, range: Float) {
@@ -279,10 +270,8 @@ class MainActivity : AppCompatActivity() {
 
                 val event = Event(Date(), EventType.InsulinInjection, null, grams, 0.0)
                 db.addEvent(event)
-
-                UpdateChart()
-                dialog.cancel()
-                UpdateChart()
+                val intent = Intent(context, MainActivity::class.java)
+                startActivity(intent)
             }
             else {
                 Toast.makeText(context, "Введите количество ЕД", Toast.LENGTH_SHORT).show()
@@ -308,10 +297,8 @@ class MainActivity : AppCompatActivity() {
 
                 val event = Event(Date(), EventType.SugarMeasure, null, 0.0, grams)
                 db.addEvent(event)
-
-                UpdateChart()
-                dialog.cancel()
-                UpdateChart()
+                val intent = Intent(context, MainActivity::class.java)
+                startActivity(intent)
             }
             else {
                 Toast.makeText(context, "Введите количество ммоль/л", Toast.LENGTH_SHORT).show()
