@@ -5,4 +5,6 @@
     <color name="bright_green">#E9F5E3</color>
     <color name="pale_green">#8BB479</color>
     <color name="green">#61A146</color>
+    <color name="insulin">#46a0a0</color>
+    <color name="sugar_measure">#a04689</color>
 </resources>

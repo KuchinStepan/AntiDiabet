@@ -11,7 +11,7 @@
     android:background="@drawable/dialog_ingredients_background">
 
     <TextView
-        android:id="@+id/exit_foodList"
+        android:id="@+id/exit_dateHistory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="10dp"

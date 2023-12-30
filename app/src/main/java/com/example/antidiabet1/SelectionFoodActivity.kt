@@ -120,7 +120,7 @@ class SelectionFoodActivity : AppCompatActivity() {
         val name: TextView = dialog.findViewById(R.id.name)
         name.text = dish.name
 
-        val btt: TextView = dialog.findViewById(R.id.exit_foodList)
+        val btt: TextView = dialog.findViewById(R.id.exit_dateHistory)
         btt.setOnClickListener() {
             dialog.cancel()
         }
@@ -163,7 +163,7 @@ class SelectionFoodActivity : AppCompatActivity() {
     }
 
     private fun setBackToMenu() {
-        val exitButton: TextView = findViewById(R.id.exit_foodList)
+        val exitButton: TextView = findViewById(R.id.exit_dateHistory)
 
         exitButton.setOnClickListener() {
             val intent = Intent(this, MainActivity::class.java)

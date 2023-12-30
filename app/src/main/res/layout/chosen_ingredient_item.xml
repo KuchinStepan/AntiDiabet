@@ -10,7 +10,7 @@
 
 
     <TextView
-        android:id="@+id/food_name"
+        android:id="@+id/event_name"
         android:textStyle="bold"
         android:textSize="20sp"
         android:textColor="@color/white"
@@ -20,7 +20,7 @@
         android:text="Пельмень" />
 
     <TextView
-        android:id="@+id/food_carbons"
+        android:id="@+id/date"
         android:textColor="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

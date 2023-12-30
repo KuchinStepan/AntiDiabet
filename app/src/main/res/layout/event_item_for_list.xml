@@ -11,27 +11,27 @@
 
     <TextView
         android:id="@+id/event_name"
-        android:textStyle="bold"
-        android:textSize="20sp"
-        android:textColor="@color/white"
-        android:paddingVertical="7dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Пельмень" />
+        android:paddingVertical="7dp"
+        android:text="Приём пищи"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/date"
-        android:textColor="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:text="22:38 12 декабря"
+        android:textColor="@color/white" />
 
     <TextView
-        android:id="@+id/food_calories"
-        android:textColor="@color/white"
+        android:id="@+id/data"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="5dp"
         android:paddingBottom="10dp"
-        android:text="TextView" />
+        android:text="углеводов"
+        android:textColor="@color/white" />
 </LinearLayout>
