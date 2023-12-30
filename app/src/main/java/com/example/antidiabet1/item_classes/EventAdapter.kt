@@ -44,7 +44,7 @@ class EventAdapter(var items: List<Event>, var context: Context)
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val item = items[position]
-        holder.date.text = SimpleDateFormat("hh:mm EEEE, dd MMM yyyy", Locale("ru")).format(item.date)
+        holder.date.text = SimpleDateFormat("HH:mm EEEE, dd MMM yyyy", Locale("ru")).format(item.date)
 
         if (item.type == EventType.Eating)
         {
