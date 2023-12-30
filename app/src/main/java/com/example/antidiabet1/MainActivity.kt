@@ -36,6 +36,7 @@ class MainActivity : AppCompatActivity() {
         setEventButton()
         setHistoryButton()
 
+        chosenDate = Date()
         dbHelper = EventHistoryDatabaseHelper(this, null)
         val events = dbHelper.getAllEvents()
         events.reverse()
@@ -118,7 +119,7 @@ class MainActivity : AppCompatActivity() {
         }
         val calendarView: CalendarView = dialog.findViewById(R.id.calendarView)
         calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
-            chosedDate = Date(year, month, dayOfMonth)
+            chosenDate = Date(year - 1900, month, dayOfMonth)
         }
 
         dialog.show()

@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
 import com.example.antidiabet1.item_classes.DishItem
 import com.google.gson.Gson
-import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import kotlin.math.max
@@ -20,6 +19,10 @@ class EventHistoryDatabaseHelper(val context: Context, val factory: SQLiteDataba
     companion object {
         var static_dick = ArrayList<Event>()
         var static_id = -1;
+    }
+
+    public fun getCount(): Int {
+        return static_dick.count()
     }
 
     fun get_free_id(): Int {
@@ -87,6 +90,23 @@ class EventHistoryDatabaseHelper(val context: Context, val factory: SQLiteDataba
         val currentDate = Calendar.getInstance()
 
         return currentDate.after(calendar)
+    }
+
+    private fun isDateTheSame(d1: Date, d2: Date) : Boolean {
+        return d1.day == d2.day && d1.month == d2.month && d1.year == d2.year
+    }
+
+    fun getEventsByDate(targetDate: Date): ArrayList<Event> {
+        if (static_dick.count() == 0)
+            getAllEvents()
+
+        val res = ArrayList<Event>()
+        for (item in static_dick) {
+            if (isDateTheSame(item.date, targetDate))
+                res.add(item)
+        }
+
+        return res
     }
 
     fun getEventsByGivenDate(targetDate: Date): ArrayList<Event> {
