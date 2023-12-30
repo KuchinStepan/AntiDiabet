@@ -6,15 +6,15 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
 import com.example.antidiabet1.item_classes.ChosenIngredient
-import com.example.antidiabet1.item_classes.Ingredient
 import com.example.antidiabet1.item_classes.DishItem
+import com.example.antidiabet1.item_classes.Ingredient
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlin.math.max
 
 
 class DishDatabaseHelper(val context: Context, val factory: SQLiteDatabase.CursorFactory?):
-    SQLiteOpenHelper(context, "dishs", factory, 6) {
+    SQLiteOpenHelper(context, "dishs", factory, 7) {
     companion object {
         var static_dick = ArrayList<DishItem>()
         var static_id = -1;
@@ -94,14 +94,21 @@ class DishDatabaseHelper(val context: Context, val factory: SQLiteDatabase.Curso
     private fun setDefaultDishes() : ArrayList<DishItem> {
         val foodList = ArrayList<DishItem>()
         val ingrs = ArrayList<ChosenIngredient>()
-        val ingr = Ingredient("Pen", 1.1, 2.3, 4.5, 6.7)
+        val ingr = Ingredient("Авто-сгенерированное блюдо", 1.1, 2.3, 4.5, 6.7)
         ingrs.add(ChosenIngredient(ingr, 1000.0))
 
-        foodList.add(DishItem(1, "Помидор с гречкой", 10.0, 20.0, 30.0, 112.0, ingrs))
-        foodList.add(DishItem(2, "Арбуз жаренный", 69.0, 70.0, 45.0, 79.0, ingrs))
-        foodList.add(DishItem(3, "Огурец с тыквой", 54.0, 200.0, 3.0, 1200.0, ingrs))
-        foodList.add(DishItem(4, "Курица с пюрешкой", 17.0, 94.0, 3.0, 345.0, ingrs))
-        foodList.add(DishItem(5, "Камень граненый", 17.0, 94.0, 3.0, 345.0, ingrs))
+        foodList.add(DishItem(10, "Каша овсянная", 10.0, 20.0, 30.0, 112.0, ingrs))
+        foodList.add(DishItem(15, "Суп борщ", 10.0, 20.0, 30.0, 112.0, ingrs))
+        foodList.add(DishItem(20, "Суп овощной", 10.0, 20.0, 30.0, 112.0, ingrs))
+        foodList.add(DishItem(21, "Суп грибной", 10.0, 20.0, 30.0, 112.0, ingrs))
+        foodList.add(DishItem(25, "Котлета куриная", 10.0, 20.0, 30.0, 112.0, ingrs))
+        foodList.add(DishItem(36, "Фрикадельки", 10.0, 20.0, 30.0, 112.0, ingrs))
+        foodList.add(DishItem(37, "Сосиски молочные", 10.0, 20.0, 30.0, 112.0, ingrs))
+        foodList.add(DishItem(38, "Сардельки", 10.0, 20.0, 30.0, 112.0, ingrs))
+        foodList.add(DishItem(41, "Паста Карбонара", 10.0, 20.0, 30.0, 112.0, ingrs))
+        foodList.add(DishItem(42, "Салат Здоровье", 10.0, 20.0, 30.0, 112.0, ingrs))
+        foodList.add(DishItem(43, "Салат Цезарь", 10.0, 20.0, 30.0, 112.0, ingrs))
+        foodList.add(DishItem(44, "Салат крабовый", 10.0, 20.0, 30.0, 112.0, ingrs))
 
         return foodList
     }

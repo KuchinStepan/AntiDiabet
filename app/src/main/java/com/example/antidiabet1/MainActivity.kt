@@ -6,7 +6,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.CalendarView
 import android.widget.EditText
@@ -18,8 +17,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.antidiabet1.data_base_classes.Event
 import com.example.antidiabet1.data_base_classes.EventHistoryDatabaseHelper
 import com.example.antidiabet1.data_base_classes.EventType
+import com.example.antidiabet1.item_classes.ChosenIngredientAdapter
+import com.example.antidiabet1.item_classes.DishItem
 import com.example.antidiabet1.item_classes.EventAdapter
-import com.example.antidiabet1.item_classes.FoodItemAdapter
 import java.util.Date
 
 
@@ -52,6 +52,34 @@ class MainActivity : AppCompatActivity() {
         adapter.onClick = { event, view ->
             null
         }
+
+        adapter.onLongClick = { event, view ->
+            if (event.type == EventType.Eating) {
+                val dialog = Dialog(this)
+                showIngredientDialog(dialog, event.dishItem!!)
+            }
+        }
+    }
+
+    private fun showIngredientDialog(dialog: Dialog, dish: DishItem) {
+        dialog.setContentView(R.layout.dialog_food_ingredients)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setCancelable(true)
+
+        val view: RecyclerView = dialog.findViewById(R.id.ingredients)
+
+        view.layoutManager = LinearLayoutManager(this)
+        view.adapter = ChosenIngredientAdapter(dish.ingredients, this)
+
+        val name: TextView = dialog.findViewById(R.id.name)
+        name.text = dish.name
+
+        val btt: TextView = dialog.findViewById(R.id.exit_dateHistory)
+        btt.setOnClickListener() {
+            dialog.cancel()
+        }
+
+        dialog.show()
     }
 
     private fun updateEventsList(){
