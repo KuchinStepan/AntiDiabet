@@ -6,6 +6,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.CalendarView
 import android.widget.EditText
@@ -80,16 +81,16 @@ class MainActivity : AppCompatActivity() {
         dialog.setContentView(R.layout.dialog_calendar_choice)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.setCancelable(true)
-        val textView: TextView = dialog.findViewById(R.id.textView3)
         val dateSelectButton: Button = dialog.findViewById(R.id.selectDate)
         dateSelectButton.setOnClickListener() {
-            val intent = Intent(context, DateHistoryActivity::class.java)
+            val intent = Intent(this, DateHistoryActivity::class.java)
+//            Log.d("---> meow", chosedDate.toString())
+//            intent.putExtra("chosedDate", chosedDate)
             startActivity(intent)
         }
         val calendarView: CalendarView = dialog.findViewById(R.id.calendarView)
         calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
             chosedDate = Date(year, month, dayOfMonth)
-            textView.text = "$dayOfMonth.${month + 1}.$year"
         }
 
         dialog.show()

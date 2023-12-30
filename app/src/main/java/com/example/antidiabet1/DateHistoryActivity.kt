@@ -12,7 +12,8 @@ import java.util.Date
 
 class DateHistoryActivity : AppCompatActivity()
 {
-    lateinit var chosedDate: Date
+//    val chosedDate = Date(intent.getStringExtra("chosedData"))
+
     lateinit var listView: RecyclerView
     lateinit var adapter: EventAdapter
     lateinit var dbHelper: EventHistoryDatabaseHelper
@@ -22,6 +23,7 @@ class DateHistoryActivity : AppCompatActivity()
         setContentView(R.layout.activity_show_date_history)
 
         dbHelper = EventHistoryDatabaseHelper(this, null)
+//        val events = dbHelper.getEventsByGivenDate(chosedDate)
         val events = dbHelper.getAllEvents()
         events.reverse()
         adapter = EventAdapter(events, this)
