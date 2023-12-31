@@ -153,7 +153,7 @@ class SelectionFoodActivity : AppCompatActivity() {
         }
     }
 
-    private fun _createEventNoteFun(context: Context, dish: DishItem, ) {
+    private fun _createEventNoteFun(context: Context, dish: DishItem ) {
         val dbHelper = EventHistoryDatabaseHelper(context, null)
         dbHelper.addEvent(Event(Date(), EventType.Eating, dish,
             0.0, 0.0))

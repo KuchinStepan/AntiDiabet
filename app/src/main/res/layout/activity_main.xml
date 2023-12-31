@@ -27,45 +27,48 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/events_list"
-            android:layout_width="340dp"
-            android:layout_height="444dp"
-            android:layout_marginTop="36dp"
+            android:layout_width="@dimen/_270sdp"
+            android:layout_height="@dimen/_410sdp"
+            android:layout_marginTop="@dimen/_20sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.492"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/food_high" />
 
+        <Button
+            android:id="@+id/event_button"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_marginTop="@dimen/_35sdp"
+            android:backgroundTint="@color/green"
+            android:fontFamily="@font/roboto"
+            android:text="Добавить событие ✏️"
+            android:textSize="@dimen/_15sdp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.493"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/events_list"
+            app:layout_constraintWidth_percent="0.8" />
 
         <Button
             android:id="@+id/history_button"
             android:layout_width="0dp"
-            android:layout_height="69dp"
-            android:layout_marginBottom="32dp"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_marginTop="@dimen/_5sdp"
             android:backgroundTint="@color/green"
             android:fontFamily="@font/roboto"
             android:text="История 📆"
-            android:textSize="20sp"
+            android:textSize="@dimen/_15sdp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.493"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/event_button"
             app:layout_constraintWidth_percent="0.8" />
 
-        <Button
-            android:id="@+id/event_button"
-            android:layout_width="0dp"
-            android:layout_height="69dp"
-            android:layout_marginBottom="108dp"
-            android:backgroundTint="@color/green"
-            android:fontFamily="@font/roboto"
-            android:text="Добавить событие ✏️"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintWidth_percent="0.8" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

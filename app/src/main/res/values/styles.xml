@@ -1,27 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AppTheme.RoundedCornerMaterialButton" parent="Widget.AppCompat.Button.Colored">
-        <item name="android:background">@drawable/rounded_shape</item>
-
-    </style>
-
-    <style name="AppTheme.LeftDickGreen" parent="Widget.AppCompat.Button.Colored">
-        <item name="android:background"> @drawable/left_border_rounded_shape</item>
-        <item name="backgroundTint">@color/green</item>
-        <item name="android:backgroundTint">@color/green</item>
-        <item name="android:textColor">@color/white</item>
-    </style>
-
-    <style name="AppTheme.RightDickGreen" parent="Widget.AppCompat.Button.Colored">
-        <item name="android:background"> @drawable/right_border_rounded_shape</item>
-        <item name="backgroundTint">@color/green</item>
-        <item name="android:textColor">@color/white</item>
-    </style>
-
-    <style name="AppTheme.RightDickWhite" parent="Widget.AppCompat.Button.Colored">
-        <item name="android:background"> @drawable/right_border_rounded_shape</item>
-        <item name="backgroundTint">@color/white</item>
-        <item name="android:textColor">@color/green</item>
-    </style>
 </resources>
