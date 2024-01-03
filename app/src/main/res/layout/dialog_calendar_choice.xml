@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/LinearLayout1"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:background="@drawable/dialog_choice">
 
@@ -11,7 +11,7 @@
         android:id="@+id/textView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="25sp"
+        android:textSize="@dimen/_22sdp"
         android:textStyle="bold"
         android:textColor="@color/pale_green"
         android:text="Выберите дату"
@@ -29,12 +29,12 @@
     <Button
         android:id="@+id/selectDate"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:layout_marginBottom="80dp"
+        android:layout_height="@dimen/_43sdp"
+        android:layout_marginBottom="@dimen/_8sdp"
         android:backgroundTint="@color/green"
         android:text="Выбрать"
         android:textColor="@color/white"
-        android:textSize="20dp"
+        android:textSize="@dimen/_15sdp"
         android:textStyle="bold" />
 
 </LinearLayout>
