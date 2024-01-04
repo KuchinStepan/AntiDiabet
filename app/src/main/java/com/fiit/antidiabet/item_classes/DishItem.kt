@@ -1,0 +1,31 @@
+package com.fiit.antidiabet.item_classes
+
+class DishItem(
+    val id: Int,
+    val name: String,
+    val carbons: Double,
+    val proteins: Double,
+    val fats: Double,
+    val calories: Double,
+    val ingredients: ArrayList<ChosenIngredient>
+) {
+    public fun getWeight(): Double{
+        var result = 0.0;
+        for (i in 0 until ingredients.size){
+            result+=ingredients[i].grams
+        }
+        return result
+    }
+
+    public fun changeWeight(newWeight : Double): DishItem{
+        var currWeight = getWeight()
+        val koef = newWeight / currWeight
+        var newIngredients = ArrayList<ChosenIngredient>()
+        for (i in 0 until ingredients.size){
+            newIngredients.add(ChosenIngredient(ingredients[i].ingredient, ingredients[i].grams * koef))
+        }
+        var a:DishItem = DishItem(id, name, carbons, proteins, fats, calories, newIngredients)
+        return a
+    }
+
+}

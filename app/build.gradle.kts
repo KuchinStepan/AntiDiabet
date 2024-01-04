@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.antidiabet1"
+    namespace = "com.fiit.antidiabet"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.antidiabet1"
+        applicationId = "com.fiit.antidiabet"
         minSdk = 23
         targetSdk = 34
         versionCode = 1
@@ -36,7 +36,6 @@ android {
 }
 
 dependencies {
-    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
     implementation("androidx.core:core-ktx:1.10.1")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")
