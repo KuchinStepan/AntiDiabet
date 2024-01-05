@@ -8,15 +8,15 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.widget.Button
 import android.widget.CalendarView
-import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.antidiabet1.data_base_classes.Event
 import com.example.antidiabet1.data_base_classes.EventHistoryDatabaseHelper
 import com.example.antidiabet1.data_base_classes.EventType
+import com.example.antidiabet1.dialog_helpers.MainInsulinDialogs
+import com.example.antidiabet1.dialog_helpers.MainSugarDialogs
 import com.example.antidiabet1.item_classes.ChosenIngredientAdapter
 import com.example.antidiabet1.item_classes.EventAdapter
 import java.util.Date
@@ -27,6 +27,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var listView: RecyclerView
     lateinit var adapter: EventAdapter
     lateinit var dbHelper: EventHistoryDatabaseHelper
+    lateinit var sugarDialogs: MainSugarDialogs
+    lateinit var insulinDialogs: MainInsulinDialogs
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +43,8 @@ class MainActivity : AppCompatActivity() {
         events.reverse()
         adapter = EventAdapter(events, this)
         listView = findViewById(R.id.events_list)
+        sugarDialogs = MainSugarDialogs(this, dbHelper)
+        insulinDialogs = MainInsulinDialogs(this, dbHelper)
 
         setEventsList(adapter)
     }
@@ -95,7 +99,10 @@ class MainActivity : AppCompatActivity() {
 
         editButton.setOnClickListener() {
             dialog.cancel()
-            setSugarChangeFun(this, db, event)
+            if (event.type == EventType.SugarMeasure)
+                sugarDialogs.changingEventFun(event, adapter)
+            else if (event.type == EventType.InsulinInjection)
+                insulinDialogs.changingEventFun(event, adapter)
         }
 
         dialog.show()
@@ -167,91 +174,13 @@ class MainActivity : AppCompatActivity() {
         val insulinBtt: Button = dialog.findViewById(R.id.get_insulin)
         insulinBtt.setOnClickListener() {
             dialog.cancel()
-            setInsulinFun(context, db)
+            insulinDialogs.creationEventFun { updateEventsList() }
         }
 
         val sugarBtt: Button = dialog.findViewById(R.id.measure_sugar)
         sugarBtt.setOnClickListener() {
             dialog.cancel()
-            setSugarFun(context, db)
-        }
-
-        dialog.show()
-    }
-
-    private fun setInsulinFun(context: Context, db: EventHistoryDatabaseHelper) {
-        val dialog = Dialog(context)
-        dialog.setContentView(R.layout.dialog_choice_insulin)
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.setCancelable(true)
-
-        val ok_button: Button = dialog.findViewById(R.id.ok_button)
-        val gramm_enter_text: EditText = dialog.findViewById(R.id.gramm_enter)
-
-        ok_button.setOnClickListener() {
-            val text = gramm_enter_text.text.toString()
-            if (text != "") {
-                val grams = text.toDouble()
-
-                val event = Event(Date(), EventType.InsulinInjection, null, grams, 0.0)
-                db.addEvent(event)
-                updateEventsList()
-                dialog.cancel()
-            } else {
-                Toast.makeText(context, "Введите количество ЕД", Toast.LENGTH_SHORT).show()
-            }
-        }
-
-        dialog.show()
-    }
-
-    private fun setSugarChangeFun(context: Context, db: EventHistoryDatabaseHelper, event: Event) {
-        val dialog = Dialog(context)
-        dialog.setContentView(R.layout.dialog_choice_sugar)
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.setCancelable(true)
-
-        val ok_button: Button = dialog.findViewById(R.id.ok_button)
-        val gramm_enter_text: EditText = dialog.findViewById(R.id.gramm_enter)
-
-        ok_button.setOnClickListener() {
-            val text = gramm_enter_text.text.toString()
-            if (text != "") {
-                val grams = text.toDouble()
-                event.sugar = grams
-                val evs = db.updateEvent(event)
-
-                adapter.changeList(evs)
-                dialog.cancel()
-            } else {
-                Toast.makeText(context, "Введите количество ммоль/л", Toast.LENGTH_SHORT).show()
-            }
-        }
-
-        dialog.show()
-    }
-
-    private fun setSugarFun(context: Context, db: EventHistoryDatabaseHelper ) {
-        val dialog = Dialog(context)
-        dialog.setContentView(R.layout.dialog_choice_sugar)
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.setCancelable(true)
-
-        val ok_button: Button = dialog.findViewById(R.id.ok_button)
-        val gramm_enter_text: EditText = dialog.findViewById(R.id.gramm_enter)
-
-        ok_button.setOnClickListener() {
-            val text = gramm_enter_text.text.toString()
-            if (text != "") {
-                val grams = text.toDouble()
-
-                val event = Event(Date(), EventType.SugarMeasure, null, 0.0, grams)
-                db.addEvent(event)
-                updateEventsList()
-                dialog.cancel()
-            } else {
-                Toast.makeText(context, "Введите количество ммоль/л", Toast.LENGTH_SHORT).show()
-            }
+            sugarDialogs.creationEventFun { updateEventsList() }
         }
 
         dialog.show()
