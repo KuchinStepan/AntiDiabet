@@ -10,8 +10,9 @@ enum class EventType {
 class Event(
     val date: Date,
     val type: EventType,
-    val dishItem: DishItem?,
-    val insulin: Double,
-    val sugar: Double
+    var dishItem: DishItem?,
+    var insulin: Double,
+    var sugar: Double,
+    var id: Int = -1
 ) {}
 

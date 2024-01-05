@@ -18,7 +18,6 @@ import com.example.antidiabet1.data_base_classes.Event
 import com.example.antidiabet1.data_base_classes.EventHistoryDatabaseHelper
 import com.example.antidiabet1.data_base_classes.EventType
 import com.example.antidiabet1.item_classes.ChosenIngredientAdapter
-import com.example.antidiabet1.item_classes.DishItem
 import com.example.antidiabet1.item_classes.EventAdapter
 import java.util.Date
 
@@ -84,10 +83,19 @@ class MainActivity : AppCompatActivity() {
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.setCancelable(true)
 
+        val db = EventHistoryDatabaseHelper(this, null)
+
         val deleteButton: Button = dialog.findViewById(R.id.delete_button)
 
         deleteButton.setOnClickListener() {
             showDeleteConfirmationDialog(dialog, event)
+        }
+
+        val editButton: Button = dialog.findViewById(R.id.edit_button)
+
+        editButton.setOnClickListener() {
+            dialog.cancel()
+            setSugarChangeFun(this, db, event)
         }
 
         dialog.show()
@@ -131,8 +139,6 @@ class MainActivity : AppCompatActivity() {
         val dateSelectButton: Button = dialog.findViewById(R.id.selectDate)
         dateSelectButton.setOnClickListener() {
             val intent = Intent(this, DateHistoryActivity::class.java)
-//            Log.d("---> meow", chosedDate.toString())
-//            intent.putExtra("chosedDate", chosedDate)
             startActivity(intent)
         }
         val calendarView: CalendarView = dialog.findViewById(R.id.calendarView)
@@ -199,7 +205,33 @@ class MainActivity : AppCompatActivity() {
         dialog.show()
     }
 
-    private fun setSugarFun(context: Context, db: EventHistoryDatabaseHelper) {
+    private fun setSugarChangeFun(context: Context, db: EventHistoryDatabaseHelper, event: Event) {
+        val dialog = Dialog(context)
+        dialog.setContentView(R.layout.dialog_choice_sugar)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setCancelable(true)
+
+        val ok_button: Button = dialog.findViewById(R.id.ok_button)
+        val gramm_enter_text: EditText = dialog.findViewById(R.id.gramm_enter)
+
+        ok_button.setOnClickListener() {
+            val text = gramm_enter_text.text.toString()
+            if (text != "") {
+                val grams = text.toDouble()
+                event.sugar = grams
+                val evs = db.updateEvent(event)
+
+                adapter.changeList(evs)
+                dialog.cancel()
+            } else {
+                Toast.makeText(context, "Введите количество ммоль/л", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        dialog.show()
+    }
+
+    private fun setSugarFun(context: Context, db: EventHistoryDatabaseHelper ) {
         val dialog = Dialog(context)
         dialog.setContentView(R.layout.dialog_choice_sugar)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
