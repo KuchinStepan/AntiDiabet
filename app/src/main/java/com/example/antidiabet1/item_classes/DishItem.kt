@@ -1,13 +1,13 @@
 package com.example.antidiabet1.item_classes
 
 class DishItem(
-    val id: Int,
-    val name: String,
-    val carbons: Double,
-    val proteins: Double,
-    val fats: Double,
-    val calories: Double,
-    val ingredients: ArrayList<ChosenIngredient>
+    var id: Int,
+    var name: String,
+    var carbons: Double,
+    var proteins: Double,
+    var fats: Double,
+    var calories: Double,
+    var ingredients: ArrayList<ChosenIngredient>
 ) {
     public fun getWeight(): Double{
         var result = 0.0;

@@ -15,6 +15,8 @@ import kotlin.math.max
 
 class DishDatabaseHelper(val context: Context, val factory: SQLiteDatabase.CursorFactory?):
     SQLiteOpenHelper(context, "dishs", factory, 7) {
+    public val table_name = "dishs"
+
     companion object {
         var static_dick = ArrayList<DishItem>()
         var static_id = -1;
@@ -33,13 +35,64 @@ class DishDatabaseHelper(val context: Context, val factory: SQLiteDatabase.Curso
         db!!.execSQL(query)
     }
 
+    fun deleteDish(dish: DishItem) {
+        val id = dish.id
+
+        val db = this.writableDatabase
+        val args = ArrayList<String>()
+        args.add(id.toString())
+
+        db.delete(table_name, "id=?", args.toTypedArray())
+        db.close()
+
+        static_dick.remove(dish)
+    }
+
+    fun updateDish(dish: DishItem): ArrayList<DishItem> {
+        val id = dish.id
+        val values = ContentValues()
+        val gson = Gson()
+        val strIngredients = gson.toJson(dish.ingredients,
+            object : TypeToken<ArrayList<ChosenIngredient>>() {}.type)
+        values.put("name", dish.name)
+        values.put("calories", dish.calories)
+        values.put("fats", dish.fats)
+        values.put("carbons", dish.calories)
+        values.put("ingredients", strIngredients)
+        values.put("proteins", dish.name)
+
+        val db = this.writableDatabase
+        val args = ArrayList<String>()
+        args.add(id.toString())
+
+        db.update(table_name, values, "id=?", args.toTypedArray())
+        db.close()
+
+        for (item in static_dick) {
+            if (item.id == id) {
+                item.name = dish.name
+                item.calories = dish.calories
+                item.fats = dish.fats
+                item.carbons = dish.carbons
+                item.ingredients = dish.ingredients
+                item.proteins = dish.proteins
+            }
+        }
+
+        return static_dick
+    }
+
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         db!!.execSQL("DROP TABLE dishs")
         onCreate(db)
     }
 
     fun addDish(dish: DishItem): Int{
+        static_id += 1
+        dish.id = EventHistoryDatabaseHelper.static_id
+
         val values = ContentValues()
+        values.put("id", static_id)
         values.put("name", dish.name)
         values.put("fats", dish.fats)
         values.put("proteins", dish.proteins)
@@ -54,7 +107,8 @@ class DishDatabaseHelper(val context: Context, val factory: SQLiteDatabase.Curso
         val db = this.writableDatabase
         db.insert("dishs", null, values)
         db.close()
-        static_id += 1
+
+        static_dick.add(dish)
         return static_id
     }
 
