@@ -55,14 +55,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         adapter.onLongClick = { event, view ->
-            if (event.type == EventType.Eating) {
-                val dialog = Dialog(this)
+            val dialog = Dialog(this)
+            if (event.type == EventType.Eating)
                 showIngredientDialog(dialog, event)
-            }
-            else {
-                val dialog = Dialog(this)
-                showIngredientDialog(dialog, event)
-            }
+            else showBasicEditOrDeleteDialog(dialog, event)
         }
     }
 
@@ -84,13 +80,23 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showBasicEditOrDeleteDialog(dialog: Dialog, event: Event) {
-        dialog.setContentView(R.layout.dialog_food_ingredients)
+        dialog.setContentView(R.layout.dialog_edit_or_delete)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.setCancelable(true)
 
-        val view: RecyclerView = dialog.findViewById(R.id.ingredients)
+        val deleteButton: Button = dialog.findViewById(R.id.delete_button)
 
-        view.layoutManager = LinearLayoutManager(this)
+        deleteButton.setOnClickListener() {
+            showDeleteConfirmationDialog(dialog, event)
+        }
+
+        dialog.show()
+    }
+
+    private fun showDeleteConfirmationDialog(dialog: Dialog, event: Event) {
+        dialog.setContentView(R.layout.dialog_delete_confirm)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setCancelable(true)
 
         dialog.show()
     }

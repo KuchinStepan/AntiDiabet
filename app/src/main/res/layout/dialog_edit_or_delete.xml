@@ -3,15 +3,12 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginVertical="250dp"
     android:background="@drawable/dialog_choice">
-
-
     <Button
         android:id="@+id/edit_button"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="0dp"
         android:backgroundTint="@color/green"
         android:text="Изменить ✏️"
         android:textColor="@color/white"
@@ -23,12 +20,10 @@
         android:id="@+id/delete_button"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="5dp"
         android:backgroundTint="@android:color/holo_red_light"
         android:text="Удалить 🗑"
         android:textColor="@color/white"
         android:textSize="20dp"
         android:textStyle="bold" />
-
-
 </LinearLayout>
