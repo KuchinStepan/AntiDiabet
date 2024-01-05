@@ -122,6 +122,7 @@ class DishDatabaseHelper(val context: Context, val factory: SQLiteDatabase.Curso
                 addDish(food)
             }
         }
+        dishes.reverse()
         return dishes
     }
 }
