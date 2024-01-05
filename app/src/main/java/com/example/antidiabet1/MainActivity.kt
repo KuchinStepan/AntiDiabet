@@ -55,14 +55,15 @@ class MainActivity : AppCompatActivity() {
         }
 
         adapter.onLongClick = { event, view ->
-            if (event.type == EventType.Eating) {
-                val dialog = Dialog(this)
-                showIngredientDialog(dialog, event.dishItem!!)
-            }
+            val dialog = Dialog(this)
+            if (event.type == EventType.Eating)
+                showIngredientDialog(dialog, event)
+            else showBasicEditOrDeleteDialog(dialog, event)
         }
     }
 
-    private fun showIngredientDialog(dialog: Dialog, dish: DishItem) {
+    private fun showIngredientDialog(dialog: Dialog, event: Event) {
+        val dish = event.dishItem!!
         dialog.setContentView(R.layout.dialog_food_ingredients)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.setCancelable(true)
@@ -75,10 +76,27 @@ class MainActivity : AppCompatActivity() {
         val name: TextView = dialog.findViewById(R.id.name)
         name.text = dish.name
 
-        val btt: TextView = dialog.findViewById(R.id.exit_dateHistory)
-        btt.setOnClickListener() {
-            dialog.cancel()
+        dialog.show()
+    }
+
+    private fun showBasicEditOrDeleteDialog(dialog: Dialog, event: Event) {
+        dialog.setContentView(R.layout.dialog_edit_or_delete)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setCancelable(true)
+
+        val deleteButton: Button = dialog.findViewById(R.id.delete_button)
+
+        deleteButton.setOnClickListener() {
+            showDeleteConfirmationDialog(dialog, event)
         }
+
+        dialog.show()
+    }
+
+    private fun showDeleteConfirmationDialog(dialog: Dialog, event: Event) {
+        dialog.setContentView(R.layout.dialog_delete_confirm)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setCancelable(true)
 
         dialog.show()
     }

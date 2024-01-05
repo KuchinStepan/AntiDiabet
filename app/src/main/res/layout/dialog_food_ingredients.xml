@@ -11,15 +11,6 @@
     android:background="@drawable/dialog_ingredients_background">
 
     <TextView
-        android:id="@+id/exit_dateHistory"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
-        android:text="Назад"
-        android:textAlignment="textEnd"
-        android:textSize="20dp" />
-
-    <TextView
         android:id="@+id/name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -32,5 +23,36 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/ingredients"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="351dp"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="10dp"
+        android:background="@drawable/dialog_ingredients_background"
+        android:orientation="horizontal"
+        android:paddingHorizontal="20dp">
+
+        <TextView
+            android:id="@+id/dialog_food_ingredients_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="9dp"
+            android:text="Изменить"
+            android:textAlignment="textStart"
+            android:textColor="@color/green"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/dialog_food_ingredients_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingBottom="9dp"
+            android:text="Удалить"
+            android:textAlignment="textStart"
+            android:textColor="@color/design_default_color_error"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+    </LinearLayout>
 </LinearLayout>

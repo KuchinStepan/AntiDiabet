@@ -2,11 +2,11 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <solid android:color="@color/sugar_measure"/>
 
-    <padding android:left="20dp"
-        android:top="1dp"
-        android:right="20dp"
+    <padding android:left="@dimen/_15sdp"
+        android:top="@dimen/_1sdp"
+        android:right="@dimen/_15sdp"
         android:bottom="1dp"
         />
 
-    <corners android:radius="15dp"/>
+    <corners android:radius="@dimen/_10sdp"/>
 </shape>

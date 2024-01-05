@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="7dp"
+    android:layout_marginBottom="@dimen/_5sdp"
 
     android:background="@drawable/unselected_item_background">
 
@@ -13,10 +13,10 @@
         android:id="@+id/event_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingVertical="7dp"
+        android:paddingVertical="@dimen/_5sdp"
         android:text="Приём пищи"
         android:textColor="@color/white"
-        android:textSize="20sp"
+        android:textSize="@dimen/_15sdp"
         android:textStyle="bold" />
 
     <TextView
@@ -30,8 +30,8 @@
         android:id="@+id/data"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="5dp"
-        android:paddingBottom="10dp"
+        android:paddingTop="@dimen/_2sdp"
+        android:paddingBottom="@dimen/_8sdp"
         android:text="углеводов"
         android:textColor="@color/white" />
 </LinearLayout>

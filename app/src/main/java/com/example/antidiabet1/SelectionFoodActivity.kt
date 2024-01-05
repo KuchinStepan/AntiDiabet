@@ -121,11 +121,6 @@ class SelectionFoodActivity : AppCompatActivity() {
         val name: TextView = dialog.findViewById(R.id.name)
         name.text = dish.name
 
-        val btt: TextView = dialog.findViewById(R.id.exit_dateHistory)
-        btt.setOnClickListener() {
-            dialog.cancel()
-        }
-
         dialog.show()
     }
 
@@ -153,7 +148,7 @@ class SelectionFoodActivity : AppCompatActivity() {
         }
     }
 
-    private fun _createEventNoteFun(context: Context, dish: DishItem, ) {
+    private fun _createEventNoteFun(context: Context, dish: DishItem ) {
         val dbHelper = EventHistoryDatabaseHelper(context, null)
         dbHelper.addEvent(Event(Date(), EventType.Eating, dish,
             0.0, 0.0))
