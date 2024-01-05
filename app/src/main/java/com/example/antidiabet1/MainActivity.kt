@@ -57,12 +57,17 @@ class MainActivity : AppCompatActivity() {
         adapter.onLongClick = { event, view ->
             if (event.type == EventType.Eating) {
                 val dialog = Dialog(this)
-                showIngredientDialog(dialog, event.dishItem!!)
+                showIngredientDialog(dialog, event)
+            }
+            else {
+                val dialog = Dialog(this)
+                showIngredientDialog(dialog, event)
             }
         }
     }
 
-    private fun showIngredientDialog(dialog: Dialog, dish: DishItem) {
+    private fun showIngredientDialog(dialog: Dialog, event: Event) {
+        val dish = event.dishItem!!
         dialog.setContentView(R.layout.dialog_food_ingredients)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.setCancelable(true)
@@ -75,10 +80,17 @@ class MainActivity : AppCompatActivity() {
         val name: TextView = dialog.findViewById(R.id.name)
         name.text = dish.name
 
-        val btt: TextView = dialog.findViewById(R.id.exit_dateHistory)
-        btt.setOnClickListener() {
-            dialog.cancel()
-        }
+        dialog.show()
+    }
+
+    private fun showBasicEditOrDeleteDialog(dialog: Dialog, event: Event) {
+        dialog.setContentView(R.layout.dialog_food_ingredients)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setCancelable(true)
+
+        val view: RecyclerView = dialog.findViewById(R.id.ingredients)
+
+        view.layoutManager = LinearLayoutManager(this)
 
         dialog.show()
     }

@@ -121,11 +121,6 @@ class SelectionFoodActivity : AppCompatActivity() {
         val name: TextView = dialog.findViewById(R.id.name)
         name.text = dish.name
 
-        val btt: TextView = dialog.findViewById(R.id.exit_dateHistory)
-        btt.setOnClickListener() {
-            dialog.cancel()
-        }
-
         dialog.show()
     }
 
