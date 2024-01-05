@@ -92,6 +92,7 @@ class MainActivity : AppCompatActivity() {
         val deleteButton: Button = dialog.findViewById(R.id.delete_button)
 
         deleteButton.setOnClickListener() {
+            dialog.cancel()
             showDeleteConfirmationDialog(dialog, event)
         }
 
@@ -112,6 +113,18 @@ class MainActivity : AppCompatActivity() {
         dialog.setContentView(R.layout.dialog_delete_confirm)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.setCancelable(true)
+
+        val cancelBtt: Button = dialog.findViewById(R.id.delete_cancel_button)
+        cancelBtt.setOnClickListener() {
+            dialog.cancel()
+        }
+
+        val deleteBtt: Button = dialog.findViewById(R.id.delete_confirm_button)
+        deleteBtt.setOnClickListener() {
+            dbHelper.deleteEvent(event)
+            adapter.changeList(dbHelper.getEventsByLastThreeDays())
+            dialog.cancel()
+        }
 
         dialog.show()
     }

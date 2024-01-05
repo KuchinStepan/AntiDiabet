@@ -117,6 +117,11 @@ class EventHistoryDatabaseHelper(val context: Context, val factory: SQLiteDataba
         return static_dick
     }
 
+    fun deleteEvent(event: Event) {
+        // Реализовать!!!
+        Реализуй меня или закомментируй (реализуй)
+    }
+
     fun isMoreThanNDaysPassed(date: Date, n: Int): Boolean {
         val calendar = Calendar.getInstance()
         calendar.time = date
@@ -143,7 +148,6 @@ class EventHistoryDatabaseHelper(val context: Context, val factory: SQLiteDataba
 
         return res
     }
-
 
     fun getEventsByLastThreeDays(): ArrayList<Event> {
         val db = this.readableDatabase
