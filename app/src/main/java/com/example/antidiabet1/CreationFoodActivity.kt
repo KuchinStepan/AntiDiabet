@@ -56,7 +56,7 @@ class CreationFoodActivity : AppCompatActivity() {
                 toast?.show()
             }
             else if (Ingredients.count() == 0){
-                toast?.setText("Добавьте ингредиенты")
+                toast?.setText("Добавьте ингридиенты")
                 toast?.show()
             }
             else {

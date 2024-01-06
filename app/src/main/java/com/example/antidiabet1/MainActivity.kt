@@ -87,6 +87,8 @@ class MainActivity : AppCompatActivity() {
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.setCancelable(true)
 
+        val db = EventHistoryDatabaseHelper(this, null)
+
         val deleteButton: Button = dialog.findViewById(R.id.delete_button)
 
         deleteButton.setOnClickListener() {

@@ -32,14 +32,11 @@ import java.util.Date
 class SelectionFoodActivity : AppCompatActivity() {
     private var lastClickedFoodView: View ?= null
     private var lastClckedDish: DishItem ?= null
-    lateinit var dbHelper: DishDatabaseHelper
-    lateinit var adapter: DishAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_select_food)
 
-        dbHelper = DishDatabaseHelper(this, null)
         setBackToMenu()
         setFoodSelecting()
     }
@@ -52,7 +49,7 @@ class SelectionFoodActivity : AppCompatActivity() {
         val foodList = db.getAllDishes()
         var showingList = foodList.toList()
 
-        adapter = DishAdapter(showingList, this)
+        val adapter = DishAdapter(showingList, this)
 
         // Обновление по поиску
         foodTextEnter.addTextChangedListener(object : TextWatcher {
@@ -123,15 +120,6 @@ class SelectionFoodActivity : AppCompatActivity() {
 
         val name: TextView = dialog.findViewById(R.id.name)
         name.text = dish.name
-
-        val deleteButton: Button = dialog.findViewById(R.id.dialog_food_ingredients_delete)
-
-        deleteButton.setOnClickListener() {
-            dbHelper.deleteDish(dish)
-            adapter.changeList(dbHelper.getAllDishes())
-            dialog.cancel()
-        }
-
 
         dialog.show()
     }

@@ -118,16 +118,8 @@ class EventHistoryDatabaseHelper(val context: Context, val factory: SQLiteDataba
     }
 
     fun deleteEvent(event: Event) {
-        val id = event.id
-
-        val db = this.writableDatabase
-        val args = ArrayList<String>()
-        args.add(id.toString())
-
-        db.delete(table_name, "id=?", args.toTypedArray())
-        db.close()
-
-        static_dick.remove(event)
+        // Реализовать!!!
+        Реализуй меня или закомментируй (реализуй)
     }
 
     fun isMoreThanNDaysPassed(date: Date, n: Int): Boolean {
