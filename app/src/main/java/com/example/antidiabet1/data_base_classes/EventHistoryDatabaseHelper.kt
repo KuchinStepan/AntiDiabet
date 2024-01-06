@@ -119,7 +119,7 @@ class EventHistoryDatabaseHelper(val context: Context, val factory: SQLiteDataba
 
     fun deleteEvent(event: Event) {
         // Реализовать!!!
-        Реализуй меня или закомментируй (реализуй)
+        //Реализуй меня или закомментируй (реализуй)
     }
 
     fun isMoreThanNDaysPassed(date: Date, n: Int): Boolean {

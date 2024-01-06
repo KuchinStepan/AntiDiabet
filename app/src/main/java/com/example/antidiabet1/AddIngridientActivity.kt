@@ -125,6 +125,7 @@ class AddIngridientActivity : AppCompatActivity() {
 
         ok_button.setOnClickListener() {
             val intent = Intent(this, CreationFoodActivity::class.java)
+            intent.putExtra("dish_id", "fromAddIngredient")
 
             val text = gramm_enter_text.text.toString()
             if (text != "") {
