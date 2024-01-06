@@ -5,5 +5,6 @@ class Ingredient(
     val carbons: Double,
     val proteins: Double,
     val fats: Double,
-    val calories: Double
+    val calories: Double,
+    var id: Int = -1
 ) { }

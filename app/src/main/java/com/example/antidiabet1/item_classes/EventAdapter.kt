@@ -10,9 +10,7 @@ import com.example.antidiabet1.R
 import com.example.antidiabet1.data_base_classes.Event
 import com.example.antidiabet1.data_base_classes.EventType
 import java.text.SimpleDateFormat
-import java.util.Date
 import java.util.Locale
-import java.util.logging.SimpleFormatter
 
 
 class EventAdapter(var items: List<Event>, var context: Context)
@@ -48,7 +46,7 @@ class EventAdapter(var items: List<Event>, var context: Context)
 
         if (item.type == EventType.Eating)
         {
-            holder.name.text = "\uD83C\uDF7D Приём пищи"
+            holder.name.text = "\uD83C\uDF7D Приём пищи (${item.dishItem?.name})"
             holder.itemView.setBackgroundResource(R.drawable.selected_item_background)
             holder.data.text = "Углеводов: " + item.dishItem!!.carbons.toString()
         }
