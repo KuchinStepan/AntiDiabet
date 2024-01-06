@@ -29,9 +29,12 @@ class MainActivity : AppCompatActivity() {
     lateinit var dbHelper: EventHistoryDatabaseHelper
     lateinit var sugarDialogs: MainSugarDialogs
     lateinit var insulinDialogs: MainInsulinDialogs
+    var isFromCringeActivity: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (intent.getStringExtra("startPosition").toString() == "fromCringeActivity")
+            isFromCringeActivity = true
         setContentView(R.layout.activity_main)
 
         setEventButton()
@@ -47,6 +50,11 @@ class MainActivity : AppCompatActivity() {
         insulinDialogs = MainInsulinDialogs(this, dbHelper)
 
         setEventsList(adapter)
+    }
+
+    override fun onBackPressed() {
+        if (!isFromCringeActivity)
+            super.onBackPressed()
     }
 
     private fun setEventsList(adapter: EventAdapter) {
