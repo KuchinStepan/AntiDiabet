@@ -52,16 +52,32 @@ class AddIngridientActivity : AppCompatActivity() {
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.setCancelable(true)
 
-        val ok_button: Button = dialog.findViewById(R.id.ok_button)
-        val carbons_enter: EditText = dialog.findViewById(R.id.carbons_enter)
-        val fats_enter: EditText = dialog.findViewById(R.id.fats_enter)
-        val proteins_enter: EditText = dialog.findViewById(R.id.proteins_enter)
+        val okButton: Button = dialog.findViewById(R.id.ok_button)
+        val carbonsEnter: EditText = dialog.findViewById(R.id.carbons_enter)
+        val fatsEnter: EditText = dialog.findViewById(R.id.fats_enter)
+        val proteinsEnter: EditText = dialog.findViewById(R.id.proteins_enter)
+        val nameEnter: EditText = dialog.findViewById(R.id.ingredient_name)
 
-        ok_button.setOnClickListener() {
-            dialog.cancel()
+        okButton.setOnClickListener() {
+            if (carbonsEnter.text.toString() != ""
+                && fatsEnter.text.toString() != ""
+                && proteinsEnter.text.toString() != ""
+                && nameEnter.text.toString() != "")
+            {
+                createIngredient(nameEnter.text.toString(),
+                    carbonsEnter.text.toString().toDouble(),
+                    fatsEnter.text.toString().toDouble(),
+                    proteinsEnter.text.toString().toDouble())
+                dialog.cancel()
+            }
         }
 
         dialog.show()
+    }
+
+    private fun createIngredient(name: String, carbons: Double,
+                                 fats: Double, proteins: Double){
+
     }
 
     private fun setFoodSelecting() {
