@@ -31,10 +31,37 @@ class AddIngridientActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_ingredient)
+        setContentView(R.layout.activity_add_ingredient_to_dish)
 
         setBack()
+        setCreateIngredientButton()
         setFoodSelecting()
+    }
+
+    private fun setCreateIngredientButton() {
+        val createIngredientButton: Button = findViewById(R.id.create_new_ingredient_button)
+
+        val dialog = Dialog(this)
+        createIngredientButton.setOnClickListener() {
+            showCreateIngredientDialog(dialog)
+        }
+    }
+
+    private fun showCreateIngredientDialog(dialog: Dialog) {
+        dialog.setContentView(R.layout.dialog_create_ingredient)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setCancelable(true)
+
+        val ok_button: Button = dialog.findViewById(R.id.ok_button)
+        val carbons_enter: EditText = dialog.findViewById(R.id.carbons_enter)
+        val fats_enter: EditText = dialog.findViewById(R.id.fats_enter)
+        val proteins_enter: EditText = dialog.findViewById(R.id.proteins_enter)
+
+        ok_button.setOnClickListener() {
+            dialog.cancel()
+        }
+
+        dialog.show()
     }
 
     private fun setFoodSelecting() {
