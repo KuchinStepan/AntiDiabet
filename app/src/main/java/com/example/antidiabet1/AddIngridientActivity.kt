@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
@@ -107,7 +108,9 @@ class AddIngridientActivity : AppCompatActivity() {
         }
         val foodList = IngredientsSaver.IngredientsArray ?: arrayListOf<Ingredient>()
 
-        for (ingr in dbIngredient.getAllIngredients()) {
+        val dbIngrs = dbIngredient.getAllIngredients()
+        Log.d("PENis", dbIngrs.count().toString())
+        for (ingr in dbIngrs) {
             foodList.add(ingr)
         }
 
@@ -165,8 +168,45 @@ class AddIngridientActivity : AppCompatActivity() {
             lastClickedIngredient = food
             adapter.lastClickedName = food.name
         }
+
+
+        adapter.onLongClick = { ingr, _ ->
+            if (ingr.id == -1) {
+                Toast.makeText(this, "Нельзя удалить данный ингредиент", Toast.LENGTH_SHORT).show()
+            }
+            else {
+                showDeleteDialog(ingr)
+            }
+        }
     }
 
+    private fun showDeleteDialog(ingr: Ingredient) {
+        val dialog = Dialog(this)
+
+        dialog.setContentView(R.layout.dialog_delete_confirm)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setCancelable(true)
+
+        val cancelBtt: Button = dialog.findViewById(R.id.delete_cancel_button)
+        cancelBtt.setOnClickListener() {
+            dialog.cancel()
+        }
+
+        val deleteBtt: Button = dialog.findViewById(R.id.delete_confirm_button)
+        deleteBtt.setOnClickListener() {
+            dbIngredient.deleteIngredient(ingr)
+
+            val foodList = IngredientsSaver.IngredientsArray ?: arrayListOf<Ingredient>()
+            Log.d("Penis Del", dbIngredient.getAllCachedIngredients().count().toString())
+            for (ingr in dbIngredient.getAllCachedIngredients()) {
+                foodList.add(ingr)
+            }
+            adapter.changeList(foodList)
+
+            dialog.cancel()
+        }
+        dialog.show()
+    }
 
     private fun setSelectIngredientButton() {
         val addFoodButton: Button = findViewById(R.id.select_ingredient_button)
