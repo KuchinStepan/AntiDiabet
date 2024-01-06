@@ -149,6 +149,12 @@ class MainActivity : AppCompatActivity() {
         button.setOnClickListener() {
             showCalendarDialog(this)
         }
+
+        button.setOnLongClickListener() {
+            val intent = Intent(this, MetricsActivity::class.java)
+            startActivity(intent)
+            true
+        }
     }
 
     private fun showCalendarDialog(context: Context) {
