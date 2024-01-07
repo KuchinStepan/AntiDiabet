@@ -7,7 +7,6 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
@@ -103,10 +102,9 @@ class AddIngridientActivity : AppCompatActivity() {
             CsvReader(this)
         }
 
-        foodList = IngredientsSaver.IngredientsArray ?: arrayListOf<Ingredient>()
+        foodList = IngredientsSaver.getIngredients()
 
         val dbIngrs = dbIngredient.getAllIngredients()
-        Log.d("PENis", dbIngrs.count().toString())
         for (ingr in dbIngrs) {
             foodList.add(ingr)
         }
