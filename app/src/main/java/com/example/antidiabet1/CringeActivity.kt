@@ -19,4 +19,6 @@ class CringeActivity : AppCompatActivity() {
         intent.putExtra("startPosition", "fromCringeActivity")
         startActivity(intent)
     }
+
+    override fun onBackPressed() { }
 }

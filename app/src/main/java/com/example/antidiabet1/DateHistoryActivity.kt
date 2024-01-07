@@ -56,4 +56,10 @@ class DateHistoryActivity : AppCompatActivity()
             startActivity(intent)
         }
     }
+
+    override fun onBackPressed()
+    {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+    }
 }

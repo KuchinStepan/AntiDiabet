@@ -1,6 +1,9 @@
 package com.example.antidiabet1
 
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.inputmethod.InputMethodManager
@@ -120,10 +123,39 @@ class CreationFoodActivity : AppCompatActivity() {
         val exitButton: TextView = findViewById(R.id.exit_dateHistory)
 
         exitButton.setOnClickListener() {
+            onBackPressed()
+        }
+    }
+
+    override fun onBackPressed()
+    {
+        if (foodNameEnter.text.toString() != "" || Ingredients.isNotEmpty())
+            showCancelConfirmationDialog(Dialog(this))
+        else {
             val intent = Intent(this, SelectionFoodActivity::class.java)
             Ingredients.clear()
             startActivity(intent)
         }
+    }
+
+    private fun showCancelConfirmationDialog(dialog: Dialog) {
+        dialog.setContentView(R.layout.dialog_cancel_confirm)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setCancelable(true)
+
+        val cancelBtt: Button = dialog.findViewById(R.id.cancel_cancel_button)
+        cancelBtt.setOnClickListener() {
+            dialog.cancel()
+        }
+
+        val cancelButton: Button = dialog.findViewById(R.id.cancel_confirm_button)
+        cancelButton.setOnClickListener() {
+            val intent = Intent(this, SelectionFoodActivity::class.java)
+            Ingredients.clear()
+            startActivity(intent)
+        }
+
+        dialog.show()
     }
 
     private fun setIngredientsScrollList()

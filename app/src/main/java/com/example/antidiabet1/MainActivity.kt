@@ -6,6 +6,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.CalendarView
 import android.widget.TextView
@@ -52,10 +53,7 @@ class MainActivity : AppCompatActivity() {
         setEventsList(adapter)
     }
 
-    override fun onBackPressed() {
-        if (!isFromCringeActivity)
-            super.onBackPressed()
-    }
+    override fun onBackPressed() { }
 
     private fun setEventsList(adapter: EventAdapter) {
         listView.layoutManager = LinearLayoutManager(this)
@@ -87,6 +85,23 @@ class MainActivity : AppCompatActivity() {
         val name: TextView = dialog.findViewById(R.id.name)
         name.text = dish.name
 
+        val deleteButton: Button = dialog.findViewById(R.id.dialog_food_ingredients_delete)
+
+        deleteButton.setOnClickListener() {
+            dialog.cancel()
+            showDeleteConfirmationDialog(dialog, event)
+        }
+
+        val editButton: Button = dialog.findViewById(R.id.dialog_food_ingredients_edit)
+        editButton.visibility = View.INVISIBLE
+        //maybe another time
+/*        editButton.setOnClickListener() {
+            dialog.cancel()
+            val intent = Intent(this, SelectionFoodActivity::class.java)
+            intent.putExtra("event_id", event.id)
+            startActivity(intent)
+        }*/
+
         dialog.show()
     }
 
@@ -94,8 +109,6 @@ class MainActivity : AppCompatActivity() {
         dialog.setContentView(R.layout.dialog_edit_or_delete)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.setCancelable(true)
-
-        val db = EventHistoryDatabaseHelper(this, null)
 
         val deleteButton: Button = dialog.findViewById(R.id.delete_button)
 
@@ -105,7 +118,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         val editButton: Button = dialog.findViewById(R.id.edit_button)
-
         editButton.setOnClickListener() {
             dialog.cancel()
             if (event.type == EventType.SugarMeasure)
@@ -130,7 +142,7 @@ class MainActivity : AppCompatActivity() {
         val deleteBtt: Button = dialog.findViewById(R.id.delete_confirm_button)
         deleteBtt.setOnClickListener() {
             dbHelper.deleteEvent(event)
-            adapter.changeList(dbHelper.getEventsByLastThreeDays())
+            updateEventsList()
             dialog.cancel()
         }
 

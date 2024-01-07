@@ -180,4 +180,12 @@ class EventHistoryDatabaseHelper(val context: Context, val factory: SQLiteDataba
         static_dick = events
         return events
     }
+
+    public fun getEventById(id: Int): Event? {
+        for (event in getAllEvents()){
+            if (event.id == id)
+                return event
+        }
+        return null
+    }
 }
