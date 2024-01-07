@@ -8,7 +8,7 @@ import com.example.antidiabet1.item_classes.Ingredient
 import kotlin.math.max
 
 class IngredientDatabaseHelper (val context: Context, val factory: SQLiteDatabase.CursorFactory?):
-        SQLiteOpenHelper(context, "ingredients", factory, 1) {
+        SQLiteOpenHelper(context, "ingredients", factory, 2) {
     val table_name = "ingredients"
 
     companion object {
@@ -88,6 +88,9 @@ class IngredientDatabaseHelper (val context: Context, val factory: SQLiteDatabas
             updateDish(ingredient)
             return
         }*/
+        if (static_id == -1)
+            _getAllIngredients()
+
         static_id += 1
         ingredient.id = static_id
 
@@ -100,7 +103,7 @@ class IngredientDatabaseHelper (val context: Context, val factory: SQLiteDatabas
         values.put("carbons", ingredient.carbons)
 
         val db = this.writableDatabase
-        db.insert("dishs", null, values)
+        db.insert(table_name, null, values)
         db.close()
 
         static_dick.add(ingredient)
@@ -108,10 +111,9 @@ class IngredientDatabaseHelper (val context: Context, val factory: SQLiteDatabas
     }
 
     private fun _getAllIngredients(): ArrayList<Ingredient> {
-        val db=this.readableDatabase
+        val db = this.readableDatabase
         val cursor = db.rawQuery("SELECT * FROM ingredients", null)
         val ingredientList = ArrayList<Ingredient>()
-
 
         if (cursor!!.moveToFirst()) {
             while (cursor.isAfterLast == false) {
@@ -139,7 +141,7 @@ class IngredientDatabaseHelper (val context: Context, val factory: SQLiteDatabas
     }
 
     fun getAllIngredients():ArrayList<Ingredient>{
-        var dishes = _getAllIngredients()
+        val dishes = _getAllIngredients()
         dishes.reverse()
 
         return dishes

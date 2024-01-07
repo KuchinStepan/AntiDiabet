@@ -32,6 +32,7 @@ class AddIngridientActivity : AppCompatActivity() {
 
     lateinit var dbIngredient: IngredientDatabaseHelper
     lateinit var adapter: FoodItemAdapter
+    lateinit var foodList: ArrayList<Ingredient>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,12 +90,7 @@ class AddIngridientActivity : AppCompatActivity() {
         val ingredient = Ingredient(name, carbons, fats, proteins, cal)
 
         dbIngredient.addIngredient(ingredient)
-
-        val foodList = IngredientsSaver.IngredientsArray ?: arrayListOf<Ingredient>()
-
-        for (ingr in dbIngredient.getAllCachedIngredients()) {
-            foodList.add(ingr)
-        }
+        foodList.add(ingredient)
 
         adapter.changeList(foodList)
     }
@@ -106,7 +102,8 @@ class AddIngridientActivity : AppCompatActivity() {
         {
             CsvReader(this)
         }
-        val foodList = IngredientsSaver.IngredientsArray ?: arrayListOf<Ingredient>()
+
+        foodList = IngredientsSaver.IngredientsArray ?: arrayListOf<Ingredient>()
 
         val dbIngrs = dbIngredient.getAllIngredients()
         Log.d("PENis", dbIngrs.count().toString())
@@ -196,11 +193,7 @@ class AddIngridientActivity : AppCompatActivity() {
         deleteBtt.setOnClickListener() {
             dbIngredient.deleteIngredient(ingr)
 
-            val foodList = IngredientsSaver.IngredientsArray ?: arrayListOf<Ingredient>()
-            Log.d("Penis Del", dbIngredient.getAllCachedIngredients().count().toString())
-            for (ingr in dbIngredient.getAllCachedIngredients()) {
-                foodList.add(ingr)
-            }
+            foodList.remove(ingr)
             adapter.changeList(foodList)
 
             dialog.cancel()

@@ -52,7 +52,7 @@ class CreationFoodActivity : AppCompatActivity() {
         toast = Toast.makeText(this, "", Toast.LENGTH_SHORT)
     }
 
-    public fun setAlreadyCreatedDish(dish: DishItem){
+    fun setAlreadyCreatedDish(dish: DishItem){
         Ingredients = dish.ingredients
         dishId = dish.id
         dishName = dish.name
