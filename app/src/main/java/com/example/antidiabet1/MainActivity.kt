@@ -24,7 +24,6 @@ import java.util.Date
 
 
 class MainActivity : AppCompatActivity() {
-    lateinit var chosedDate: Date
     lateinit var listView: RecyclerView
     lateinit var adapter: EventAdapter
     lateinit var dbHelper: EventHistoryDatabaseHelper
@@ -41,7 +40,6 @@ class MainActivity : AppCompatActivity() {
         setEventButton()
         setHistoryButton()
 
-        chosenDate = Date()
         dbHelper = EventHistoryDatabaseHelper(this, null)
         val events = dbHelper.getAllEvents()
         events.reverse()
@@ -53,7 +51,7 @@ class MainActivity : AppCompatActivity() {
         setEventsList(adapter)
     }
 
-    override fun onBackPressed() { }
+    override fun onBackPressed() {}
 
     private fun setEventsList(adapter: EventAdapter) {
         listView.layoutManager = LinearLayoutManager(this)
@@ -95,12 +93,12 @@ class MainActivity : AppCompatActivity() {
         val editButton: Button = dialog.findViewById(R.id.dialog_food_ingredients_edit)
         editButton.visibility = View.INVISIBLE
         //maybe another time
-/*        editButton.setOnClickListener() {
-            dialog.cancel()
-            val intent = Intent(this, SelectionFoodActivity::class.java)
-            intent.putExtra("event_id", event.id)
-            startActivity(intent)
-        }*/
+        /*        editButton.setOnClickListener() {
+                    dialog.cancel()
+                    val intent = Intent(this, SelectionFoodActivity::class.java)
+                    intent.putExtra("event_id", event.id)
+                    startActivity(intent)
+                }*/
 
         dialog.show()
     }
@@ -149,7 +147,7 @@ class MainActivity : AppCompatActivity() {
         dialog.show()
     }
 
-    private fun updateEventsList(){
+    private fun updateEventsList() {
         val events: ArrayList<Event> = dbHelper.getEventsByLastThreeDays()
         events.reverse()
         adapter.changeList(events)
@@ -167,7 +165,8 @@ class MainActivity : AppCompatActivity() {
         val button: Button = findViewById(R.id.history_button)
 
         button.setOnClickListener() {
-            showCalendarDialog(this)
+            val intent = Intent(this, DateHistoryActivity::class.java)
+            startActivity(intent)
         }
 
         button.setOnLongClickListener() {
@@ -175,24 +174,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
             true
         }
-    }
-
-    private fun showCalendarDialog(context: Context) {
-        val dialog = Dialog(context)
-        dialog.setContentView(R.layout.dialog_calendar_choice)
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.setCancelable(true)
-        val dateSelectButton: Button = dialog.findViewById(R.id.selectDate)
-        dateSelectButton.setOnClickListener() {
-            val intent = Intent(this, DateHistoryActivity::class.java)
-            startActivity(intent)
-        }
-        val calendarView: CalendarView = dialog.findViewById(R.id.calendarView)
-        calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
-            chosenDate = Date(year - 1900, month, dayOfMonth)
-        }
-
-        dialog.show()
     }
 
     private fun showEventChoiceDialog(context: Context) {

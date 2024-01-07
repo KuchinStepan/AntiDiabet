@@ -32,6 +32,7 @@ class AddIngridientActivity : AppCompatActivity() {
     lateinit var dbIngredient: IngredientDatabaseHelper
     lateinit var adapter: FoodItemAdapter
     lateinit var foodList: ArrayList<Ingredient>
+    lateinit var foodListAsReversed: List<Ingredient>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -103,14 +104,17 @@ class AddIngridientActivity : AppCompatActivity() {
         }
 
         foodList = IngredientsSaver.getIngredients()
+        foodList.reverse()
+        foodList.sortBy{-it.name.count()}
 
         val dbIngrs = dbIngredient.getAllIngredients()
         for (ingr in dbIngrs) {
             foodList.add(ingr)
         }
 
-        var showingList = foodList.toList()
-        adapter = FoodItemAdapter(showingList, this)
+        foodListAsReversed = foodList.asReversed()
+
+        adapter = FoodItemAdapter(foodListAsReversed, this)
 
         // Обновление по поиску
         foodTextEnter.addTextChangedListener(object : TextWatcher {
@@ -118,10 +122,10 @@ class AddIngridientActivity : AppCompatActivity() {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 val text = foodTextEnter.text.toString()
-                showingList = foodList
-                    .filter { foodItem ->  text.lowercase() in foodItem.name.lowercase() }
-                    .sortedBy { foodItem -> foodItem.name.length }
-                adapter.changeList(showingList)
+                if (text != "")
+                    adapter.changeList(foodListAsReversed
+                        .filter { foodItem ->  text.lowercase() in foodItem.name.lowercase() })
+                else adapter.changeList(foodListAsReversed)
             }
         })
 
@@ -157,8 +161,14 @@ class AddIngridientActivity : AppCompatActivity() {
 
 
         adapter.onClick = { food, view ->
-            lastClickedFoodView?.setBackgroundResource(R.drawable.unselected_item_background)
-            view.setBackgroundResource(R.drawable.selected_item_background)
+            if (lastClickedIngredient != null)
+                if (lastClickedIngredient!!.id == -1)
+                    lastClickedFoodView!!.setBackgroundResource(R.drawable.unselected_item_background)
+                else lastClickedFoodView!!.setBackgroundResource(R.drawable.unselected_custom_item_background)
+            if (food.id == -1)
+                view.setBackgroundResource(R.drawable.selected_item_background)
+            else view.setBackgroundResource(R.drawable.selected_custom_item_background)
+
             lastClickedFoodView = view
             lastClickedIngredient = food
             adapter.lastClickedName = food.name
@@ -174,6 +184,7 @@ class AddIngridientActivity : AppCompatActivity() {
             }
         }
     }
+
 
     private fun showDeleteDialog(ingr: Ingredient) {
         val dialog = Dialog(this)

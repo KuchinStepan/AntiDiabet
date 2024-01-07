@@ -1,39 +1,38 @@
 package com.example.antidiabet1
 
+import android.app.Dialog
+import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
+import android.widget.CalendarView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.antidiabet1.data_base_classes.Event
 import com.example.antidiabet1.data_base_classes.EventHistoryDatabaseHelper
 import com.example.antidiabet1.item_classes.EventAdapter
 import java.util.Date
 
-var chosenDate: Date = Date()
 class DateHistoryActivity : AppCompatActivity()
 {
-//    val chosedDate = Date(intent.getStringExtra("chosedData"))
-
     lateinit var listView: RecyclerView
     lateinit var adapter: EventAdapter
     lateinit var dbHelper: EventHistoryDatabaseHelper
+    lateinit var chosenDate: Date
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_show_date_history)
-
         dbHelper = EventHistoryDatabaseHelper(this, null)
-//        val events = dbHelper.getEventsByGivenDate(chosedDate)
-     //   val events = dbHelper.getAllEvents()
-        val events = dbHelper.getEventsByDate(chosenDate)
-        events.reverse()
-        Log.d("Bebr", dbHelper.getCount().toString())
-        Log.d("Bebr in", events.count().toString())
-        Log.d("Bebr date", chosenDate.toString())
-        adapter = EventAdapter(events, this)
+        adapter = EventAdapter(ArrayList(), this)
         listView = findViewById(R.id.events_list_history)
+        setSelectDateButton()
+        chosenDate = Date()
 
         setBackToMenu()
         setEventsList(adapter)
@@ -61,5 +60,44 @@ class DateHistoryActivity : AppCompatActivity()
     {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
+    }
+
+    private fun setSelectDateButton()
+    {
+        val dateButton: Button = findViewById(R.id.select_date)
+
+        dateButton.setOnClickListener() {
+            showCalendarDialog(this)
+        }
+    }
+
+    private fun updateList(chosenDate: Date)
+    {
+//        val events = dbHelper.getEventsByGivenDate(chosedDate)
+        //   val events = dbHelper.getAllEvents()
+        val events = dbHelper.getEventsByDate(chosenDate)
+        events.reverse()
+        Log.d("Bebr", dbHelper.getCount().toString())
+        Log.d("Bebr in", events.count().toString())
+        Log.d("Bebr date", chosenDate.toString())
+        adapter.changeList(events)
+    }
+
+    private fun showCalendarDialog(context: Context) {
+        val dialog = Dialog(context)
+        dialog.setContentView(R.layout.dialog_calendar_choice)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setCancelable(true)
+        val dateSelectButton: Button = dialog.findViewById(R.id.selectDate)
+        dateSelectButton.setOnClickListener() {
+            updateList(chosenDate)
+            dialog.cancel()
+        }
+        val calendarView: CalendarView = dialog.findViewById(R.id.calendarView)
+        calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
+            chosenDate = Date(year - 1900, month, dayOfMonth)
+        }
+
+        dialog.show()
     }
 }

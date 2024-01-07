@@ -227,6 +227,7 @@ class SelectionFoodActivity : AppCompatActivity() {
         val ok_button: Button = dialog.findViewById(R.id.ok_button)
         val gramm_enter_text: EditText = dialog.findViewById(R.id.gramm_enter)
 
+        gramm_enter_text.setText(lastClckedDish!!.getWeight().toString())
         ok_button.setOnClickListener() {
             val text = gramm_enter_text.text.toString()
             if (text != "") {

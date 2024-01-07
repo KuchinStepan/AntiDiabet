@@ -16,9 +16,9 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/events_list"
-            android:layout_width="@dimen/_270sdp"
-            android:layout_height="@dimen/_410sdp"
-            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_width="340dp"
+            android:layout_height="444dp"
+            android:layout_marginTop="36dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.492"
             app:layout_constraintStart_toStartOf="parent"

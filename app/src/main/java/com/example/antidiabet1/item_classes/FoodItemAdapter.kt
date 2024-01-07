@@ -22,7 +22,7 @@ class FoodItemAdapter(var items: List<Ingredient>, var context: Context)
         val calories: TextView = view.findViewById(R.id.food_calories)
     }
 
-    public fun changeList(newList: List<Ingredient>) {
+    fun changeList(newList: List<Ingredient>) {
         items = newList
         notifyDataSetChanged()
     }
@@ -46,10 +46,16 @@ class FoodItemAdapter(var items: List<Ingredient>, var context: Context)
         holder.calories.text = "${item.calories} ккал / ${kiloDz} кДж (на 100 грамм)"
 
         if (lastClickedName != null && lastClickedName == item.name) {
-            holder.itemView.setBackgroundResource(R.drawable.selected_item_background)
+            if (item.id == -1)
+                holder.itemView.setBackgroundResource(R.drawable.selected_item_background)
+            else
+                holder.itemView.setBackgroundResource(R.drawable.selected_custom_item_background)
         }
         else {
-            holder.itemView.setBackgroundResource(R.drawable.unselected_item_background)
+            if (item.id == -1)
+                holder.itemView.setBackgroundResource(R.drawable.unselected_item_background)
+            else
+                holder.itemView.setBackgroundResource(R.drawable.unselected_custom_item_background)
         }
 
         holder.itemView.setOnClickListener {

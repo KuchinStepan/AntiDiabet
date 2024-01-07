@@ -142,7 +142,6 @@ class IngredientDatabaseHelper (val context: Context, val factory: SQLiteDatabas
 
     fun getAllIngredients():ArrayList<Ingredient>{
         val dishes = _getAllIngredients()
-        dishes.reverse()
 
         return dishes
     }

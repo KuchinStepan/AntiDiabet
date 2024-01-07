@@ -27,15 +27,30 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/events_list_history"
-            android:layout_width="331dp"
-            android:layout_height="612dp"
-            android:layout_marginTop="72dp"
+            android:layout_width="341dp"
+            android:layout_height="481dp"
+            android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.475"
+            app:layout_constraintHorizontal_bias="0.492"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/food_high" />
-        
+            app:layout_constraintTop_toBottomOf="@+id/exit_dateHistory" />
+
+        <Button
+            android:id="@+id/select_date"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:backgroundTint="@color/green"
+            android:fontFamily="@font/roboto"
+            android:text="Выбрать дату"
+            android:textSize="@dimen/_15sdp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.493"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/events_list_history"
+            app:layout_constraintWidth_percent="0.8" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
