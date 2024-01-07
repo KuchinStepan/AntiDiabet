@@ -60,10 +60,10 @@
             android:layout_marginTop="28dp"
             android:layout_marginRight="20dp"
 
-            android:backgroundTint="@color/white"
+            android:backgroundTint="@color/green"
             android:fontFamily="@font/inter_bold"
             android:text="+"
-            android:textColor="@color/green"
+            android:textColor="@color/bright_green"
             android:textSize="23sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.647"

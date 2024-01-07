@@ -1,7 +1,11 @@
 package com.example.antidiabet1
 
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
@@ -18,10 +22,13 @@ import com.example.antidiabet1.item_classes.DishItem
 import kotlin.math.roundToInt
 
 var Ingredients = ArrayList<ChosenIngredient>()
-private var dishName = ""
+var dishName = ""
+var dishId = -1
 class CreationFoodActivity : AppCompatActivity() {
 
     var toast: Toast ?= null
+    lateinit var adapter: ChosenIngredientAdapter
+    lateinit var foodNameEnter: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +40,27 @@ class CreationFoodActivity : AppCompatActivity() {
         setAddIngredientButton(foodNameEnter)
         setIngredientsScrollList()
 
+        val _id = intent.getStringExtra("dish_id").toString()
+        Log.d("--> meow?", _id)
+        if (_id == "fromAddIngredient")
+            Log.d("--> muhahaha", "dont delete this or it wouldnt work")
+        else if (_id != "null")
+            setAlreadyCreatedDish(DishDatabaseHelper(this, null)
+                .getDishById(_id.toInt())!!)
+        else {
+            val dish = CreateDishFromIngredients(-1, "", ArrayList())
+            setAlreadyCreatedDish(dish)
+        }
+
         toast = Toast.makeText(this, "", Toast.LENGTH_SHORT)
+    }
+
+    fun setAlreadyCreatedDish(dish: DishItem){
+        Ingredients = dish.ingredients
+        dishId = dish.id
+        dishName = dish.name
+        adapter.changeList(Ingredients)
+        foodNameEnter.setText(dishName)
     }
 
     private fun setAddIngredientButton(foodNameEnter: EditText) {
@@ -56,12 +83,12 @@ class CreationFoodActivity : AppCompatActivity() {
                 toast?.show()
             }
             else if (Ingredients.count() == 0){
-                toast?.setText("Добавьте ингридиенты")
+                toast?.setText("Добавьте ингредиенты")
                 toast?.show()
             }
             else {
                 val db = DishDatabaseHelper(this, null)
-                val dish = CreateDishFromIngredients(db.get_free_id(), dishName, Ingredients)
+                val dish = CreateDishFromIngredients(dishId, dishName, Ingredients)
                 db.addDish(dish)
                 dishName = ""
                 Ingredients.clear()
@@ -72,7 +99,7 @@ class CreationFoodActivity : AppCompatActivity() {
     }
 
     private fun setNameEnterLine(): EditText {
-        val foodNameEnter: EditText = findViewById(R.id.food_enter)
+        foodNameEnter = findViewById(R.id.food_enter)
 
 
         foodNameEnter.setOnFocusChangeListener() { view, b ->
@@ -96,17 +123,46 @@ class CreationFoodActivity : AppCompatActivity() {
         val exitButton: TextView = findViewById(R.id.exit_dateHistory)
 
         exitButton.setOnClickListener() {
+            onBackPressed()
+        }
+    }
+
+    override fun onBackPressed()
+    {
+        if (foodNameEnter.text.toString() != "" || Ingredients.isNotEmpty())
+            showCancelConfirmationDialog(Dialog(this))
+        else {
             val intent = Intent(this, SelectionFoodActivity::class.java)
             Ingredients.clear()
             startActivity(intent)
         }
     }
 
+    private fun showCancelConfirmationDialog(dialog: Dialog) {
+        dialog.setContentView(R.layout.dialog_cancel_confirm)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setCancelable(true)
+
+        val cancelBtt: Button = dialog.findViewById(R.id.cancel_cancel_button)
+        cancelBtt.setOnClickListener() {
+            dialog.cancel()
+        }
+
+        val cancelButton: Button = dialog.findViewById(R.id.cancel_confirm_button)
+        cancelButton.setOnClickListener() {
+            val intent = Intent(this, SelectionFoodActivity::class.java)
+            Ingredients.clear()
+            startActivity(intent)
+        }
+
+        dialog.show()
+    }
+
     private fun setIngredientsScrollList()
     {
         val listView: RecyclerView = findViewById(R.id.InredientList)
         listView.layoutManager = LinearLayoutManager(this)
-        val adapter = ChosenIngredientAdapter(Ingredients, this)
+        adapter = ChosenIngredientAdapter(Ingredients, this)
         listView.adapter = adapter
 
         adapter.onLongClick = { food, view ->
@@ -135,7 +191,13 @@ private fun CreateDishFromIngredients(id:Int, name: String, ings : ArrayList<Cho
     totalFats = (totalFats * 100).roundToInt() / 100.0
     totalCalories = (totalCalories * 100).roundToInt() / 100.0
 
-    val rightName = "${name[0].uppercase()}${name.substring(1, name.length)}"
+    var rightName = ""
+    try {
+        rightName = "${name[0].uppercase()}${name.substring(1, name.length)}"
+    }
+    catch (e: Exception) {
+        rightName = name
+    }
 
     return DishItem(id, rightName, totalCarbons, totalProteins, totalFats, totalCalories, ings)
 }

@@ -18,6 +18,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.antidiabet1.data_base_classes.CsvReader
+import com.example.antidiabet1.data_base_classes.IngredientDatabaseHelper
 import com.example.antidiabet1.data_base_classes.IngredientsSaver
 import com.example.antidiabet1.item_classes.ChosenIngredient
 import com.example.antidiabet1.item_classes.FoodItemAdapter
@@ -28,13 +29,69 @@ class AddIngridientActivity : AppCompatActivity() {
     private var lastClickedFoodView: View ?= null
     private var lastClickedIngredient: Ingredient ?= null
 
+    lateinit var dbIngredient: IngredientDatabaseHelper
+    lateinit var adapter: FoodItemAdapter
+    lateinit var foodList: ArrayList<Ingredient>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_ingredient)
+        setContentView(R.layout.activity_add_ingredient_to_dish)
 
+        dbIngredient = IngredientDatabaseHelper(this, null)
         setBack()
+        setCreateIngredientButton()
         setFoodSelecting()
+    }
+
+    private fun setCreateIngredientButton() {
+        val createIngredientButton: Button = findViewById(R.id.create_new_ingredient_button)
+
+        val dialog = Dialog(this)
+        createIngredientButton.setOnClickListener() {
+            showCreateIngredientDialog(dialog)
+        }
+    }
+
+    private fun showCreateIngredientDialog(dialog: Dialog) {
+        dialog.setContentView(R.layout.dialog_create_ingredient)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setCancelable(true)
+
+        val okButton: Button = dialog.findViewById(R.id.ok_button)
+        val carbonsEnter: EditText = dialog.findViewById(R.id.carbons_enter)
+        val fatsEnter: EditText = dialog.findViewById(R.id.fats_enter)
+        val proteinsEnter: EditText = dialog.findViewById(R.id.proteins_enter)
+        val nameEnter: EditText = dialog.findViewById(R.id.ingredient_name)
+
+        okButton.setOnClickListener() {
+            if (carbonsEnter.text.toString() != ""
+                && fatsEnter.text.toString() != ""
+                && proteinsEnter.text.toString() != ""
+                && nameEnter.text.toString() != "")
+            {
+                createIngredient(nameEnter.text.toString(),
+                    carbonsEnter.text.toString().toDouble(),
+                    fatsEnter.text.toString().toDouble(),
+                    proteinsEnter.text.toString().toDouble())
+                dialog.cancel()
+            }
+            else {
+                Toast.makeText(this, "Заполните все поля", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        dialog.show()
+    }
+
+    private fun createIngredient(name: String, carbons: Double,
+                                 fats: Double, proteins: Double){
+        val cal = 4 * carbons + 4 * proteins + 9 * fats
+        val ingredient = Ingredient(name, carbons, fats, proteins, cal)
+
+        dbIngredient.addIngredient(ingredient)
+        foodList.add(ingredient)
+
+        adapter.changeList(foodList)
     }
 
     private fun setFoodSelecting() {
@@ -44,10 +101,16 @@ class AddIngridientActivity : AppCompatActivity() {
         {
             CsvReader(this)
         }
-        val foodList = IngredientsSaver.IngredientsArray ?: arrayListOf<Ingredient>()
+
+        foodList = IngredientsSaver.getIngredients()
+
+        val dbIngrs = dbIngredient.getAllIngredients()
+        for (ingr in dbIngrs) {
+            foodList.add(ingr)
+        }
 
         var showingList = foodList.toList()
-        val adapter = FoodItemAdapter(showingList, this)
+        adapter = FoodItemAdapter(showingList, this)
 
         // Обновление по поиску
         foodTextEnter.addTextChangedListener(object : TextWatcher {
@@ -100,8 +163,41 @@ class AddIngridientActivity : AppCompatActivity() {
             lastClickedIngredient = food
             adapter.lastClickedName = food.name
         }
+
+
+        adapter.onLongClick = { ingr, _ ->
+            if (ingr.id == -1) {
+                Toast.makeText(this, "Нельзя удалить данный ингредиент", Toast.LENGTH_SHORT).show()
+            }
+            else {
+                showDeleteDialog(ingr)
+            }
+        }
     }
 
+    private fun showDeleteDialog(ingr: Ingredient) {
+        val dialog = Dialog(this)
+
+        dialog.setContentView(R.layout.dialog_delete_confirm)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setCancelable(true)
+
+        val cancelBtt: Button = dialog.findViewById(R.id.delete_cancel_button)
+        cancelBtt.setOnClickListener() {
+            dialog.cancel()
+        }
+
+        val deleteBtt: Button = dialog.findViewById(R.id.delete_confirm_button)
+        deleteBtt.setOnClickListener() {
+            dbIngredient.deleteIngredient(ingr)
+
+            foodList.remove(ingr)
+            adapter.changeList(foodList)
+
+            dialog.cancel()
+        }
+        dialog.show()
+    }
 
     private fun setSelectIngredientButton() {
         val addFoodButton: Button = findViewById(R.id.select_ingredient_button)
@@ -125,6 +221,7 @@ class AddIngridientActivity : AppCompatActivity() {
 
         ok_button.setOnClickListener() {
             val intent = Intent(this, CreationFoodActivity::class.java)
+            intent.putExtra("dish_id", "fromAddIngredient")
 
             val text = gramm_enter_text.text.toString()
             if (text != "") {

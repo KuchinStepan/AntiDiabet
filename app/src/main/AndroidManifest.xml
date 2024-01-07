@@ -29,7 +29,13 @@
             android:name=".DateHistoryActivity"
             android:exported="false" />
         <activity
+            android:name=".MetricsActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CringeActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.AntiDiabet1">

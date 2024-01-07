@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="30dp"
+    android:background="@drawable/dialog_backround"
+    android:orientation="vertical"
+
+    android:paddingVertical="20dp"
+    tools:layout_editor_absoluteX="1dp"
+    tools:layout_editor_absoluteY="8dp">
+
+
+    <EditText
+        android:id="@+id/ingredient_name"
+        android:layout_width="263dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="4dp"
+
+        android:ems="10"
+        android:gravity="start"
+        android:hint="Название ингредиента"
+        android:inputType="text"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="58dp"
+        android:paddingVertical="8dp"
+        android:text="Углеводов (г)"
+        android:textColor="@color/green"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/ingredient_name" />
+
+    <EditText
+        android:id="@+id/carbons_enter"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="68dp"
+
+        android:layout_marginEnd="34dp"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="ввод"
+        android:inputType="number"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="24dp"
+        android:paddingVertical="8dp"
+        android:text="Жиров (г)"
+        android:textColor="@color/green"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <EditText
+        android:id="@+id/fats_enter"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="26dp"
+        android:layout_marginEnd="34dp"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="ввод"
+        android:inputType="number"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/carbons_enter" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="22dp"
+        android:paddingVertical="8dp"
+        android:text="Белков (г)"
+        android:textColor="@color/green"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <EditText
+        android:id="@+id/proteins_enter"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="34dp"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="ввод"
+        android:inputType="number"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintTop_toBottomOf="@+id/fats_enter" />
+
+    <Button
+        android:id="@+id/ok_button"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="@color/green"
+        android:fontFamily="@font/inter_bold"
+
+        android:text="OK"
+        android:textColor="@color/white"
+        android:textSize="23sp"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4"
+        app:layout_constraintVertical_bias="1.0" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

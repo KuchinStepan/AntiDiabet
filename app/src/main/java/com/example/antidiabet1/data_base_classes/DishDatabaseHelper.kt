@@ -14,7 +14,9 @@ import kotlin.math.max
 
 
 class DishDatabaseHelper(val context: Context, val factory: SQLiteDatabase.CursorFactory?):
-    SQLiteOpenHelper(context, "dishs", factory, 7) {
+    SQLiteOpenHelper(context, "dishs", factory, 12) {
+    public val table_name = "dishs"
+
     companion object {
         var static_dick = ArrayList<DishItem>()
         var static_id = -1;
@@ -23,14 +25,66 @@ class DishDatabaseHelper(val context: Context, val factory: SQLiteDatabase.Curso
         // хуже этих недоразвитых обезьян я уже не сделаю
     }
 
-    fun get_free_id() :Int{
-        return static_id
-    }
 
     override fun onCreate(db: SQLiteDatabase?) {
-        val query = "CREATE TABLE dishs (id INTEGER PRIMARY KEY autoincrement, name TEXT NOT NULL, ingridients TEXT," +
-                    "carbons FLOAT, proteins FLOAT, fats FLOAT, calories REAL)"
+        val query = "CREATE TABLE dishs (id INTEGER PRIMARY KEY autoincrement, name TEXT NOT NULL, ingredients TEXT," +
+                "carbons FLOAT, proteins FLOAT, fats FLOAT, calories REAL)"
         db!!.execSQL(query)
+    }
+
+    fun deleteDish(dish: DishItem) {
+        val id = dish.id
+
+        val db = this.writableDatabase
+        val args = ArrayList<String>()
+        args.add(id.toString())
+
+        db.delete(table_name, "id=?", args.toTypedArray())
+        db.close()
+
+        static_dick.remove(dish)
+    }
+
+    fun getDishById(id: Int): DishItem? {
+        for (dish in static_dick){
+            if (dish.id == id)
+                return dish
+        }
+        return null
+    }
+
+    fun updateDish(dish: DishItem): ArrayList<DishItem> {
+        val id = dish.id
+        val values = ContentValues()
+        val gson = Gson()
+        val strIngredients = gson.toJson(dish.ingredients,
+            object : TypeToken<ArrayList<ChosenIngredient>>() {}.type)
+        values.put("name", dish.name)
+        values.put("calories", dish.calories)
+        values.put("fats", dish.fats)
+        values.put("carbons", dish.calories)
+        values.put("ingredients", strIngredients)
+        values.put("proteins", dish.name)
+
+        val db = this.writableDatabase
+        val args = ArrayList<String>()
+        args.add(id.toString())
+
+        db.update(table_name, values, "id=?", args.toTypedArray())
+        db.close()
+
+        for (item in static_dick) {
+            if (item.id == id) {
+                item.name = dish.name
+                item.calories = dish.calories
+                item.fats = dish.fats
+                item.carbons = dish.carbons
+                item.ingredients = dish.ingredients
+                item.proteins = dish.proteins
+            }
+        }
+
+        return static_dick
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
@@ -38,8 +92,17 @@ class DishDatabaseHelper(val context: Context, val factory: SQLiteDatabase.Curso
         onCreate(db)
     }
 
-    fun addDish(dish: DishItem): Int{
+    fun addDish(dish: DishItem) {
+        if (dish.id != -1)
+        {
+            updateDish(dish)
+            return
+        }
+        static_id += 1
+        dish.id = static_id
+
         val values = ContentValues()
+        values.put("id", static_id)
         values.put("name", dish.name)
         values.put("fats", dish.fats)
         values.put("proteins", dish.proteins)
@@ -50,12 +113,13 @@ class DishDatabaseHelper(val context: Context, val factory: SQLiteDatabase.Curso
         val type = object : TypeToken<ArrayList<ChosenIngredient>>() {}.type
         val str_ingredients = gson.toJson(dish.ingredients, type)
         Log.d("--> json", str_ingredients)
-        values.put("ingridients", str_ingredients)
+        values.put("ingredients", str_ingredients)
         val db = this.writableDatabase
         db.insert("dishs", null, values)
         db.close()
-        static_id += 1
-        return static_id
+
+        static_dick.add(dish)
+        return
     }
 
     private fun _getAllDishes(): ArrayList<DishItem> {
@@ -91,37 +155,8 @@ class DishDatabaseHelper(val context: Context, val factory: SQLiteDatabase.Curso
         return dishList
     }
 
-    private fun setDefaultDishes() : ArrayList<DishItem> {
-        val foodList = ArrayList<DishItem>()
-        val ingrs = ArrayList<ChosenIngredient>()
-        val ingr = Ingredient("Авто-сгенерированное блюдо", 1.1, 2.3, 4.5, 6.7)
-        ingrs.add(ChosenIngredient(ingr, 1000.0))
-
-        foodList.add(DishItem(10, "Каша овсянная", 10.0, 20.0, 30.0, 112.0, ingrs))
-        foodList.add(DishItem(15, "Суп борщ", 10.0, 20.0, 30.0, 112.0, ingrs))
-        foodList.add(DishItem(20, "Суп овощной", 10.0, 20.0, 30.0, 112.0, ingrs))
-        foodList.add(DishItem(21, "Суп грибной", 10.0, 20.0, 30.0, 112.0, ingrs))
-        foodList.add(DishItem(25, "Котлета куриная", 10.0, 20.0, 30.0, 112.0, ingrs))
-        foodList.add(DishItem(36, "Фрикадельки", 10.0, 20.0, 30.0, 112.0, ingrs))
-        foodList.add(DishItem(37, "Сосиски молочные", 10.0, 20.0, 30.0, 112.0, ingrs))
-        foodList.add(DishItem(38, "Сардельки", 10.0, 20.0, 30.0, 112.0, ingrs))
-        foodList.add(DishItem(41, "Паста Карбонара", 10.0, 20.0, 30.0, 112.0, ingrs))
-        foodList.add(DishItem(42, "Салат Здоровье", 10.0, 20.0, 30.0, 112.0, ingrs))
-        foodList.add(DishItem(43, "Салат Цезарь", 10.0, 20.0, 30.0, 112.0, ingrs))
-        foodList.add(DishItem(44, "Салат крабовый", 10.0, 20.0, 30.0, 112.0, ingrs))
-
-        return foodList
-    }
-
     fun getAllDishes():ArrayList<DishItem>{
         var dishes = _getAllDishes()
-
-        if (dishes.size == 0){
-            dishes = setDefaultDishes()
-            for (food in dishes){
-                addDish(food)
-            }
-        }
         dishes.reverse()
         return dishes
     }

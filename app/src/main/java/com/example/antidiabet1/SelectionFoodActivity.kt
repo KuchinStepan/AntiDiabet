@@ -30,13 +30,18 @@ import java.util.Date
 
 
 class SelectionFoodActivity : AppCompatActivity() {
-    private var lastClickedFoodView: View ?= null
-    private var lastClckedDish: DishItem ?= null
+    private var lastClickedFoodView: View? = null
+    private var lastClckedDish: DishItem? = null
+    lateinit var dbHelper: DishDatabaseHelper
+    lateinit var adapter: DishAdapter
+    private var idFromExtras: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_select_food)
+        idFromExtras = intent.getStringExtra("event_id")
 
+        dbHelper = DishDatabaseHelper(this, null)
         setBackToMenu()
         setFoodSelecting()
     }
@@ -44,20 +49,21 @@ class SelectionFoodActivity : AppCompatActivity() {
     private fun setFoodSelecting() {
         val foodTextEnter = setSearchLine()
 
-        val db=DishDatabaseHelper(this, null)
+        val db = DishDatabaseHelper(this, null)
 
         val foodList = db.getAllDishes()
         var showingList = foodList.toList()
 
-        val adapter = DishAdapter(showingList, this)
+        adapter = DishAdapter(showingList, this)
 
         // Обновление по поиску
         foodTextEnter.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) { }
+            override fun afterTextChanged(p0: Editable?) {}
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 val text = foodTextEnter.text.toString()
-                showingList = foodList.filter { foodItem ->  text.lowercase() in foodItem.name.lowercase() }
+                showingList =
+                    foodList.filter { foodItem -> text.lowercase() in foodItem.name.lowercase() }
                 adapter.changeList(showingList)
             }
         })
@@ -121,6 +127,42 @@ class SelectionFoodActivity : AppCompatActivity() {
         val name: TextView = dialog.findViewById(R.id.name)
         name.text = dish.name
 
+        val deleteButton: Button = dialog.findViewById(R.id.dialog_food_ingredients_delete)
+
+        deleteButton.setOnClickListener() {
+            dialog.cancel()
+            showDeleteConfirmationDialog(dialog, dish)
+        }
+
+        val editButton: Button = dialog.findViewById(R.id.dialog_food_ingredients_edit)
+
+        editButton.setOnClickListener() {
+            val activity = CreationFoodActivity::class.java
+            val intent = Intent(this, activity)
+            intent.putExtra("dish_id", dish.id.toString())
+            startActivity(intent)
+        }
+
+        dialog.show()
+    }
+
+    private fun showDeleteConfirmationDialog(dialog: Dialog, dish: DishItem) {
+        dialog.setContentView(R.layout.dialog_delete_confirm)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setCancelable(true)
+
+        val cancelBtt: Button = dialog.findViewById(R.id.delete_cancel_button)
+        cancelBtt.setOnClickListener() {
+            dialog.cancel()
+        }
+
+        val deleteBtt: Button = dialog.findViewById(R.id.delete_confirm_button)
+        deleteBtt.setOnClickListener() {
+            dbHelper.deleteDish(dish)
+            adapter.changeList(dbHelper.getAllDishes())
+            dialog.cancel()
+        }
+
         dialog.show()
     }
 
@@ -141,23 +183,36 @@ class SelectionFoodActivity : AppCompatActivity() {
             if (lastClckedDish != null) {
                 val dialog = Dialog(this)
                 showGramDialog(this, dialog)
-            }
-            else {
+            } else {
                 Toast.makeText(this, "Выберите еду", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    private fun _createEventNoteFun(context: Context, dish: DishItem ) {
+    private fun _createEventNoteFun(context: Context, dish: DishItem) {
         val dbHelper = EventHistoryDatabaseHelper(context, null)
-        dbHelper.addEvent(Event(Date(), EventType.Eating, dish,
-            0.0, 0.0))
-        val events = dbHelper.getAllEvents()
-        Log.d("--> MEOW", events.size.toString())
-        for (i in 0 until events.size) {
-            val event = events[i]
-            Log.d("--> MEOW", event.date.toString())
-            Log.d("--> MEOW", event.dishItem.toString())
+
+        Log.d("--> yo", idFromExtras.toString())
+
+        if (idFromExtras == null) {
+            dbHelper.addEvent(
+                Event(
+                    Date(), EventType.Eating, dish,
+                    0.0, 0.0
+                )
+            )
+            val events = dbHelper.getAllEvents()
+            Log.d("--> MEOW", events.size.toString())
+            for (i in 0 until events.size) {
+                val event = events[i]
+                Log.d("--> MEOW", event.date.toString())
+                Log.d("--> MEOW", event.dishItem.toString())
+            }
+        }
+        else {
+            val event = dbHelper.getEventById(idFromExtras!!.toInt())
+            event!!.dishItem = dish
+            dbHelper.updateEvent(event)
         }
 
         val intent = Intent(this, MainActivity::class.java)
@@ -180,15 +235,13 @@ class SelectionFoodActivity : AppCompatActivity() {
                 val dish = lastClckedDish!!.changeWeight(grams)
 
                 _createEventNoteFun(context, dish)
-            }
-            else {
+            } else {
                 Toast.makeText(this, "Введите вес", Toast.LENGTH_SHORT).show()
             }
         }
 
         dialog.show()
     }
-
 
     private fun setBackToMenu() {
         val exitButton: TextView = findViewById(R.id.exit_dateHistory)
@@ -197,5 +250,11 @@ class SelectionFoodActivity : AppCompatActivity() {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    override fun onBackPressed()
+    {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
     }
 }
