@@ -35,7 +35,7 @@
         android:gravity="center"
         android:layout_marginStart="10dp"
         android:hint="Введите вес"
-        android:inputType="number"
+        android:inputType="numberDecimal"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView2"
