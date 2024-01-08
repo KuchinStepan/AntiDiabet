@@ -92,7 +92,7 @@ class AddIngridientActivity : AppCompatActivity() {
         dbIngredient.addIngredient(ingredient)
         foodList.add(ingredient)
 
-        adapter.changeList(foodList)
+        adapter.changeList(foodListAsReversed)
     }
 
     private fun setFoodSelecting() {
@@ -203,7 +203,7 @@ class AddIngridientActivity : AppCompatActivity() {
             dbIngredient.deleteIngredient(ingr)
 
             foodList.remove(ingr)
-            adapter.changeList(foodList)
+            adapter.changeList(foodListAsReversed)
 
             dialog.cancel()
         }
