@@ -48,7 +48,8 @@ class EventAdapter(var items: List<Event>, var context: Context)
         {
             holder.name.text = "\uD83C\uDF7D Приём пищи (${item.dishItem?.name})"
             holder.itemView.setBackgroundResource(R.drawable.selected_item_background)
-            holder.data.text = "Углеводов: " + item.dishItem!!.carbons.toString()
+            holder.data.text = "ХЕ: ~" + (item.dishItem!!.carbons / 10.0).toString() +
+                    " / Углеводов: " + item.dishItem!!.carbons.toString() 
         }
         else if (item.type == EventType.InsulinInjection)
         {
